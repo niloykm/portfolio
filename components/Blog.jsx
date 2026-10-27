@@ -44,10 +44,11 @@ const Blog = () => {
 
   return (
     <section
-      id="blog"
+      id="open-source"
       aria-labelledby="opensource-heading"
-      className="py-24 px-6 lg:px-12 scroll-mt-20 relative overflow-hidden"
+      className="py-24 px-6 lg:px-12 scroll-mt-24 relative overflow-hidden"
     >
+      <div id="blog" className="absolute -top-24" />
       {/* Background decoration with cyber-grid */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 cyber-grid pointer-events-none" />
       <div
@@ -56,7 +57,7 @@ const Blog = () => {
       />
       <div
         aria-hidden="true"
-        className="absolute bottom-20 left-20 w-64 h-64 bg-indigo-500/10 dark:bg-blue-500/10 rounded-full blur-3xl pointer-events-none"
+        className="absolute bottom-20 left-20 w-64 h-64 bg-blue-500/10 dark:bg-blue-500/10 rounded-full blur-3xl pointer-events-none"
       />
 
       <motion.div

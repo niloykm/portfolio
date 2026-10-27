@@ -46,8 +46,8 @@ const Services = ({ isDarkMode, serviceData }) => {
         "Role-based access control (RBAC)",
         "CRUD & real-time dashboard systems",
       ],
-      color: "from-indigo-600 to-purple-600",
-      glow: "rgba(99, 102, 241, 0.2)",
+      color: "from-blue-600 to-cyan-600",
+      glow: "rgba(59, 130, 246, 0.2)",
     },
     {
       num: "03",
@@ -61,8 +61,8 @@ const Services = ({ isDarkMode, serviceData }) => {
         "Database modeling (Mongoose / SQL)",
         "Server-side validation & error logging",
       ],
-      color: "from-purple-600 to-pink-600",
-      glow: "rgba(168, 85, 247, 0.2)",
+      color: "from-blue-600 to-teal-600",
+      glow: "rgba(13, 148, 136, 0.2)",
     },
     {
       num: "04",
@@ -85,7 +85,7 @@ const Services = ({ isDarkMode, serviceData }) => {
     <section
       id="services"
       aria-labelledby="services-heading"
-      className="py-24 px-6 lg:px-12 scroll-mt-20 relative overflow-hidden"
+      className="py-24 px-6 lg:px-12 scroll-mt-24 relative overflow-hidden"
     >
       {/* Background decoration with cyber-grid */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 cyber-grid pointer-events-none" />
@@ -95,7 +95,7 @@ const Services = ({ isDarkMode, serviceData }) => {
       />
       <div
         aria-hidden="true"
-        className="absolute bottom-20 right-20 w-80 h-80 bg-purple-500/10 dark:bg-pink-500/10 rounded-full blur-3xl pointer-events-none"
+        className="absolute bottom-20 right-20 w-80 h-80 bg-blue-500/10 dark:bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"
       />
 
       <motion.div
@@ -114,7 +114,7 @@ const Services = ({ isDarkMode, serviceData }) => {
           <h2 id="services-heading" className="fluid-h2 font-extrabold gradient-text mb-4">
             Services & Expertise
           </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 mx-auto rounded-full" />
+          <div className="w-20 h-1 bg-gradient-to-r from-cyan-600 to-blue-600 mx-auto rounded-full" />
           <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mt-5 leading-relaxed font-normal">
             High-standard engineering solutions tailored for startups, businesses, and engineering teams.
           </p>
@@ -186,7 +186,7 @@ const Services = ({ isDarkMode, serviceData }) => {
           <MagneticButton strength={0.25}>
             <motion.button
               onClick={handleCtaClick}
-              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] transition-all duration-300 text-base"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-accent text-accent-foreground font-semibold rounded-xl shadow-sm hover:opacity-90 transition-all duration-300 text-base"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
             >

@@ -67,7 +67,7 @@ const Stats = () => {
                 whileHover={{ scale: 1.05, y: -5 }}
                 className="bg-white dark:bg-gray-800/50 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-300 text-center"
               >
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl mb-4">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-accent text-accent-foreground rounded-xl mb-4">
                   <Icon className="w-6 h-6 text-white" />
                 </div>
 

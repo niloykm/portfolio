@@ -52,7 +52,7 @@ const Footer = ({ isDarkMode }) => {
         />
         <div
           aria-hidden="true"
-          className="absolute bottom-0 right-1/4 w-72 h-72 bg-purple-500/5 dark:bg-purple-600/5 rounded-full blur-3xl"
+          className="absolute bottom-0 right-1/4 w-72 h-72 bg-blue-500/5 dark:bg-blue-600/5 rounded-full blur-3xl"
         />
       </div>
 
@@ -132,7 +132,7 @@ const Footer = ({ isDarkMode }) => {
           <motion.button
             onClick={scrollToTop}
             aria-label="Scroll back to top of page"
-            className="fixed bottom-6 right-6 p-3.5 min-w-[44px] min-h-[44px] bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white rounded-full shadow-xl hover:shadow-2xl z-40 group focus-visible:ring-2 focus-visible:ring-blue-500"
+            className="fixed bottom-6 right-6 p-3.5 min-w-[44px] min-h-[44px] bg-accent text-accent-foreground rounded-full shadow-sm hover:opacity-90 z-40 group focus-visible:ring-2 focus-visible:ring-accent"
             initial={{ opacity: 0, scale: 0.8, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 10 }}

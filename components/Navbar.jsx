@@ -18,8 +18,8 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
     { href: "#top", label: "Home" },
     { href: "#about", label: "About" },
     { href: "#services", label: "Services" },
-    { href: "#work", label: "My Work" },
-    { href: "#blog", label: "Projects" },
+    { href: "#projects", label: "Projects" },
+    { href: "#open-source", label: "Open Source" },
     { href: "#contact", label: "Contact" },
   ];
 
@@ -211,9 +211,9 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
                       e.preventDefault();
                       handleNavClick("#contact");
                     }}
-                    className="flex items-center gap-2 px-5 py-2 min-h-[44px] bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-medium text-sm rounded-full shadow-md hover:shadow-lg transition-all duration-300"
-                    whileHover={{ scale: 1.04, boxShadow: "0 0 20px rgba(59,130,246,0.4)" }}
-                    whileTap={{ scale: 0.96 }}
+                    className="flex items-center gap-2 px-5 py-2 min-h-[44px] bg-accent text-accent-foreground font-medium text-sm rounded-lg shadow-sm hover:opacity-90 transition-all duration-300"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                   >
                     <Mail className="h-4 w-4" />
                     <span>Contact</span>
@@ -300,9 +300,9 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
                             e.preventDefault();
                             handleNavClick(item.href);
                           }}
-                          className={`flex items-center justify-between px-4 py-3 min-h-[44px] text-base font-medium rounded-xl transition-all duration-200 ${
+                          className={`flex items-center justify-between px-4 py-3 min-h-[44px] text-base font-medium rounded-lg transition-all duration-200 ${
                             isActive
-                              ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md font-semibold"
+                              ? "bg-accent text-accent-foreground shadow-sm font-semibold"
                               : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-900"
                           }`}
                           initial={{ x: 30, opacity: 0 }}
@@ -330,7 +330,7 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
                         e.preventDefault();
                         handleNavClick("#contact");
                       }}
-                      className="flex items-center justify-center gap-2 w-full px-5 py-3.5 min-h-[44px] bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                      className="flex items-center justify-center gap-2 w-full px-5 py-3.5 min-h-[44px] bg-accent text-accent-foreground font-medium rounded-lg shadow-sm hover:opacity-90 transition-all duration-300"
                     >
                       <Mail className="h-4 w-4" />
                       <span>Contact Me</span>

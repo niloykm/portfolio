@@ -19,7 +19,7 @@ module.exports = defineConfig({
     },
   ],
   webServer: {
-    command: 'cmd /c npm run dev',
+    command: 'npm run dev',
     url: 'http://localhost:3000',
     reuseExistingServer: true,
     timeout: 90000,

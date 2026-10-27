@@ -263,7 +263,7 @@ export default function AdminPage() {
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center relative cyber-grid">
         <div className="text-center relative z-10">
-          <div className="w-16 h-16 border-4 border-t-blue-500 border-r-purple-500 border-b-transparent border-l-transparent rounded-full animate-spin mx-auto mb-4" />
+          <div className="w-16 h-16 border-4 border-t-blue-500 border-r-blue-400 border-b-transparent border-l-transparent rounded-full animate-spin mx-auto mb-4" />
           <p className="text-blue-400 font-mono tracking-widest text-sm uppercase animate-pulse">Initializing Database Interface...</p>
         </div>
       </div>
@@ -276,7 +276,7 @@ export default function AdminPage() {
       <div className="min-h-screen bg-slate-950 flex items-center justify-center relative px-6 overflow-hidden cyber-grid">
         {/* Decorative Glow Elements */}
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[100px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[100px] animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[100px] animate-pulse" />
 
         <div className="relative z-10 w-full max-w-md">
           {/* Back Home button */}
@@ -287,7 +287,7 @@ export default function AdminPage() {
 
           <div className="glass-card cyber-corner p-8 rounded-2xl shadow-2xl">
             <div className="text-center mb-8">
-              <div className="inline-flex p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl mb-4 text-white">
+              <div className="inline-flex p-3 bg-blue-600 rounded-xl mb-4 text-white">
                 <Lock className="w-6 h-6" />
               </div>
               <h2 className="text-2xl font-black text-white font-sans tracking-wide">SECURE_GATEWAY</h2>
@@ -316,7 +316,7 @@ export default function AdminPage() {
 
               <button
                 type="submit"
-                className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] text-white font-semibold rounded-lg flex items-center justify-center gap-2 transition-all group"
+                className="w-full py-3 bg-accent text-accent-foreground font-semibold rounded-lg hover:opacity-90 flex items-center justify-center gap-2 transition-all group"
               >
                 Authenticate
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -333,13 +333,13 @@ export default function AdminPage() {
     <div className="min-h-screen bg-slate-950 text-slate-100 relative cyber-grid">
       {/* Decorative Glow Elements */}
       <div className="absolute top-10 left-10 w-96 h-96 bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-96 h-96 bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-96 h-96 bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Header bar */}
       <header className="border-b border-slate-900 bg-slate-950/80 backdrop-blur-md sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg text-white">
+            <div className="p-2 bg-blue-600 rounded-lg text-white">
               <LayoutDashboard className="w-5 h-5" />
             </div>
             <div>
@@ -399,7 +399,7 @@ export default function AdminPage() {
                 onClick={() => { setActiveTab("projects"); resetForms(); }}
                 className={`w-full px-4 py-3 rounded-lg font-medium text-sm flex items-center justify-between transition-all ${
                   activeTab === "projects" 
-                    ? "bg-gradient-to-r from-blue-600/20 to-purple-600/20 border-l-2 border-blue-500 text-blue-400" 
+                    ? "bg-blue-600/15 border-l-2 border-blue-500 text-blue-400" 
                     : "text-slate-400 hover:text-slate-200 hover:bg-slate-900/60"
                 }`}
               >
@@ -412,7 +412,7 @@ export default function AdminPage() {
                 onClick={() => { setActiveTab("services"); resetForms(); }}
                 className={`w-full px-4 py-3 rounded-lg font-medium text-sm flex items-center justify-between transition-all ${
                   activeTab === "services" 
-                    ? "bg-gradient-to-r from-blue-600/20 to-purple-600/20 border-l-2 border-blue-500 text-blue-400" 
+                    ? "bg-blue-600/15 border-l-2 border-blue-500 text-blue-400" 
                     : "text-slate-400 hover:text-slate-200 hover:bg-slate-900/60"
                 }`}
               >

@@ -49,13 +49,13 @@ const Contact = ({ isDarkMode }) => {
     <section
       id="contact"
       aria-labelledby="contact-heading"
-      className="py-24 px-6 lg:px-12 scroll-mt-20 relative overflow-hidden"
+      className="py-24 px-6 lg:px-12 scroll-mt-24 relative overflow-hidden"
     >
       {/* Background decoration with cyber-grid */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 cyber-grid pointer-events-none" />
       <div
         aria-hidden="true"
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 rounded-full blur-3xl pointer-events-none animate-pulse"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-blue-500/10 rounded-full blur-3xl pointer-events-none animate-pulse"
       />
 
       <motion.div
@@ -67,14 +67,14 @@ const Contact = ({ isDarkMode }) => {
       >
         {/* Section Header */}
         <motion.div className="text-center mb-16" variants={fadeUp}>
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200/60 dark:border-indigo-800/60 rounded-full text-xs font-semibold uppercase tracking-wider text-indigo-700 dark:text-indigo-300 mb-3 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-50 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-800/60 rounded-full text-xs font-semibold uppercase tracking-wider text-blue-700 dark:text-blue-300 mb-3 shadow-sm">
             <Mail className="w-3.5 h-3.5" />
             <span>Connect with me</span>
           </div>
           <h2 id="contact-heading" className="fluid-h2 font-extrabold gradient-text mb-4">
             Get In Touch
           </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 mx-auto rounded-full" />
+          <div className="w-20 h-1 bg-gradient-to-r from-blue-600 to-cyan-500 mx-auto rounded-full" />
           <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mt-5 leading-relaxed font-normal">
             Have a project in mind, an open position, or just want to connect? Send me a message and let's talk.
           </p>
@@ -149,7 +149,7 @@ const Contact = ({ isDarkMode }) => {
                 <motion.button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`inline-flex items-center justify-center gap-2.5 px-8 py-3.5 min-h-[44px] min-w-[180px] bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] transition-all duration-300 text-sm sm:text-base ${
+                  className={`inline-flex items-center justify-center gap-2.5 px-8 py-3.5 min-h-[44px] min-w-[180px] bg-accent text-accent-foreground font-semibold rounded-lg shadow-sm hover:opacity-90 transition-all duration-300 text-sm sm:text-base ${
                     isSubmitting ? "opacity-75 cursor-not-allowed" : ""
                   }`}
                   whileHover={!isSubmitting ? { scale: 1.03 } : {}}
@@ -225,9 +225,9 @@ const Contact = ({ isDarkMode }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="View Niloy's GitHub profile"
-                className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[44px] glass-card rounded-xl text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 border border-slate-200 dark:border-slate-800 transition-colors duration-200 text-sm font-medium shadow-sm"
+                className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[44px] glass-card rounded-xl text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 border border-slate-200 dark:border-slate-800 transition-colors duration-200 text-sm font-medium shadow-sm"
               >
-                <Github className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                <Github className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                 <span>GitHub Profile</span>
               </a>
             </MagneticButton>
