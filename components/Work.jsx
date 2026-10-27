@@ -33,10 +33,11 @@ const Work = ({ isDarkMode, workData }) => {
 
   return (
     <section
-      id="work"
+      id="projects"
       aria-labelledby="work-heading"
-      className="py-24 px-6 lg:px-12 scroll-mt-20 relative overflow-hidden"
+      className="py-24 px-6 lg:px-12 scroll-mt-24 relative overflow-hidden"
     >
+      <div id="work" className="absolute -top-24" />
       {/* Background decoration */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-emerald-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 cyber-grid pointer-events-none" />
       <div

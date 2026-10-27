@@ -87,12 +87,14 @@ export default function Page() {
           setIsOpen={setIsCommandPaletteOpen}
           workData={workData}
         />
-        <Navbar
-          isDarkMode={isDarkMode}
-          setIsDarkMode={setIsDarkMode}
-          onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
-        />
-        <main id="main-content">
+        <header>
+          <Navbar
+            isDarkMode={isDarkMode}
+            setIsDarkMode={setIsDarkMode}
+            onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+          />
+        </header>
+        <main id="main">
           <Header isDarkMode={isDarkMode} />
           <About isDarkMode={isDarkMode} infoList={infoList} />
           <Services isDarkMode={isDarkMode} serviceData={serviceData} />

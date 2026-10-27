@@ -16,7 +16,7 @@ export default function NotFound() {
       />
       <div
         aria-hidden="true"
-        className="absolute bottom-1/3 right-1/3 w-96 h-96 bg-purple-500/10 rounded-full blur-[120px] pointer-events-none"
+        className="absolute bottom-1/3 right-1/3 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px] pointer-events-none"
       />
 
       <motion.div
@@ -51,7 +51,7 @@ export default function NotFound() {
           <MagneticButton strength={0.25}>
             <Link
               href="/"
-              className="inline-flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] transition-all duration-300 text-sm sm:text-base"
+              className="inline-flex items-center gap-2 px-6 py-3.5 bg-accent text-accent-foreground font-semibold rounded-lg shadow-sm hover:opacity-90 transition-all duration-300 text-sm sm:text-base"
             >
               <Home className="w-4 h-4" />
               <span>Return to Portfolio</span>

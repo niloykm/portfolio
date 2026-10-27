@@ -61,7 +61,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                   className="object-cover object-top opacity-85"
                 />
               ) : (
-                <div className="w-full h-full bg-gradient-to-br from-blue-900 to-indigo-950 flex items-center justify-center">
+                <div className="w-full h-full bg-gradient-to-br from-neutral-900 to-neutral-950 flex items-center justify-center">
                   <Layers className="w-12 h-12 text-blue-400 opacity-50" />
                 </div>
               )}

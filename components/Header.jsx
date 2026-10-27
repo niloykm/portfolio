@@ -1,35 +1,14 @@
 "use client";
 
-import { assets, socialLinks } from "@/assets/assets";
-import { motion, useReducedMotion } from "framer-motion";
+import { assets } from "@/assets/assets";
 import Image from "next/image";
-import { Mail, ArrowRight, Sparkles, Copy, Check, Github, Linkedin, Twitter, Terminal } from "lucide-react";
+import { Mail, ArrowRight, Copy, Check, Github, Linkedin, Twitter } from "lucide-react";
 import { useState } from "react";
-import MagneticButton from "@/components/ui/MagneticButton";
 import { useToast } from "@/components/ui/Toast";
-import {
-  fadeUp,
-  staggerContainer,
-  wordRevealContainer,
-  wordRevealItem,
-  floatingAnimation,
-} from "@/lib/motion";
 
-const Header = ({ isDarkMode }) => {
-  const shouldReduceMotion = useReducedMotion();
+const Header = () => {
   const { showToast } = useToast();
   const [copied, setCopied] = useState(false);
-
-  const headlineWords = [
-    { text: "Full", gradient: false },
-    { text: "Stack", gradient: false },
-    { text: "Web", gradient: true },
-    { text: "Developer", gradient: true },
-  ];
-
-  const techBadges = [
-    "TypeScript", "React.js", "Next.js", "Tailwind CSS", "Node.js", "Express.js", "MongoDB", "PostgreSQL"
-  ];
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText("niloykumarmohonta@gmail.com");
@@ -42,201 +21,127 @@ const Header = ({ isDarkMode }) => {
     <section
       id="top"
       aria-label="Hero Section"
-      className="relative min-h-[90vh] sm:min-h-screen flex items-center justify-center overflow-hidden pt-28 pb-16 px-6"
+      className="relative min-h-[85vh] sm:min-h-[90vh] flex items-center overflow-hidden pt-28 pb-16 px-6 lg:px-12 scroll-mt-24"
     >
-      {/* Background decoration with cyber-grid */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/40 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 cyber-grid pointer-events-none" />
-
-      {/* Cyberpunk ambient glowing blobs */}
-      <div
-        aria-hidden="true"
-        className="absolute top-1/4 left-1/4 w-72 h-72 sm:w-96 sm:h-96 bg-blue-500/10 dark:bg-blue-600/15 rounded-full blur-[100px] pointer-events-none"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute bottom-1/4 right-1/4 w-80 h-80 sm:w-96 sm:h-96 bg-purple-500/10 dark:bg-purple-600/15 rounded-full blur-[120px] pointer-events-none"
-      />
-
-      <motion.div
-        className="relative z-10 w-full max-w-5xl mx-auto text-center"
-        variants={staggerContainer(0.08, 0.08)}
-        initial="hidden"
-        animate="show"
-      >
-        {/* Profile Image with Gentle Floating Loop */}
-        <motion.div variants={fadeUp} className="mb-5 relative inline-block">
-          <motion.div
-            animate={shouldReduceMotion ? {} : floatingAnimation}
-            className="relative"
-          >
-            <div
-              aria-hidden="true"
-              className="absolute -inset-1.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full blur-md opacity-50 dark:opacity-70 animate-pulse"
-            />
-            <Image
-              src={assets.profileNiloyTP}
-              alt="Portrait of Niloy"
-              width={128}
-              height={128}
-              sizes="(max-width: 640px) 112px, 128px"
-              className="relative rounded-full w-28 h-28 sm:w-32 sm:h-32 object-cover border-2 border-white/80 dark:border-slate-800/80 shadow-2xl bg-white dark:bg-slate-900"
-              priority
-            />
-            {/* Status indicator dot */}
-            <div
-              className="absolute bottom-1.5 right-1.5 w-4 h-4 bg-emerald-500 border-2 border-white dark:border-slate-900 rounded-full shadow-md"
-              title="Available for work"
-            >
-              <span className="sr-only">Available for work</span>
+      <div className="w-full max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] items-center gap-10 lg:gap-14 text-left">
+          {/* Content Column (First in DOM) */}
+          <div className="flex flex-col items-start">
+            {/* Merged Availability Line */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-medium text-emerald-600 dark:text-emerald-400 mb-5">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Available for full-time roles & freelance projects</span>
             </div>
-          </motion.div>
-        </motion.div>
 
-        {/* Availability Badge */}
-        <motion.div variants={fadeUp} className="mb-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50/90 dark:bg-emerald-950/40 border border-emerald-300/60 dark:border-emerald-700/60 shadow-sm">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-            <span className="text-xs font-semibold text-emerald-800 dark:text-emerald-300">
-              Available for full-time roles & freelance projects
-            </span>
-          </div>
-        </motion.div>
+            {/* Headline */}
+            <h1 className="fluid-h1 font-extrabold tracking-tight text-foreground text-balance mb-5">
+              I build and ship full-stack web products with Next.js and TypeScript.
+            </h1>
 
-        {/* Word-by-word Animated Main Headline */}
-        <motion.h1
-          variants={wordRevealContainer}
-          className="fluid-h1 font-extrabold mb-4 tracking-tight text-slate-900 dark:text-white flex flex-wrap justify-center gap-x-3 gap-y-1"
-        >
-          {headlineWords.map((item, idx) => (
-            <span key={idx} className="inline-block overflow-hidden py-1">
-              <motion.span
-                variants={wordRevealItem}
-                className={`inline-block ${
-                  item.gradient
-                    ? "gradient-text drop-shadow-[0_2px_12px_rgba(59,130,246,0.2)] dark:drop-shadow-[0_2px_15px_rgba(168,85,247,0.35)]"
-                    : ""
-                }`}
+            {/* Summary */}
+            <p className="text-base sm:text-lg text-muted text-pretty max-w-[60ch] mb-4 leading-relaxed">
+              Full-Stack Software Engineer crafting high-performance web applications, scalable backend APIs, and accessible, responsive interfaces.
+            </p>
+
+            {/* Single Muted Mono Stack Line */}
+            <p className="text-xs sm:text-sm font-mono text-muted mb-8 tracking-tight">
+              TypeScript · Next.js · Node.js · PostgreSQL · MongoDB
+            </p>
+
+            {/* Two CTAs Only */}
+            <div className="flex flex-wrap items-center gap-3.5 mb-8">
+              <a
+                href="#projects"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[44px] bg-accent text-accent-foreground font-semibold rounded-lg shadow-sm hover:opacity-90 transition-all text-sm sm:text-base focus-visible:ring-2 focus-visible:ring-accent"
               >
-                {item.text}
-              </motion.span>
-            </span>
-          ))}
-        </motion.h1>
+                <span>View projects</span>
+                <ArrowRight className="w-4 h-4" />
+              </a>
 
-        {/* Description */}
-        <motion.p
-          variants={fadeUp}
-          className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mb-8 leading-relaxed font-normal"
-        >
-          I build high-performance web applications using React.js, Next.js, and TypeScript,
-          delivering scalable backend APIs with clean, maintainable architecture.
-        </motion.p>
+              <button
+                type="button"
+                onClick={handleCopyEmail}
+                aria-label="Email me"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[44px] bg-surface border border-border text-foreground font-semibold rounded-lg shadow-sm hover:border-accent/40 hover:bg-muted/10 transition-all text-sm sm:text-base focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                {copied ? (
+                  <>
+                    <Check className="w-4 h-4 text-emerald-500" />
+                    <span className="text-emerald-600 dark:text-emerald-400">Email copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-4 h-4 text-muted" />
+                    <span>Email me</span>
+                  </>
+                )}
+              </button>
+            </div>
 
-        {/* Tech Stack Ticker / Badges */}
-        <motion.div
-          variants={fadeUp}
-          className="flex justify-center items-center gap-2 flex-wrap max-w-2xl mx-auto mb-9"
-        >
-          {techBadges.map((tech) => (
-            <span
-              key={tech}
-              className="text-[11px] sm:text-xs font-mono font-medium px-2.5 py-1 bg-slate-100 dark:bg-slate-900/80 text-slate-700 dark:text-slate-300 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm"
-            >
-              {tech}
-            </span>
-          ))}
-        </motion.div>
+            {/* Social Icons with accessible names and 44x44px touch targets */}
+            <div className="flex items-center gap-3">
+              <a
+                href="https://github.com/niloydiu"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Niloy's GitHub Profile"
+                className="w-11 h-11 flex items-center justify-center rounded-lg border border-border bg-surface text-muted hover:text-accent hover:border-accent/40 transition-colors shadow-sm focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                <Github className="w-5 h-5" />
+              </a>
 
-        {/* Interactive CTA Buttons */}
-        <motion.div
-          variants={fadeUp}
-          className="flex flex-col sm:flex-row gap-3.5 justify-center items-center mb-8"
-        >
-          <MagneticButton strength={0.25}>
-            <motion.a
-              href="#work"
-              className="group px-7 py-3.5 min-h-[44px] bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] transition-all duration-300 flex items-center justify-center gap-2.5 text-sm sm:text-base"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              <span>Explore Projects</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-            </motion.a>
-          </MagneticButton>
+              <a
+                href="https://www.linkedin.com/in/niloykumarmohonta000/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Niloy's LinkedIn Profile"
+                className="w-11 h-11 flex items-center justify-center rounded-lg border border-border bg-surface text-muted hover:text-accent hover:border-accent/40 transition-colors shadow-sm focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                <Linkedin className="w-5 h-5" />
+              </a>
 
-          <MagneticButton strength={0.25}>
-            <button
-              onClick={handleCopyEmail}
-              aria-label="Copy email address"
-              className="group px-6 py-3.5 min-h-[44px] bg-white/80 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 font-semibold rounded-xl hover:border-blue-500/50 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all duration-300 flex items-center justify-center gap-2 text-sm sm:text-base shadow-sm"
-            >
-              {copied ? (
-                <>
-                  <Check className="w-4 h-4 text-emerald-500" />
-                  <span className="text-emerald-600 dark:text-emerald-400">Email Copied!</span>
-                </>
-              ) : (
-                <>
-                  <Copy className="w-4 h-4 text-slate-500 group-hover:text-blue-500 transition-colors" />
-                  <span>Copy Email</span>
-                </>
-              )}
-            </button>
-          </MagneticButton>
-        </motion.div>
+              <a
+                href="https://x.com/niloykmohonta"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Niloy's X (Twitter) Profile"
+                className="w-11 h-11 flex items-center justify-center rounded-lg border border-border bg-surface text-muted hover:text-accent hover:border-accent/40 transition-colors shadow-sm focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                <Twitter className="w-5 h-5" />
+              </a>
 
-        {/* Hero Quick Socials */}
-        <motion.div
-          variants={fadeUp}
-          className="flex justify-center items-center gap-3"
-        >
-          <MagneticButton strength={0.2}>
-            <a
-              href="https://github.com/niloydiu"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub Profile"
-              className="p-2.5 rounded-xl bg-slate-100/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors shadow-sm"
-            >
-              <Github className="w-4 h-4" />
-            </a>
-          </MagneticButton>
+              <a
+                href="mailto:niloykumarmohonta@gmail.com"
+                aria-label="Send direct email to Niloy"
+                className="w-11 h-11 flex items-center justify-center rounded-lg border border-border bg-surface text-muted hover:text-accent hover:border-accent/40 transition-colors shadow-sm focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                <Mail className="w-5 h-5" />
+              </a>
+            </div>
+          </div>
 
-          <MagneticButton strength={0.2}>
-            <a
-              href="https://www.linkedin.com/in/niloykumarmohonta000/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn Profile"
-              className="p-2.5 rounded-xl bg-slate-100/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors shadow-sm"
-            >
-              <Linkedin className="w-4 h-4" />
-            </a>
-          </MagneticButton>
-
-          <MagneticButton strength={0.2}>
-            <a
-              href="https://x.com/niloykmohonta"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Twitter Profile"
-              className="p-2.5 rounded-xl bg-slate-100/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors shadow-sm"
-            >
-              <Twitter className="w-4 h-4" />
-            </a>
-          </MagneticButton>
-
-          <MagneticButton strength={0.2}>
-            <a
-              href="mailto:niloykumarmohonta@gmail.com"
-              aria-label="Send direct email"
-              className="p-2.5 rounded-xl bg-slate-100/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors shadow-sm"
-            >
-              <Mail className="w-4 h-4" />
-            </a>
-          </MagneticButton>
-        </motion.div>
-      </motion.div>
+          {/* Portrait Column (Right on desktop, Below text on mobile) */}
+          <div className="flex justify-center lg:justify-end">
+            <div className="relative w-64 sm:w-80 lg:w-96 aspect-square rounded-xl overflow-hidden border border-border bg-surface shadow-sm">
+              <Image
+                src={assets.profileNiloy}
+                alt="Portrait of Niloy Kumar Mohonta"
+                fill
+                sizes="(min-width: 1024px) 384px, (min-width: 640px) 320px, 256px"
+                className="object-cover object-top"
+                priority
+              />
+              <div
+                className="absolute bottom-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface/90 border border-border shadow-sm text-[11px] font-medium text-foreground backdrop-blur-sm"
+                title="Available for work"
+              >
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                <span>Available</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };

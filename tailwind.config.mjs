@@ -26,55 +26,49 @@ const tailwindConfig = {
   theme: {
     extend: {
       colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+        background: "var(--bg)",
+        foreground: "var(--fg)",
+        surface: "var(--surface)",
+        border: "var(--border)",
+        accent: {
+          DEFAULT: "var(--accent)",
+          foreground: "var(--accent-fg)",
         },
         muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
+          DEFAULT: "var(--fg-muted)",
+          foreground: "var(--fg-muted)",
+          subtle: "var(--bg-subtle)",
         },
         card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+          DEFAULT: "var(--surface)",
+          foreground: "var(--fg)",
         },
+        primary: {
+          DEFAULT: "var(--accent)",
+          foreground: "var(--accent-fg)",
+        },
+        secondary: {
+          DEFAULT: "var(--bg-subtle)",
+          foreground: "var(--fg)",
+        },
+        destructive: {
+          DEFAULT: "var(--destructive, #ef4444)",
+          foreground: "var(--destructive-foreground, #ffffff)",
+        },
+        input: "var(--border)",
+        ring: "var(--accent)",
         // Legacy colors for backward compatibility
-        lightHover: "#fcf4ff",
-        darkHover: "#2a004a",
-        darkTheme: "#11001F",
+        lightHover: "var(--bg-subtle)",
+        darkHover: "var(--bg-subtle)",
+        darkTheme: "var(--bg)",
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
-        mono: ["JetBrains Mono", "monospace"],
-        montserrat: ["Montserrat", "sans-serif"],
-        lato: ["Lato", "sans-serif"],
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "monospace"],
       },
       boxShadow: {
         black: "4px 4px 0 #000",
         white: "4px 4px 0 #fff",
-        glow: "0 0 20px rgba(59, 130, 246, 0.5)",
-        "glow-purple": "0 0 20px rgba(147, 51, 234, 0.5)",
       },
       animation: {
         "fade-in": "fadeIn 0.5s ease-in-out",

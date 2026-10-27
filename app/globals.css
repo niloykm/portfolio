@@ -4,48 +4,30 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 42%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
+    --bg: #fafafa;
+    --bg-subtle: #f5f5f5;
+    --surface: #ffffff;
+    --fg: #171717;
+    --fg-muted: #525252;
+    --border: rgba(229, 229, 229, 0.8);
+    --accent: #2563eb;
+    --accent-fg: #ffffff;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 70%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 217.2 91.2% 59.8%;
+    --bg: #0a0a0b;
+    --bg-subtle: #141416;
+    --surface: #121214;
+    --fg: #f5f5f5;
+    --fg-muted: #a3a3a3;
+    --border: rgba(38, 38, 38, 0.8);
+    --accent: #3b82f6;
+    --accent-fg: #ffffff;
+    --destructive: #7f1d1d;
+    --destructive-foreground: #f5f5f5;
   }
 
   * {
@@ -57,15 +39,24 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
   /* Accessible Focus Rings */
   :focus-visible {
-    @apply outline-none ring-2 ring-blue-500 ring-offset-2 ring-offset-background;
+    @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-background;
   }
 }
 
 @layer components {
   .gradient-text {
-    @apply bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 dark:from-cyan-400 dark:via-blue-400 dark:to-purple-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-blue-600 to-blue-500 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent;
   }
 
   .gradient-text-amber {
@@ -77,11 +68,23 @@
   }
 
   .glass-card {
-    @apply bg-white/70 dark:bg-slate-900/60 backdrop-blur-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.4)];
+    background-color: var(--surface);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
+    @apply shadow-sm;
   }
 
   .bento-card {
-    @apply relative overflow-hidden rounded-3xl bg-white/80 dark:bg-slate-900/70 backdrop-blur-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-lg hover:shadow-2xl transition-all duration-300;
+    background-color: var(--surface);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
+    @apply relative overflow-hidden rounded-xl shadow-sm transition-all duration-300;
+  }
+
+  .bento-card:hover {
+    border-color: var(--accent);
   }
 
   .cyber-grid {
@@ -94,19 +97,19 @@
 
   .dark .cyber-grid {
     background-image: 
-      radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 80%),
+      radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.05) 0%, transparent 80%),
       linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
       linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
     background-size: 100% 100%, 48px 48px, 48px 48px;
   }
 
   .neon-border-glow {
-    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   .neon-border-glow:hover {
-    box-shadow: 0 0 25px rgba(59, 130, 246, 0.2), 0 0 50px rgba(139, 92, 246, 0.1);
-    @apply border-blue-500/50 dark:border-blue-400/50;
+    border-color: var(--accent);
+    @apply shadow-sm;
   }
 
   .cyber-corner {
@@ -120,8 +123,8 @@
     left: 0;
     width: 12px;
     height: 12px;
-    border-top: 2px solid theme('colors.blue.500');
-    border-left: 2px solid theme('colors.blue.500');
+    border-top: 2px solid var(--accent);
+    border-left: 2px solid var(--accent);
     border-top-left-radius: 6px;
     opacity: 0.8;
     pointer-events: none;
@@ -134,8 +137,8 @@
     right: 0;
     width: 12px;
     height: 12px;
-    border-bottom: 2px solid theme('colors.purple.500');
-    border-right: 2px solid theme('colors.purple.500');
+    border-bottom: 2px solid var(--accent);
+    border-right: 2px solid var(--accent);
     border-bottom-right-radius: 6px;
     opacity: 0.8;
     pointer-events: none;
@@ -143,14 +146,31 @@
 }
 
 /* Fluid typography utilities */
+.fluid-display,
 .fluid-h1 {
-  font-size: clamp(2.25rem, 5vw + 1rem, 4.5rem);
-  line-height: 1.1;
+  font-size: clamp(2.5rem, 1.5rem + 5vw, 5rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
 }
 
 .fluid-h2 {
-  font-size: clamp(1.875rem, 3.5vw + 0.5rem, 3rem);
+  font-size: clamp(1.75rem, 1.2rem + 2.5vw, 3rem);
   line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.fluid-body {
+  font-size: 1rem;
+  line-height: 1.65;
+  text-wrap: pretty;
+  max-width: 65ch;
+}
+
+.fluid-small {
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
 
 /* Custom scrollbar */
@@ -176,8 +196,18 @@
   @apply bg-blue-500/20 text-blue-900 dark:text-blue-100;
 }
 
+/* Smooth scrolling guarded by prefers-reduced-motion */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
   *,
   *::before,
   *::after {

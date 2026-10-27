@@ -55,10 +55,10 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
 
   const coreSkills = [
     { name: "React.js / Next.js", level: "Senior", pct: 95, color: "from-blue-500 to-cyan-500" },
-    { name: "TypeScript / JavaScript", level: "Advanced", pct: 92, color: "from-blue-600 to-indigo-500" },
+    { name: "TypeScript / JavaScript", level: "Advanced", pct: 92, color: "from-blue-600 to-blue-500" },
     { name: "Tailwind CSS / Motion", level: "Expert", pct: 96, color: "from-teal-400 to-emerald-500" },
     { name: "Node.js / Express.js", level: "Proficient", pct: 85, color: "from-emerald-500 to-teal-600" },
-    { name: "MongoDB / PostgreSQL", level: "Proficient", pct: 82, color: "from-purple-500 to-pink-500" },
+    { name: "MongoDB / PostgreSQL", level: "Proficient", pct: 82, color: "from-blue-500 to-teal-500" },
   ];
 
   const engineeringPrinciples = [
@@ -71,17 +71,17 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
     <section
       id="about"
       aria-labelledby="about-heading"
-      className="py-24 px-6 lg:px-12 scroll-mt-20 relative overflow-hidden"
+      className="py-24 px-6 lg:px-12 scroll-mt-24 relative overflow-hidden"
     >
       {/* Ambient background decoration */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 cyber-grid pointer-events-none" />
       <div
         aria-hidden="true"
-        className="absolute -top-40 -right-40 w-96 h-96 bg-blue-500/10 dark:bg-purple-500/10 rounded-full blur-3xl pointer-events-none"
+        className="absolute -top-40 -right-40 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"
       />
       <div
         aria-hidden="true"
-        className="absolute -bottom-40 -left-40 w-96 h-96 bg-purple-500/10 dark:bg-blue-500/10 rounded-full blur-3xl pointer-events-none"
+        className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"
       />
 
       <motion.div
@@ -100,7 +100,7 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
           <h2 id="about-heading" className="fluid-h2 font-extrabold gradient-text mb-4">
             Engineered for Impact
           </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 mx-auto rounded-full" />
+          <div className="w-20 h-1 bg-gradient-to-r from-blue-600 to-cyan-500 mx-auto rounded-full" />
           <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mt-5 leading-relaxed font-normal">
             A look into my engineering philosophy, technical stack, live metrics, and interactive console.
           </p>
@@ -156,7 +156,7 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
                 </div>
 
                 <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/60 dark:border-slate-800/60">
-                  <div className="text-2xl sm:text-3xl font-extrabold text-purple-600 dark:text-purple-400">
+                  <div className="text-2xl sm:text-3xl font-extrabold text-blue-600 dark:text-blue-400">
                     <AnimatedCounter value={2} suffix="+ Yrs" />
                   </div>
                   <div className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
@@ -230,7 +230,7 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
               className="bento-card p-6 sm:p-8 h-full flex flex-col justify-between"
             >
               <div>
-                <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 mb-4">
+                <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-4">
                   <Cpu className="w-4 h-4" />
                   <span>Technical Proficiency</span>
                 </div>
@@ -274,7 +274,7 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
               className="bento-card p-6 sm:p-8 h-full flex flex-col justify-between"
             >
               <div>
-                <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400 mb-4">
+                <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-4">
                   <ShieldCheck className="w-4 h-4" />
                   <span>Engineering Standard</span>
                 </div>
@@ -288,7 +288,7 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
                     const Icon = item.icon;
                     return (
                       <div key={idx} className="flex items-start gap-3">
-                        <div className="p-2 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400 flex-shrink-0 mt-0.5">
+                        <div className="p-2 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5">
                           <Icon className="w-4 h-4" />
                         </div>
                         <div>
@@ -346,7 +346,7 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
 
               <button
                 onClick={() => setActiveConsole(!activeConsole)}
-                className="w-full py-2.5 px-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold text-xs sm:text-sm rounded-xl transition-all shadow-md flex items-center justify-center gap-2"
+                className="w-full py-2.5 px-4 bg-accent hover:opacity-90 text-accent-foreground font-semibold text-xs sm:text-sm rounded-lg transition-all shadow-sm flex items-center justify-center gap-2"
               >
                 <Terminal className="w-4 h-4" />
                 <span>{activeConsole ? "Hide Terminal" : "Launch Terminal"}</span>
