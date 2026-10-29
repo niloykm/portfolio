@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { m, LazyMotion, domAnimation } from 'framer-motion';
+import { m } from 'framer-motion';
+import { spring } from '@/lib/motion';
 
 export type NavItem = {
   id: string;
@@ -43,36 +44,29 @@ export function NavLinks({ items }: NavLinksProps) {
   }, [items]);
 
   return (
-    <LazyMotion features={domAnimation}>
-      <nav aria-label="Primary" className="hidden md:flex items-center gap-5">
-        {items.map((item) => {
-          const isActive = activeId === item.id;
-          return (
-            <a
-              key={item.id}
-              href={`#${item.id}`}
-              aria-current={isActive ? 'location' : undefined}
-              className={`relative py-1.5 text-meta transition-colors duration-[120ms] ${
-                isActive ? 'text-ink' : 'text-muted hover:text-ink'
-              }`}
-            >
-              <span>{item.label}</span>
-              {isActive && (
-                <m.span
-                  layoutId="nav-active"
-                  className="absolute inset-x-0 bottom-0 h-[1.5px] bg-accent"
-                  transition={{
-                    type: 'spring',
-                    stiffness: 500,
-                    damping: 38,
-                    mass: 0.8,
-                  }}
-                />
-              )}
-            </a>
-          );
-        })}
-      </nav>
-    </LazyMotion>
+    <nav aria-label="Primary" className="hidden md:flex items-center gap-5">
+      {items.map((item) => {
+        const isActive = activeId === item.id;
+        return (
+          <a
+            key={item.id}
+            href={`#${item.id}`}
+            aria-current={isActive ? 'location' : undefined}
+            className={`relative py-1.5 text-meta transition-colors duration-[120ms] ${
+              isActive ? 'text-ink' : 'text-muted hover:text-ink'
+            }`}
+          >
+            <span>{item.label}</span>
+            {isActive && (
+              <m.span
+                layoutId="nav-active"
+                className="absolute inset-x-0 bottom-0 h-[1.5px] bg-accent"
+                transition={spring.snappy}
+              />
+            )}
+          </a>
+        );
+      })}
+    </nav>
   );
 }

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { fontVariables } from '@/lib/fonts';
 import { ThemeProvider } from '@/components/theme/ThemeProvider';
+import { MotionProvider } from '@/components/motion/MotionProvider';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -25,7 +26,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={fontVariables} suppressHydrationWarning>
       <body className="font-sans antialiased">
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <MotionProvider>{children}</MotionProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

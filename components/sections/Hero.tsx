@@ -5,6 +5,7 @@ import { TextLink } from '@/components/ui/TextLink';
 import { Label } from '@/components/ui/Label';
 import { LocalClock } from '@/components/islands/LocalClock';
 import { CopyEmail } from '@/components/islands/CopyEmail';
+import { LineReveal } from '@/components/motion/LineReveal';
 import { profile } from '@/data/profile';
 import { isFilled } from '@/lib/filled';
 import { buildInfo, formatRelativeTime } from '@/lib/build-info';
@@ -26,12 +27,17 @@ export function Hero({ lastPushIso }: HeroProps) {
       <Container>
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-start lg:gap-6">
           <div className="lg:col-span-8 space-y-8">
-            <h1 id="hero-heading" className="text-display text-ink">
-              I build web products end to end, and keep them{' '}
-              <em className="italic font-normal text-ink">
-                fast, accessible and easy to change.
-              </em>
-            </h1>
+            <LineReveal
+              id="hero-heading"
+              className="text-display text-ink"
+              lines={[
+                'I build web products',
+                'end to end, and keep them',
+                <em key="italic" className="italic font-normal text-ink">
+                  fast, accessible and easy to change.
+                </em>,
+              ]}
+            />
 
             <p className="text-lead text-muted measure">
               Full-stack engineer in Dhaka. Co-founder of Gen Stella IT.

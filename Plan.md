@@ -12,8 +12,8 @@
 
 ## 📊 Overall Progress
 - **Total Tasks:** 36
-- **Completed:** 25 / 36
-- **Current Status:** Phase 6 complete
+- **Completed:** 29 / 36
+- **Current Status:** Phase 7 complete
 
 ---
 
@@ -466,25 +466,25 @@ Page order: **Hero → Work → Stack → Experience → Notes & Activity → Co
   - **Verification:** Shortcuts never fire while typing in the palette search.
 
 ## Phase 7: Motion Layer
-- [ ] **Task 7.1: Motion foundation**
+- [x] **Task 7.1: Motion foundation**
   - **Goal:** §3.4 setup.
   - **Files:** `lib/motion.ts`, `components/motion/MotionProvider.tsx`
   - **Changes:** Presets; `LazyMotion features={domAnimation}`; `MotionConfig reducedMotion="user"`.
   - **Verification:** With OS reduced motion on, transforms are disabled.
 
-- [ ] **Task 7.2: Hero line reveal + below-fold reveals**
+- [x] **Task 7.2: Hero line reveal + below-fold reveals**
   - **Goal:** Restrained entrance and scroll reveals.
   - **Files:** `components/motion/{LineReveal,Reveal}.tsx`, section wrappers
   - **Changes:** Per-line masked reveal for H1 only; `Reveal` for below-fold blocks with `once`; no animation above the fold other than H1; SSR output is visible without JS.
   - **Verification:** Full-page screenshots in both themes show no faded/clipped content; disabling JS shows all content.
 
-- [ ] **Task 7.3: Interaction details**
+- [x] **Task 7.3: Interaction details**
   - **Goal:** Tactile rows, links, buttons, palette.
   - **Files:** `components/ui/*`, `components/work/*`, `components/islands/*`
   - **Changes:** Row hover (underline draw, arrow nudge), nav `layoutId` underline, systems-map dimming, copy-email swap, palette spring; all via tokens in `lib/motion.ts`.
   - **Verification:** Every interactive element has distinct hover and focus-visible states; none use scale > 1.0 or shadows.
 
-- [ ] **Task 7.4: Reduced-motion and idle audit**
+- [x] **Task 7.4: Reduced-motion and idle audit**
   - **Goal:** No ambient work.
   - **Files:** whole repo
   - **Changes:** Verify no infinite animations remain; main thread idle at rest (Performance panel); remove any `will-change` not needed.

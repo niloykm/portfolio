@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Container } from '@/components/ui/Container';
 import { Rule } from '@/components/ui/Rule';
+import { Reveal } from '@/components/motion/Reveal';
 
 type SectionProps = {
   id: string;
@@ -40,7 +41,9 @@ export function Section({
               <span>{label}</span>
             </h2>
           </div>
-          <div className="lg:col-span-9 min-w-0">{children}</div>
+          <div className="lg:col-span-9 min-w-0">
+            <Reveal>{children}</Reveal>
+          </div>
         </div>
       </Container>
     </section>
