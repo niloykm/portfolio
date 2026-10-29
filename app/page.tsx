@@ -6,6 +6,8 @@ import { Stack } from '@/components/sections/Stack';
 import { Experience } from '@/components/sections/Experience';
 import { Notes } from '@/components/sections/Notes';
 import { Contact } from '@/components/sections/Contact';
+import { CommandPalette } from '@/components/islands/CommandPalette';
+import { KeyboardShortcuts } from '@/components/islands/KeyboardShortcuts';
 import { profile } from '@/data/profile';
 import { socialLinks } from '@/data/links';
 import { getPublishedNotes } from '@/lib/notes';
@@ -28,6 +30,11 @@ export default async function HomePage() {
         availability={profile.availability}
         showNotes={showNotesInNav}
       />
+      <CommandPalette
+        notes={notes.map((n) => ({ slug: n.slug, title: n.title }))}
+        showNotesSection={showNotesInNav}
+      />
+      <KeyboardShortcuts showNotesSection={showNotesInNav} />
       <main id="main">
         <Hero lastPushIso={lastPushIso} />
         <Work />

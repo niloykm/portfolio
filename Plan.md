@@ -12,8 +12,8 @@
 
 ## 📊 Overall Progress
 - **Total Tasks:** 36
-- **Completed:** 23 / 36
-- **Current Status:** Phase 5 complete
+- **Completed:** 25 / 36
+- **Current Status:** Phase 6 complete
 
 ---
 
@@ -453,13 +453,13 @@ Page order: **Hero → Work → Stack → Experience → Notes & Activity → Co
   - **Verification:** No route is emitted when there are no published notes.
 
 ## Phase 6: Command Palette & Shortcuts
-- [ ] **Task 6.1: Command palette**
+- [x] **Task 6.1: Command palette**
   - **Goal:** §6.7 palette.
   - **Files:** `components/islands/CommandPalette.tsx`, `lib/commands.ts`
   - **Changes:** `cmdk` dialog, groups, kbd hints, shared-layout highlight; `dynamic()` import on first trigger or `requestIdleCallback`; focus trap + restore.
   - **Verification:** `⌘K`, `Ctrl+K`, `/` open it; `Esc` closes; each command works; a screen-reader pass announces the dialog title.
 
-- [ ] **Task 6.2: Global shortcuts and help sheet**
+- [x] **Task 6.2: Global shortcuts and help sheet**
   - **Goal:** Keyboard-first navigation.
   - **Files:** `components/islands/KeyboardShortcuts.tsx`
   - **Changes:** Listener ignoring inputs/contenteditable and modified keys; `g` + key chords with 800ms window; `?` opens a shortcut sheet.

@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { CommandPalette } from '@/components/islands/CommandPalette';
+import { KeyboardShortcuts } from '@/components/islands/KeyboardShortcuts';
 import { Container } from '@/components/ui/Container';
 import { Rule } from '@/components/ui/Rule';
 import { Label } from '@/components/ui/Label';
@@ -71,6 +73,8 @@ export default async function CaseStudyPage({ params }: PageProps) {
   return (
     <>
       <Header availability={profile.availability} showNotes={false} />
+      <CommandPalette showNotesSection={false} />
+      <KeyboardShortcuts showNotesSection={false} />
       <main id="main" className="py-12 sm:py-16 lg:py-24">
         <Container className="space-y-12 sm:space-y-16">
           {/* Breadcrumb */}
