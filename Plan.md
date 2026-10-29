@@ -12,8 +12,8 @@
 
 ## 📊 Overall Progress
 - **Total Tasks:** 36
-- **Completed:** 21 / 36
-- **Current Status:** Phase 4 complete
+- **Completed:** 23 / 36
+- **Current Status:** Phase 5 complete
 
 ---
 
@@ -440,13 +440,13 @@ Page order: **Hero → Work → Stack → Experience → Notes & Activity → Co
   - **Verification:** No form remains; links have accessible names.
 
 ## Phase 5: Routes
-- [ ] **Task 5.1: Case-study route**
+- [x] **Task 5.1: Case-study route**
   - **Goal:** §6.8.
   - **Files:** `app/work/[slug]/page.tsx`, `generateMetadata`
   - **Changes:** Static params from `projects`; reuse `ArchDiagram`, `PreviewFrame`; prev/next links; `notFound()` for unknown slugs; per-page OG metadata.
   - **Verification:** `pnpm build` prerenders all slugs.
 
-- [ ] **Task 5.2: Notes routes**
+- [x] **Task 5.2: Notes routes**
   - **Goal:** Readable notes pages.
   - **Files:** `app/notes/[slug]/page.tsx`, `app/notes/page.tsx`
   - **Changes:** Article layout (`.measure`, serif title, mono meta), `generateStaticParams`; skip routes if no published notes.
