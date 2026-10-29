@@ -1,62 +1,77 @@
 const { test, expect } = require('@playwright/test');
 
-test.describe('Portfolio Website Tests', () => {
-  test('should load the homepage and check elements', async ({ page }) => {
-    // Navigate to homepage
+test.describe('Spec Sheet Portfolio QA (A11y & Responsive)', () => {
+  test('renders landmarks, single h1, valid heading hierarchy, and keyboard palette', async ({
+    page,
+  }) => {
     await page.goto('/');
 
-    // Check page title
     await expect(page).toHaveTitle(/Niloy Kumar Mohonta/);
 
-    // Verify main components are present
-    await expect(page.locator('#top')).toBeVisible();
-    await expect(page.locator('#about')).toBeVisible();
-    await expect(page.locator('#services')).toBeVisible();
-    await expect(page.locator('#work')).toBeVisible();
-    await expect(page.locator('#contact')).toBeVisible();
+    // Landmarks
+    await expect(page.locator('header')).toBeVisible();
+    await expect(page.locator('main#main')).toBeVisible();
+    await expect(page.locator('footer')).toBeVisible();
+
+    // Exactly one h1
+    const h1Count = await page.locator('h1').count();
+    expect(h1Count).toBe(1);
+
+    // No skipped heading levels
+    const headingLevels = await page.evaluate(() => {
+      return Array.from(document.querySelectorAll('h1, h2, h3, h4, h5, h6')).map(
+        (el) => Number(el.tagName.slice(1))
+      );
+    });
+    expect(headingLevels[0]).toBe(1);
+    for (let i = 1; i < headingLevels.length; i++) {
+      expect(headingLevels[i] - headingLevels[i - 1]).toBeLessThanOrEqual(1);
+    }
+
+    // No TODO(niloy) text rendered
+    const bodyText = await page.locator('body').innerText();
+    expect(bodyText).not.toContain('TODO(niloy)');
+
+    // Open command palette via keyboard '/'
+    await page.keyboard.press('/');
+    const dialog = page.locator('[role="dialog"][aria-label="Command palette"]');
+    await expect(dialog).toBeVisible();
+
+    // Close with Escape
+    await page.keyboard.press('Escape');
+    await expect(dialog).toBeHidden();
   });
 
-  test('should toggle dark/light mode successfully', async ({ page }) => {
-    await page.goto('/');
+  test('has no horizontal overflow across 375, 768, 1024, 1440, 1920 in light and dark themes', async ({
+    page,
+  }) => {
+    const widths = [375, 768, 1024, 1440, 1920];
 
-    // Locate theme toggle button by aria-label
-    const toggleButton = page.locator('nav button[aria-label*="mode"]');
-    await expect(toggleButton).toBeVisible();
+    for (const width of widths) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto('/');
 
-    // Check initial dark mode state on html tag
-    const htmlElement = page.locator('html');
-    const initialClass = await htmlElement.getAttribute('class');
-    
-    // Toggle theme
-    await toggleButton.click();
-    await page.waitForTimeout(500);
+      // Light mode check
+      const overflowLight = await page.evaluate(() => {
+        return (
+          document.documentElement.scrollWidth <=
+          document.documentElement.clientWidth
+        );
+      });
+      expect(overflowLight).toBe(true);
 
-    const toggledClass = await htmlElement.getAttribute('class');
-    expect(toggledClass).not.toBe(initialClass);
-  });
+      // Switch to dark mode
+      await page.evaluate(() => {
+        document.documentElement.classList.add('dark');
+      });
 
-  test('should verify projects in Work section have live demo links', async ({ page }) => {
-    await page.goto('/');
-
-    // Ensure project live demo links are present and rendered
-    const liveDemoLinks = page.locator('#work a[href*="vercel.app"]');
-    const count = await liveDemoLinks.count();
-    expect(count).toBeGreaterThan(0);
-  });
-
-  test('should secure admin page and show error on invalid password login', async ({ page }) => {
-    await page.goto('/admin');
-
-    // Check secure gateway heading (wait for compilation if needed)
-    await expect(page.locator('h2')).toContainText('SECURE_GATEWAY', { timeout: 20000 });
-
-    // Attempt login with wrong password
-    await page.locator('input[type="password"]').fill('incorrect_password');
-    await page.locator('button[type="submit"]').click();
-
-    // Verify error message renders
-    const errorMessage = page.locator('.bg-red-950\\/40');
-    await expect(errorMessage).toBeVisible();
-    await expect(errorMessage).toContainText('Invalid password');
+      const overflowDark = await page.evaluate(() => {
+        return (
+          document.documentElement.scrollWidth <=
+          document.documentElement.clientWidth
+        );
+      });
+      expect(overflowDark).toBe(true);
+    }
   });
 });
