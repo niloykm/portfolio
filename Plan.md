@@ -12,8 +12,8 @@
 
 ## 📊 Overall Progress
 - **Total Tasks:** 36
-- **Completed:** 10 / 36
-- **Current Status:** Phase 2 complete
+- **Completed:** 13 / 36
+- **Current Status:** Phase 3 complete
 
 ---
 
@@ -372,19 +372,19 @@ Page order: **Hero → Work → Stack → Experience → Notes & Activity → Co
   - **Verification:** Footer shows the correct SHA after `vercel --prod`.
 
 ## Phase 3: Content Layer
-- [ ] **Task 3.1: Typed data files + content TODO list**
+- [x] **Task 3.1: Typed data files + content TODO list**
   - **Goal:** §5, with no invented facts.
   - **Files:** `data/*.ts`, `lib/filled.ts`, `TODO-CONTENT.md`
   - **Changes:** Create the files; seed with known facts only; `isFilled()` helper; generate `TODO-CONTENT.md` listing every `TODO(niloy)` (file, field, what is needed).
   - **Verification:** `pnpm build` passes; TODO list matches `grep -rn "TODO(niloy)" data`.
 
-- [ ] **Task 3.2: MDX notes pipeline**
+- [x] **Task 3.2: MDX notes pipeline**
   - **Goal:** Notes that can be written in Markdown.
   - **Files:** `content/notes/`, `lib/notes.ts`, `mdx-components.tsx`, `next.config.*`
   - **Changes:** `@next/mdx`; loader reading frontmatter (`gray-matter` ok if needed); exclude `draft` and future dates; reading time; `shiki` server-side code highlighting with `github-light`/`github-dark` themes switched by CSS variables; MDX element styles use tokens and `.measure`. If `lang === 'bn'`, set `lang="bn"` on the article and load the Bengali font subset for that route only.
   - **Verification:** The draft template is excluded from the build output; a temporary test note renders and is then removed.
 
-- [ ] **Task 3.3: GitHub data fetchers**
+- [x] **Task 3.3: GitHub data fetchers**
   - **Goal:** Real "last push" and recent repos with graceful failure.
   - **Files:** `lib/github.ts`
   - **Changes:** `getRecentRepos()` → `GET https://api.github.com/users/{github}/repos?sort=pushed&per_page=6` with `next: { revalidate: 3600 }`, optional `Authorization` if `GITHUB_TOKEN`; filter forks; return `null` on any error/timeout (3s `AbortSignal`). Optional `getContributions()` via GraphQL only with token. Never expose the token to the client.

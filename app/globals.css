@@ -55,6 +55,18 @@ html {
   color: var(--ink);
 }
 
+.shiki,
+.shiki span {
+  color: var(--shiki-light);
+  background-color: transparent;
+}
+
+.dark .shiki,
+.dark .shiki span {
+  color: var(--shiki-dark);
+  background-color: transparent;
+}
+
 @layer base {
   * {
     border-color: var(--border);
