@@ -39,8 +39,11 @@ export default function OpengraphImage() {
             color: '#5E5C55',
           }}
         >
-          <span>Spec Sheet · Portfolio</span>
-          <span style={{ color: '#2F7D4F' }}>● Open to work</span>
+          <span>Spec Sheet - Portfolio</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#2F7D4F' }}>
+            <div style={{ width: '10px', height: '10px', borderRadius: '9999px', backgroundColor: '#2F7D4F' }} />
+            <span>Open to work</span>
+          </div>
         </div>
 
         <div
@@ -86,7 +89,7 @@ export default function OpengraphImage() {
           }}
         >
           <span>
-            {profile.role} · {profile.location}
+            {profile.role} - {profile.location}
           </span>
           <span style={{ color: '#14130F' }}>niloykm.vercel.app</span>
         </div>

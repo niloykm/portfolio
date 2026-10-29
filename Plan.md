@@ -12,8 +12,8 @@
 
 ## 📊 Overall Progress
 - **Total Tasks:** 36
-- **Completed:** 34 / 36
-- **Current Status:** Phase 8 complete
+- **Completed:** 36 / 36
+- **Current Status:** Complete
 
 ---
 
@@ -522,13 +522,13 @@ Page order: **Hero → Work → Stack → Experience → Notes & Activity → Co
   - **Verification:** Targets met or each miss explained in `## After`.
 
 ## Phase 9: Gate & Ship
-- [ ] **Task 9.1: Anti-pattern gate**
+- [x] **Task 9.1: Anti-pattern gate**
   - **Goal:** Make sure nothing template-like came back.
   - **Files:** whole repo
   - **Changes:** Run every command in §4.1; fix findings; confirm `TODO(niloy)` strings never render (`grep` the built HTML in `.next/server/app`).
   - **Verification:** All greps empty; `pnpm lint && pnpm tsc --noEmit && pnpm build` pass.
 
-- [ ] **Task 9.2: Push to GitHub and deploy to Vercel (prove it)**
+- [x] **Task 9.2: Push to GitHub and deploy to Vercel (prove it)**
   - **Goal:** Latest code visible on GitHub **and** production.
   - **Files:** none
   - **Changes:** `git config user.name "niloykm"`, `git config user.email "niloykumarmohonta@gmail.com"`; ensure `origin` = `https://github.com/niloykm/portfolio.git`; open PR `redesign/spec-sheet` → default branch and merge (`gh pr create --fill && gh pr merge --merge`) because only the default branch updates production; `git pull`; `vercel link` if needed; `vercel --prod --yes`. Compare `git rev-parse --short HEAD` with the SHA in the live footer and `gh api repos/niloykm/portfolio/commits/<default> -q .sha`.
