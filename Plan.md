@@ -12,8 +12,8 @@
 
 ## 📊 Overall Progress
 - **Total Tasks:** 36
-- **Completed:** 2 / 36
-- **Current Status:** Phase 0 complete
+- **Completed:** 7 / 36
+- **Current Status:** Phase 1 complete
 
 ---
 
@@ -322,31 +322,31 @@ Page order: **Hero → Work → Stack → Experience → Notes & Activity → Co
   - **Note:** Deleted all legacy components (`About`, `Blog`, `Contact`, `CyberParticles`, `Footer`, `Header`, `Navbar`, `Section`, `Services`, `Stats`, `Testimonials`, `Work`, `ui/*`), `app/admin`, `app/api`, `data/portfolio-data.json`, and `assets/assets.js`; moved portrait and project screenshots to `public/images/`; removed unused `dotenv` dependency.
 
 ## Phase 1: Tokens & Foundations
-- [ ] **Task 1.1: Fonts**
+- [x] **Task 1.1: Fonts**
   - **Goal:** Load the type system with zero layout shift.
   - **Files:** `app/layout.tsx`, `lib/fonts.ts`
   - **Changes:** `next/font/google`: `Instrument_Serif` (400, normal+italic), `Geist` (or `Inter`), `JetBrains_Mono`; expose `--font-display`, `--font-sans`, `--font-mono`; apply on `<html>`. Map to Tailwind `fontFamily`. Add type-scale utilities from §3.2 (`text-display`, `text-h2`, `text-label`, `text-meta` etc.) plus `.measure { max-width: 62ch }`.
   - **Verification:** No FOUT; Network shows self-hosted fonts only.
 
-- [ ] **Task 1.2: Color tokens, radius, spacing**
+- [x] **Task 1.2: Color tokens, radius, spacing**
   - **Goal:** Implement §3.1/§3.3 verbatim.
   - **Files:** `app/globals.css`, `tailwind.config.ts` (v3) or `@theme` block (v4)
   - **Changes:** Add light/dark variables; expose Tailwind colors `bg, surface, ink, ink-2, muted, border, border-strong, accent, ...` via `var(--*)`; set `body { background: var(--bg); color: var(--ink) }`; global `:focus-visible` ring; `html { color-scheme: light dark }`; reduced-motion CSS.
   - **Verification:** Toggling `.dark` on `<html>` flips all colors; no hard-coded hex outside `globals.css`.
 
-- [ ] **Task 1.3: Theme provider and toggle**
+- [x] **Task 1.3: Theme provider and toggle**
   - **Goal:** No flash, system default, per-scheme browser chrome.
   - **Files:** `components/theme/ThemeProvider.tsx`, `ThemeToggle.tsx`, `app/layout.tsx`
   - **Changes:** `next-themes` (`attribute="class"`, `defaultTheme="system"`, `disableTransitionOnChange`), `suppressHydrationWarning`; viewport `themeColor` array (`#F4F3EF` / `#0E0E0C`); toggle with placeholder of equal size until mounted; View Transitions circular reveal with feature detection + reduced-motion bypass.
   - **Verification:** Hard reload in both themes shows no flash; no hydration warnings.
 
-- [ ] **Task 1.4: Contrast verification script**
+- [x] **Task 1.4: Contrast verification script**
   - **Goal:** Prove tokens meet AA.
   - **Files:** `scripts/contrast.mjs`, `package.json` (`"check:contrast"`)
   - **Changes:** Pure-Node WCAG ratio calculation over token pairs (`ink/bg`, `ink-2/bg`, `muted/bg`, `accent/bg`, `accent-ink/accent`, `success/bg`, `warning/bg`, and dark equivalents, also on `--surface`). Fail (exit 1) below 4.5 for text pairs. If any pair fails, **darken/lighten that token minimally** and note the change in §3.1.
   - **Verification:** `pnpm check:contrast` exits 0.
 
-- [ ] **Task 1.5: UI primitives**
+- [x] **Task 1.5: UI primitives**
   - **Goal:** The small, boring components everything uses.
   - **Files:** `components/ui/{Container,Rule,Label,Kbd,TextLink,Button,Tag}.tsx`
   - **Changes:** `Container` (§3.3); `Rule` (1px hairline); `Label` (mono uppercase); `Kbd`; `TextLink` (underline offset 3, hover accent, external arrow + `rel`); `Button` (inverted primary, bordered secondary, `focus-visible`, `active:scale-[0.98]`); `Tag` (2px radius, 1px border, mono). All server-safe.
