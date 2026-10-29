@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Image, { type StaticImageData } from 'next/image';
-import { TextLink } from '@/components/ui/TextLink';
 import handsOnImg from '@/public/images/projects/handsOn.png';
 import ndemyImg from '@/public/images/projects/ndemy1.png';
 import newcareImg from '@/public/images/projects/newcare.png';
@@ -11,7 +10,7 @@ import nobotImg from '@/public/images/projects/nobot.png';
 import nqrImg from '@/public/images/projects/nqr.png';
 import nrlImg from '@/public/images/projects/nrl.png';
 
-const STATIC_PROJECT_IMAGES: Record<string, StaticImageData> = {
+export const STATIC_PROJECT_IMAGES: Record<string, StaticImageData> = {
   '/images/projects/handsOn.png': handsOnImg,
   '/images/projects/ndemy1.png': ndemyImg,
   '/images/projects/newcare.png': newcareImg,
@@ -48,44 +47,35 @@ export function PreviewFrame({
     : title.toLowerCase();
 
   return (
-    <div
-      className={`overflow-hidden rounded-panel border border-border bg-surface ${className}`}
-    >
-      <div className="flex items-center justify-between gap-2 border-b border-border bg-bg-sunken px-3 py-2">
-        <div className="flex items-center gap-2 min-w-0">
-          <span
-            className="h-2 w-2 shrink-0 rounded-full border border-border-strong bg-surface"
-            aria-hidden="true"
-          />
-          <span className="truncate font-mono text-[12px] text-muted">
-            {displayHost}
-          </span>
-        </div>
+    <div className={`border border-border-subtle bg-bg-primary ${className}`}>
+      <div className="flex items-center justify-between gap-2 border-b border-border-subtle bg-bg-primary px-3 py-2 font-mono text-[11px]">
+        <span className="truncate text-muted">{"// "}{displayHost}</span>
 
         <div className="flex items-center gap-3 shrink-0">
           {canLoadIframe && iframeLoaded && (
             <button
               type="button"
               onClick={() => setIframeLoaded(false)}
-              className="font-mono text-[11px] text-muted underline underline-offset-2 hover:text-ink"
+              className="font-mono text-[11px] uppercase text-muted underline underline-offset-2 hover:text-ink"
             >
-              Static view
+              [STATIC]
             </button>
           )}
           {liveUrl && (
-            <TextLink
+            <a
               href={liveUrl}
-              mono
-              className="text-[12px]"
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label={`Open live preview of ${title} in a new tab`}
+              className="font-mono text-[11px] uppercase text-ink hover:text-accent"
             >
-              Open
-            </TextLink>
+              [OPEN -&gt;]
+            </a>
           )}
         </div>
       </div>
 
-      <div className="relative aspect-[16/10] w-full bg-bg">
+      <div className="group/preview relative aspect-[16/10] w-full overflow-hidden bg-bg-primary">
         {canLoadIframe && iframeLoaded ? (
           <iframe
             src={liveUrl}
@@ -93,7 +83,7 @@ export function PreviewFrame({
             loading="lazy"
             sandbox="allow-scripts allow-same-origin allow-forms"
             referrerPolicy="no-referrer"
-            className="h-full w-full border-0 bg-bg"
+            className="h-full w-full border-0 bg-bg-primary"
           />
         ) : (
           <div className="relative h-full w-full">
@@ -102,28 +92,27 @@ export function PreviewFrame({
                 src={STATIC_PROJECT_IMAGES[imageSrc] ?? imageSrc}
                 alt={imageAlt || `${title} screenshot`}
                 fill
-                sizes="(min-width: 1024px) 380px, (min-width: 640px) 600px, 100vw"
+                sizes="(min-width: 1024px) 420px, (min-width: 640px) 600px, 100vw"
                 placeholder={
                   STATIC_PROJECT_IMAGES[imageSrc] ? 'blur' : 'empty'
                 }
-                className="object-cover object-top"
+                className="object-cover object-top grayscale contrast-125 transition-all duration-100 group-hover/preview:grayscale-0 group-hover/preview:contrast-100"
               />
             ) : (
-              <div className="flex h-full w-full items-center justify-center p-6 text-center text-meta text-muted">
-                Preview available at {displayHost}
+              <div className="flex h-full w-full items-center justify-center p-6 text-center font-mono text-xs text-muted">
+                {"// "}PREVIEW: {displayHost}
               </div>
             )}
 
             {canLoadIframe && (
-              <div className="absolute inset-0 flex items-end justify-end bg-ink/10 p-3 transition-colors hover:bg-ink/20">
+              <div className="absolute bottom-0 right-0 p-2">
                 <button
                   type="button"
                   onClick={() => setIframeLoaded(true)}
                   aria-label={`Load interactive preview for ${title}`}
-                  className="inline-flex min-h-[40px] items-center gap-1.5 rounded-control border border-border-strong bg-surface px-3 py-1.5 font-mono text-[12px] text-ink transition-colors hover:border-ink hover:bg-surface-raised active:scale-[0.98]"
+                  className="inline-flex min-h-[36px] items-center gap-1.5 border border-ink bg-bg-primary px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-ink transition-colors duration-100 hover:bg-ink hover:text-bg"
                 >
-                  <span>Load interactive preview</span>
-                  <span aria-hidden="true">↗</span>
+                  <span>[LOAD_LIVE_DOM -&gt;]</span>
                 </button>
               </div>
             )}

@@ -21,7 +21,7 @@ export function TextLink({
 
   const baseClass = `${
     mono ? 'text-meta' : ''
-  } inline-flex items-center gap-1 underline decoration-border-strong underline-offset-[3px] transition-colors duration-[120ms] hover:text-accent hover:decoration-accent ${className}`;
+  } inline-flex items-center gap-1 underline decoration-border-subtle underline-offset-[3px] transition-colors duration-100 hover:text-accent hover:decoration-accent ${className}`;
 
   if (isExternal) {
     return (
@@ -33,8 +33,8 @@ export function TextLink({
         {...props}
       >
         <span>{children}</span>
-        <span aria-hidden="true" className="text-[0.85em] leading-none">
-          ↗
+        <span aria-hidden="true" className="font-mono text-[0.85em] leading-none">
+          -&gt;
         </span>
       </a>
     );

@@ -36,12 +36,19 @@ export function Stack() {
   const toolProjects = buildToolProjectsMap();
 
   return (
-    <Section id="stack" index="02" label="Stack">
-      <div className="space-y-6">
-        <p className="text-body text-muted measure">
-          Tools grouped by architectural layer. Hover or focus a tool to inspect
-          the projects built with it.
-        </p>
+    <Section
+      id="stack"
+      index="02"
+      label="Technical_Capabilities"
+      meta="SYSTEM_STACK // NO_SKILL_BARS"
+    >
+      <div>
+        <div className="border-b border-border-subtle px-4 py-4 sm:px-6">
+          <p className="text-body text-muted measure">
+            Categorized architecture capabilities. Select or hover a technology
+            node to cross-reference production deployments.
+          </p>
+        </div>
         <SystemsMap
           layers={stackLayers}
           toolProjects={toolProjects}

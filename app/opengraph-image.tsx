@@ -18,11 +18,11 @@ export default function OpengraphImage() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          backgroundColor: '#F4F3EF',
-          color: '#14130F',
+          backgroundColor: '#000000',
+          color: '#EDEDED',
           padding: '64px 72px',
-          border: '1px solid #DEDCD4',
-          fontFamily: 'Georgia, serif',
+          border: '2px solid #222222',
+          fontFamily: 'system-ui, sans-serif',
         }}
       >
         <div
@@ -30,19 +30,18 @@ export default function OpengraphImage() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            borderBottom: '1px solid #DEDCD4',
+            borderBottom: '1px solid #222222',
             paddingBottom: '24px',
             fontFamily: 'monospace',
             fontSize: '20px',
             letterSpacing: '0.08em',
             textTransform: 'uppercase',
-            color: '#5E5C55',
+            color: '#888888',
           }}
         >
-          <span>Spec Sheet - Portfolio</span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#2F7D4F' }}>
-            <div style={{ width: '10px', height: '10px', borderRadius: '9999px', backgroundColor: '#2F7D4F' }} />
-            <span>Open to work</span>
+          <span>{"// "}SYSTEM_SPEC :: PORTFOLIO</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#00FF00' }}>
+            <span>[STATUS: OPEN_TO_WORK]</span>
           </div>
         </div>
 
@@ -55,19 +54,20 @@ export default function OpengraphImage() {
         >
           <div
             style={{
-              fontSize: '78px',
-              lineHeight: 0.98,
-              letterSpacing: '-0.03em',
-              color: '#14130F',
+              fontSize: '76px',
+              fontWeight: 700,
+              lineHeight: 1.0,
+              letterSpacing: '-0.04em',
+              color: '#EDEDED',
             }}
           >
             {profile.name}
           </div>
           <div
             style={{
-              fontSize: '34px',
+              fontSize: '32px',
               lineHeight: 1.35,
-              color: '#3B3933',
+              color: '#888888',
               maxWidth: '920px',
               fontFamily: 'system-ui, sans-serif',
             }}
@@ -81,17 +81,17 @@ export default function OpengraphImage() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            borderTop: '1px solid #DEDCD4',
+            borderTop: '1px solid #222222',
             paddingTop: '24px',
             fontFamily: 'monospace',
             fontSize: '20px',
-            color: '#5E5C55',
+            color: '#888888',
           }}
         >
           <span>
-            {profile.role} - {profile.location}
+            [{profile.role.toUpperCase()}] // {profile.location.toUpperCase()}
           </span>
-          <span style={{ color: '#14130F' }}>niloykm.vercel.app</span>
+          <span style={{ color: '#0055FF' }}>niloykm.vercel.app -&gt;</span>
         </div>
       </div>
     ),

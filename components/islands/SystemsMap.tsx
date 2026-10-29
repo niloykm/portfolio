@@ -25,11 +25,8 @@ export function SystemsMap({
   const activeMatchingProjects = activeTool ? toolProjects[activeTool] ?? [] : [];
 
   return (
-    <div
-      className="space-y-4"
-      onMouseLeave={() => setActiveTool(null)}
-    >
-      <div className="divide-y divide-border border-y border-border">
+    <div onMouseLeave={() => setActiveTool(null)}>
+      <div className="divide-y divide-border-subtle">
         {layers.map((layer) => {
           const layerHasActiveTool =
             activeTool !== null && layer.tools.includes(activeTool);
@@ -37,73 +34,64 @@ export function SystemsMap({
           return (
             <div
               key={layer.id}
-              className="py-5 grid grid-cols-1 gap-4 lg:grid-cols-9 lg:items-baseline lg:gap-6"
+              className="grid grid-cols-1 divide-y divide-border-subtle md:grid-cols-12 md:divide-y-0 md:divide-x"
             >
-              <div className="lg:col-span-2">
-                <span className="text-label text-muted">{layer.layer}</span>
+              <div className="p-4 sm:p-6 md:col-span-4 space-y-1.5">
+                <p className="font-mono text-xs font-semibold uppercase tracking-wider text-ink">
+                  {layer.code ?? `[${layer.layer.toUpperCase()}]`}
+                </p>
+                <p className="text-secondary text-muted">{layer.usage}</p>
               </div>
 
-              <div className="lg:col-span-7 space-y-2">
-                <div className="flex flex-wrap items-center gap-y-1.5 text-body">
-                  {layer.tools.map((tool, idx) => {
+              <div className="p-4 sm:p-6 md:col-span-8 space-y-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  {layer.tools.map((tool) => {
                     const isActive = activeTool === tool;
                     const isDimmed = activeTool !== null && !isActive;
 
                     return (
-                      <span key={tool} className="inline-flex items-center">
-                        <button
-                          type="button"
-                          onMouseEnter={() => setActiveTool(tool)}
-                          onFocus={() => setActiveTool(tool)}
-                          onBlur={() => setActiveTool(null)}
-                          onClick={() =>
-                            setActiveTool((prev) => (prev === tool ? null : tool))
-                          }
-                          className={`rounded-tag px-1 -mx-1 py-0.5 font-sans text-base transition-opacity duration-[150ms] ${
-                            isActive
-                              ? 'text-accent font-medium underline decoration-accent underline-offset-[3px]'
-                              : 'text-ink hover:text-accent'
-                          } ${isDimmed ? 'opacity-35' : 'opacity-100'}`}
-                        >
-                          {tool}
-                        </button>
-                        {idx < layer.tools.length - 1 && (
-                          <span
-                            aria-hidden="true"
-                            className="mx-2.5 text-faint select-none"
-                          >
-                            /
-                          </span>
-                        )}
-                      </span>
+                      <button
+                        key={tool}
+                        type="button"
+                        onMouseEnter={() => setActiveTool(tool)}
+                        onFocus={() => setActiveTool(tool)}
+                        onBlur={() => setActiveTool(null)}
+                        onClick={() =>
+                          setActiveTool((prev) => (prev === tool ? null : tool))
+                        }
+                        className={`border px-2.5 py-1.5 font-mono text-xs uppercase tracking-wider transition-all duration-100 ${
+                          isActive
+                            ? 'border-ink bg-ink text-bg font-semibold'
+                            : 'border-border-subtle bg-bg-primary text-ink hover:border-ink hover:bg-ink hover:text-bg'
+                        } ${isDimmed ? 'opacity-40' : 'opacity-100'}`}
+                      >
+                        {tool}
+                      </button>
                     );
                   })}
                 </div>
 
-                <p className="text-secondary text-muted measure">
-                  {layer.usage}
-                </p>
-
                 {layerHasActiveTool && activeTool && (
-                  <div className="pt-1 text-meta text-ink-2">
+                  <div className="border-t border-border-subtle pt-3 font-mono text-xs">
                     {activeMatchingProjects.length > 0 ? (
-                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
                         <span className="text-muted">
-                          Used in ({activeMatchingProjects.length}):
+                          {"// "}DEPLOYED_IN [{activeMatchingProjects.length}]:
                         </span>
                         {activeMatchingProjects.map((proj) => (
                           <Link
                             key={proj.slug}
                             href={`/work/${proj.slug}`}
-                            className="text-ink underline decoration-border-strong underline-offset-[3px] hover:text-accent hover:decoration-accent"
+                            className="inline-flex items-center gap-1 border border-border-subtle px-2 py-0.5 text-ink transition-colors duration-100 hover:border-accent hover:bg-accent hover:text-white"
                           >
-                            {proj.title}
+                            <span>{proj.title}</span>
+                            <span aria-hidden="true">-&gt;</span>
                           </Link>
                         ))}
                       </div>
                     ) : (
                       <span className="text-muted">
-                        Used across workflow and infrastructure.
+                        {"// "}DEPLOYED ACROSS CORE INFRASTRUCTURE &amp; WORKFLOW
                       </span>
                     )}
                   </div>
@@ -126,9 +114,12 @@ export function SystemsMap({
       </div>
 
       {currentlyLearning.length > 0 && (
-        <p className="text-meta text-muted pt-1">
-          Currently learning: {currentlyLearning.join(' · ')}
-        </p>
+        <div className="border-t border-border-subtle px-4 py-3 sm:px-6 font-mono text-xs text-muted">
+          <span>{"// "}CURRENT_FOCUS: </span>
+          <span className="text-ink">
+            {currentlyLearning.map((item) => `[${item.toUpperCase()}]`).join(' ')}
+          </span>
+        </div>
       )}
     </div>
   );

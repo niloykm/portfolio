@@ -1,80 +1,123 @@
 import { Section } from '@/components/layout/Section';
+import { Heading, Body } from '@/components/Typography';
 import { Button } from '@/components/ui/Button';
-import { TextLink } from '@/components/ui/TextLink';
 import { CopyEmail } from '@/components/islands/CopyEmail';
 import { profile } from '@/data/profile';
 import { isFilled } from '@/lib/filled';
 
 export function Contact() {
   return (
-    <Section id="contact" index="05" label="Contact">
-      <div className="space-y-8">
-        <p className="text-h2 text-ink max-w-[24ch]">
-          Have something that needs building, or fixing? Write to me.
-        </p>
-
-        <div className="space-y-4">
-          <div className="font-mono text-lg sm:text-2xl text-ink break-all">
-            <a
-              href={`mailto:${profile.email}`}
-              aria-label={`Email ${profile.email}`}
-              className="underline decoration-border-strong underline-offset-4 transition-colors duration-[120ms] hover:text-accent hover:decoration-accent"
-            >
-              {profile.email}
-            </a>
+    <Section
+      id="contact"
+      index="05"
+      label="Contact"
+      meta="DIRECT_TRANSMISSION"
+    >
+      <div className="divide-y divide-border-subtle">
+        <div className="p-6 sm:p-8 space-y-6">
+          <div className="space-y-2">
+            <p className="font-mono text-xs uppercase tracking-widest text-muted">
+              {"// "}INITIATE_CONNECTION
+            </p>
+            <Heading as="h3" size="h2" className="max-w-[28ch]">
+              Have something that needs building, or fixing? Write to me.
+            </Heading>
+            <Body size="base" muted measure>
+              Available for full-time software engineering roles and high-impact
+              product architecture engagements.
+            </Body>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 pt-1">
-            <CopyEmail email={profile.email} variant="button" />
-            <Button
-              href={`mailto:${profile.email}`}
-              variant="secondary"
-              aria-label={`Send email to ${profile.email}`}
-            >
-              Send email →
-            </Button>
+          <div className="space-y-4 pt-2">
+            <div className="font-mono text-base sm:text-xl font-semibold text-ink break-all">
+              <a
+                href={`mailto:${profile.email}`}
+                aria-label={`Email ${profile.email}`}
+                className="inline-flex items-center gap-2 border border-border-subtle bg-bg-primary px-4 py-3 transition-colors duration-100 hover:border-ink hover:bg-ink hover:text-bg"
+              >
+                <span>{profile.email}</span>
+                <span aria-hidden="true">-&gt;</span>
+              </a>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <CopyEmail
+                email={profile.email}
+                label="[COPY_EMAIL]"
+                variant="button"
+              />
+              <Button
+                href={`mailto:${profile.email}`}
+                variant="primary"
+                aria-label={`Send email to ${profile.email}`}
+              >
+                <span>[SEND_EMAIL]</span>
+                <span aria-hidden="true">-&gt;</span>
+              </Button>
+            </div>
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-border pt-6 text-meta">
+        <div className="grid grid-cols-1 divide-y divide-border-subtle sm:grid-cols-2 sm:divide-y-0 sm:divide-x font-mono text-xs">
           {isFilled(profile.github) && (
-            <TextLink
+            <a
               href={`https://github.com/${profile.github}`}
-              mono
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label="Niloy Kumar Mohonta on GitHub"
+              className="flex min-h-[48px] items-center justify-between px-6 py-3 uppercase tracking-wider text-ink transition-colors duration-100 hover:bg-ink hover:text-bg"
             >
-              GitHub (@{profile.github})
-            </TextLink>
+              <span>[GITHUB :: @{profile.github}]</span>
+              <span aria-hidden="true">-&gt;</span>
+            </a>
           )}
 
+          <a
+            href={`mailto:${profile.email}`}
+            aria-label="Direct mailto link"
+            className="flex min-h-[48px] items-center justify-between px-6 py-3 uppercase tracking-wider text-ink transition-colors duration-100 hover:bg-ink hover:text-bg"
+          >
+            <span>[STATUS :: {profile.availability.toUpperCase()}]</span>
+            <span aria-hidden="true">-&gt;</span>
+          </a>
+
           {isFilled(profile.linkedin) && (
-            <TextLink
+            <a
               href={profile.linkedin}
-              mono
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label="Niloy Kumar Mohonta on LinkedIn"
+              className="flex min-h-[48px] items-center justify-between px-6 py-3 uppercase tracking-wider text-ink transition-colors duration-100 hover:bg-ink hover:text-bg"
             >
-              LinkedIn
-            </TextLink>
+              <span>[LINKEDIN]</span>
+              <span aria-hidden="true">-&gt;</span>
+            </a>
           )}
 
           {isFilled(profile.x) && (
-            <TextLink
+            <a
               href={profile.x}
-              mono
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label="Niloy Kumar Mohonta on X"
+              className="flex min-h-[48px] items-center justify-between px-6 py-3 uppercase tracking-wider text-ink transition-colors duration-100 hover:bg-ink hover:text-bg"
             >
-              X
-            </TextLink>
+              <span>[X_TWITTER]</span>
+              <span aria-hidden="true">-&gt;</span>
+            </a>
           )}
 
           {isFilled(profile.resumeUrl) && (
-            <TextLink
+            <a
               href={profile.resumeUrl}
-              mono
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label="Download résumé PDF"
+              className="flex min-h-[48px] items-center justify-between px-6 py-3 uppercase tracking-wider text-ink transition-colors duration-100 hover:bg-ink hover:text-bg"
             >
-              Résumé (PDF)
-            </TextLink>
+              <span>[RESUME_PDF]</span>
+              <span aria-hidden="true">-&gt;</span>
+            </a>
           )}
         </div>
       </div>

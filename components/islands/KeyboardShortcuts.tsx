@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { Kbd } from '@/components/ui/Kbd';
-import { Label } from '@/components/ui/Label';
 import { profile } from '@/data/profile';
 
 type KeyboardShortcutsProps = {
@@ -165,33 +164,36 @@ export function KeyboardShortcuts({
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
     >
       <div
-        className="fixed inset-0 bg-ink/35"
+        className="fixed inset-0 bg-ink/50"
         onClick={() => setHelpOpen(false)}
         aria-hidden="true"
       />
 
-      <div className="relative z-10 w-full max-w-md rounded-panel border border-border-strong bg-surface p-6 text-ink shadow-palette">
-        <div className="flex items-center justify-between border-b border-border pb-3 mb-4">
-          <Label as="h3" className="text-ink">
-            <span id="shortcuts-dialog-title">Keyboard shortcuts</span>
-          </Label>
+      <div className="relative z-10 w-full max-w-md border border-ink bg-bg-primary p-6 text-ink">
+        <div className="flex items-center justify-between border-b border-border-subtle pb-3 mb-4">
+          <h3
+            id="shortcuts-dialog-title"
+            className="font-mono text-xs font-medium uppercase tracking-widest text-ink"
+          >
+            {"// "}KEYBOARD_SHORTCUTS
+          </h3>
           <button
             ref={closeButtonRef}
             type="button"
             onClick={() => setHelpOpen(false)}
             aria-label="Close keyboard shortcuts"
           >
-            <Kbd>Esc</Kbd>
+            <Kbd>[ESC]</Kbd>
           </button>
         </div>
 
-        <dl className="divide-y divide-border text-secondary">
+        <dl className="divide-y divide-border-subtle font-mono text-xs">
           {visibleRows.map((row) => (
             <div
               key={row.description}
               className="flex items-center justify-between gap-4 py-2.5"
             >
-              <dt className="text-ink-2">{row.description}</dt>
+              <dt className="text-ink">{row.description}</dt>
               <dd className="flex items-center gap-1 shrink-0">
                 {row.keys.map((k, idx) => (
                   <Kbd key={idx}>{k}</Kbd>

@@ -1,8 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { AnimatePresence, m } from 'framer-motion';
-import { dur } from '@/lib/motion';
 
 type CopyEmailProps = {
   email: string;
@@ -13,7 +11,7 @@ type CopyEmailProps = {
 
 export function CopyEmail({
   email,
-  label = 'Copy email',
+  label = '[COPY_EMAIL]',
   className = '',
   variant = 'inline',
 }: CopyEmailProps) {
@@ -46,8 +44,8 @@ export function CopyEmail({
 
   const baseClass =
     variant === 'button'
-      ? 'inline-flex min-h-[44px] items-center justify-center rounded-control border border-border bg-surface px-4 py-2 text-meta text-ink transition-colors duration-[120ms] hover:border-border-strong hover:bg-surface-raised active:scale-[0.98]'
-      : 'inline-flex min-h-[44px] items-center text-meta text-ink-2 underline decoration-border-strong underline-offset-[3px] transition-colors duration-[120ms] hover:text-accent hover:decoration-accent active:scale-[0.98]';
+      ? 'inline-flex min-h-[44px] items-center justify-center border border-border-subtle bg-bg-primary px-4 py-2 font-mono text-[12px] font-medium uppercase tracking-wider text-ink transition-colors duration-100 hover:border-ink hover:bg-ink hover:text-bg'
+      : 'inline-flex min-h-[44px] items-center border border-border-subtle bg-bg-primary px-3 py-2 font-mono text-[12px] uppercase tracking-wider text-ink transition-colors duration-100 hover:border-ink hover:bg-ink hover:text-bg';
 
   return (
     <button
@@ -56,30 +54,11 @@ export function CopyEmail({
       aria-label={`Copy email address ${email}`}
       className={`${baseClass} ${className}`}
     >
-      <AnimatePresence mode="wait" initial={false}>
-        {copied ? (
-          <m.span
-            key="copied"
-            initial={{ opacity: 0, y: 3 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -3 }}
-            transition={{ duration: dur.hover }}
-            className="text-success"
-          >
-            Copied ✓
-          </m.span>
-        ) : (
-          <m.span
-            key="copy"
-            initial={{ opacity: 0, y: 3 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -3 }}
-            transition={{ duration: dur.hover }}
-          >
-            {label}
-          </m.span>
-        )}
-      </AnimatePresence>
+      {copied ? (
+        <span className="text-success">[COPIED_OK]</span>
+      ) : (
+        <span>{label}</span>
+      )}
     </button>
   );
 }

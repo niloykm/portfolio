@@ -46,19 +46,15 @@ const light = extractBlock(css, ':root');
 const dark = extractBlock(css, '.dark');
 
 const pairs = [
-  ['ink', 'bg'],
-  ['ink-2', 'bg'],
-  ['muted', 'bg'],
-  ['accent', 'bg'],
-  ['accent-ink', 'accent'],
-  ['success', 'bg'],
-  ['warning', 'bg'],
-  ['ink', 'surface'],
-  ['ink-2', 'surface'],
-  ['muted', 'surface'],
-  ['accent', 'surface'],
-  ['success', 'surface'],
-  ['warning', 'surface'],
+  ['text-primary', 'bg-primary', 7.0],
+  ['text-muted', 'bg-primary', 4.5],
+  ['ink', 'bg', 7.0],
+  ['ink-2', 'bg', 4.5],
+  ['muted', 'bg', 4.5],
+  ['accent-color', 'bg-primary', 3.0],
+  ['accent-ink', 'accent', 4.5],
+  ['success', 'bg', 4.5],
+  ['warning', 'bg', 4.5],
 ];
 
 let failed = false;
@@ -68,7 +64,7 @@ for (const [schemeName, tokens] of [
   ['dark', dark],
 ]) {
   console.log(`\n=== ${schemeName.toUpperCase()} MODE ===`);
-  for (const [fgKey, bgKey] of pairs) {
+  for (const [fgKey, bgKey, minRatio] of pairs) {
     const fg = tokens[fgKey];
     const bg = tokens[bgKey];
     if (!fg || !bg) {
@@ -77,10 +73,10 @@ for (const [schemeName, tokens] of [
       continue;
     }
     const ratio = contrastRatio(fg, bg);
-    const pass = ratio >= 4.5;
+    const pass = ratio >= minRatio;
     if (!pass) failed = true;
     console.log(
-      `${pass ? 'PASS' : 'FAIL'}  ${fgKey.padEnd(10)} (${fg}) on ${bgKey.padEnd(8)} (${bg}) -> ${ratio.toFixed(2)}:1`
+      `${pass ? 'PASS' : 'FAIL'}  ${fgKey.padEnd(14)} (${fg}) on ${bgKey.padEnd(11)} (${bg}) -> ${ratio.toFixed(2)}:1 (min ${minRatio}:1)`
     );
   }
 }

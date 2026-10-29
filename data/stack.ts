@@ -1,14 +1,16 @@
 export type StackLayer = {
   id: string;
   layer: string;
+  code: string;
   tools: string[];
   usage: string;
 };
 
 export const stackLayers: StackLayer[] = [
   {
-    id: 'interface',
-    layer: 'Interface',
+    id: 'frontend',
+    layer: 'Frontend',
+    code: '[FRONTEND]',
     tools: [
       'React',
       'Next.js',
@@ -17,11 +19,12 @@ export const stackLayers: StackLayer[] = [
       'Framer Motion',
     ],
     usage:
-      'Server-first pages, accessible semantic markup, strict types, and restrained UI motion.',
+      'Server-first pages, accessible semantic markup, strict static typing, and high-density UI architecture.',
   },
   {
-    id: 'server',
-    layer: 'Server',
+    id: 'backend',
+    layer: 'Backend',
+    code: '[BACKEND]',
     tools: [
       'Next.js Route Handlers',
       'Node.js',
@@ -34,17 +37,19 @@ export const stackLayers: StackLayer[] = [
   },
   {
     id: 'data',
-    layer: 'Data',
+    layer: 'Data & Storage',
+    code: '[DATA]',
     tools: ['PostgreSQL', 'MongoDB', 'Mongoose'],
     usage:
-      'Relational schemas and document models with indexed queries and atomic updates.',
+      'Relational schemas and document models with indexed queries and atomic state updates.',
   },
   {
-    id: 'delivery',
-    layer: 'Delivery & tooling',
+    id: 'infrastructure',
+    layer: 'Infrastructure',
+    code: '[INFRASTRUCTURE]',
     tools: ['Git', 'GitHub', 'Vercel', 'Docker (learning)', 'Postman', 'Jest'],
     usage:
-      'Branch previews, automated production deployments on Vercel, and API contract checks.',
+      'Branch previews, automated production deployments on Vercel, and API contract verification.',
   },
 ];
 

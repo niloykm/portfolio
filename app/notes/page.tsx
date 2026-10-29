@@ -1,13 +1,10 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Header } from '@/components/layout/Header';
-import { Footer } from '@/components/layout/Footer';
-import { Container } from '@/components/ui/Container';
-import { Label } from '@/components/ui/Label';
+import { Layout } from '@/components/Layout';
+import { Heading, Body } from '@/components/Typography';
 import { getPublishedNotes } from '@/lib/notes';
 import { profile } from '@/data/profile';
-import { socialLinks } from '@/data/links';
 
 export const metadata: Metadata = {
   title: 'Notes',
@@ -21,60 +18,56 @@ export default function NotesIndexPage() {
   }
 
   return (
-    <>
-      <Header availability={profile.availability} showNotes />
-      <main id="main" className="py-12 sm:py-16 lg:py-24">
-        <Container className="space-y-10">
-          <header className="space-y-3">
-            <Label as="p">Writing</Label>
-            <h1 className="text-display text-ink">Notes</h1>
-            <p className="text-body text-muted measure">
-              Technical notes on full-stack engineering, web performance, and
-              system design.
-            </p>
-          </header>
+    <Layout
+      showNotes
+      notes={notes.map((n) => ({ slug: n.slug, title: n.title }))}
+    >
+      <header className="border-b border-border-subtle p-6 sm:p-8 space-y-3">
+        <p className="font-mono text-xs uppercase tracking-widest text-muted">
+          {"// "}TECHNICAL_WRITING
+        </p>
+        <Heading as="h1" size="display">
+          Notes
+        </Heading>
+        <Body size="base" muted measure>
+          Technical notes on full-stack engineering, web performance, and system
+          design.
+        </Body>
+      </header>
 
-          <ul className="divide-y divide-border border-y border-border">
-            {notes.map((note) => (
-              <li key={note.slug}>
-                <Link
-                  href={`/notes/${note.slug}`}
-                  className="group flex flex-wrap items-baseline justify-between gap-4 py-4 px-2 -mx-2 transition-colors duration-[120ms] hover:bg-surface"
+      <ul className="divide-y divide-border-subtle border-b border-border-subtle">
+        {notes.map((note) => (
+          <li key={note.slug}>
+            <Link
+              href={`/notes/${note.slug}`}
+              className="group flex flex-wrap items-baseline justify-between gap-4 px-6 py-4 transition-colors duration-100 hover:bg-ink hover:text-bg"
+            >
+              <div className="flex items-baseline gap-4 min-w-0">
+                <time
+                  dateTime={note.date}
+                  className="font-mono text-xs text-muted group-hover:text-bg/80 shrink-0 tabular-nums"
                 >
-                  <div className="flex items-baseline gap-4 min-w-0">
-                    <time
-                      dateTime={note.date}
-                      className="text-meta text-muted shrink-0"
-                    >
-                      {note.date}
-                    </time>
-                    <div className="space-y-1">
-                      <span className="font-sans text-base font-medium text-ink block">
-                        <span className="row-underline">{note.title}</span>
-                      </span>
-                      {note.summary && (
-                        <p className="text-secondary text-muted measure">
-                          {note.summary}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  <span className="text-meta text-muted shrink-0">
-                    {note.readingTimeMinutes} min read →
+                  {note.date}
+                </time>
+                <div className="space-y-1">
+                  <span className="font-sans text-base font-semibold text-ink group-hover:text-bg block">
+                    {note.title}
                   </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </Container>
-      </main>
-      <Footer
-        name={profile.name}
-        timeZone={profile.timeZone}
-        showNotes
-        elsewhere={socialLinks.map((s) => ({ label: s.label, href: s.href }))}
-      />
-    </>
+                  {note.summary && (
+                    <p className="text-secondary text-muted group-hover:text-bg/80 measure">
+                      {note.summary}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <span className="font-mono text-xs text-muted group-hover:text-bg shrink-0">
+                [{note.readingTimeMinutes}_MIN] -&gt;
+              </span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </Layout>
   );
 }

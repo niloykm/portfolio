@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 
-test.describe('Spec Sheet Portfolio QA (A11y & Responsive)', () => {
-  test('renders landmarks, single h1, valid heading hierarchy, and keyboard palette', async ({
+test.describe('High-Density Craft Minimalism Portfolio QA (A11y & Responsive)', () => {
+  test('renders landmarks, single h1, valid heading hierarchy, [LIGHT]/[DARK] toggle, and keyboard palette', async ({
     page,
   }) => {
     await page.goto('/');
@@ -32,6 +32,13 @@ test.describe('Spec Sheet Portfolio QA (A11y & Responsive)', () => {
     const bodyText = await page.locator('body').innerText();
     expect(bodyText).not.toContain('TODO(niloy)');
 
+    // Monospace [DARK] / [LIGHT] theme toggle works
+    const themeToggle = page
+      .locator('header button[aria-label*="Switch to"]')
+      .first();
+    await expect(themeToggle).toBeVisible();
+    await expect(themeToggle).toHaveText(/\[(DARK|LIGHT)\]/);
+
     // Open command palette via keyboard '/'
     await page.keyboard.press('/');
     const dialog = page.locator('[role="dialog"][aria-label="Command palette"]');
@@ -52,13 +59,18 @@ test.describe('Spec Sheet Portfolio QA (A11y & Responsive)', () => {
       await page.goto('/');
 
       // Light mode check
-      const overflowLight = await page.evaluate(() => {
-        return (
-          document.documentElement.scrollWidth <=
-          document.documentElement.clientWidth
-        );
+      const overflowInfo = await page.evaluate(() => {
+        const cw = document.documentElement.clientWidth;
+        const sw = document.documentElement.scrollWidth;
+        const offenders = Array.from(document.querySelectorAll('*'))
+          .filter((el) => el.getBoundingClientRect().right > cw)
+          .slice(0, 5)
+          .map((el) => `${el.tagName}.${el.className} (right=${el.getBoundingClientRect().right}, cw=${cw})`);
+        return { ok: sw <= cw, cw, sw, offenders };
       });
-      expect(overflowLight).toBe(true);
+      expect(overflowInfo, `Width ${width}: ${JSON.stringify(overflowInfo)}`).toEqual(
+        expect.objectContaining({ ok: true })
+      );
 
       // Switch to dark mode
       await page.evaluate(() => {

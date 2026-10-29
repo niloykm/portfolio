@@ -1,9 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { X } from 'lucide-react';
 import { Kbd } from '@/components/ui/Kbd';
-import { ThemeToggle } from '@/components/theme/ThemeToggle';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import type { NavItem } from './NavLinks';
 
 type MobileMenuProps = {
@@ -56,7 +55,7 @@ export function MobileMenu({ items, onOpenPalette }: MobileMenuProps) {
   }, [open]);
 
   return (
-    <div className="md:hidden flex items-center gap-2">
+    <div className="lg:hidden flex items-center gap-2">
       <ThemeToggle />
       <button
         ref={triggerRef}
@@ -64,10 +63,9 @@ export function MobileMenu({ items, onOpenPalette }: MobileMenuProps) {
         onClick={() => setOpen(true)}
         aria-expanded={open}
         aria-controls="mobile-menu-sheet"
-        className="inline-flex min-h-[44px] items-center gap-2 rounded-control border border-border bg-surface px-3 py-1.5 text-meta text-ink transition-colors hover:border-border-strong active:scale-[0.98]"
+        className="inline-flex min-h-[44px] items-center gap-2 border border-border-subtle bg-bg-primary px-3 py-1.5 font-mono text-[12px] font-medium uppercase tracking-wider text-ink transition-colors duration-100 hover:bg-ink hover:text-bg"
       >
-        <span>Menu</span>
-        <Kbd>⌘K</Kbd>
+        <span>[MENU]</span>
       </button>
 
       {open && (
@@ -77,17 +75,19 @@ export function MobileMenu({ items, onOpenPalette }: MobileMenuProps) {
           role="dialog"
           aria-modal="true"
           aria-label="Site navigation"
-          className="fixed inset-0 z-50 flex flex-col bg-bg text-ink"
+          className="fixed inset-0 z-50 flex flex-col bg-bg-primary text-ink"
         >
-          <div className="flex h-14 items-center justify-between border-b border-border px-4 sm:px-6">
-            <span className="text-label text-muted">Navigation</span>
+          <div className="flex h-14 items-center justify-between border-b border-border-subtle px-4 sm:px-6">
+            <span className="font-mono text-xs uppercase tracking-widest text-muted">
+              {"// "}NAVIGATION_INDEX
+            </span>
             <button
               type="button"
               onClick={() => setOpen(false)}
               aria-label="Close navigation menu"
-              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-control border border-border bg-surface text-ink hover:border-border-strong"
+              className="inline-flex min-h-[44px] items-center justify-center border border-border-subtle bg-bg-primary px-3 font-mono text-xs uppercase tracking-wider text-ink transition-colors duration-100 hover:bg-ink hover:text-bg"
             >
-              <X className="h-4 w-4" aria-hidden="true" />
+              [CLOSE_X]
             </button>
           </div>
 
@@ -95,17 +95,17 @@ export function MobileMenu({ items, onOpenPalette }: MobileMenuProps) {
             aria-label="Mobile"
             className="flex flex-1 flex-col justify-between p-6"
           >
-            <ul className="divide-y divide-border border-y border-border">
+            <ul className="divide-y divide-border-subtle border-y border-border-subtle">
               {items.map((item, idx) => (
                 <li key={item.id}>
                   <a
-                    href={`#${item.id}`}
+                    href={`/#${item.id}`}
                     onClick={() => setOpen(false)}
-                    className="flex min-h-[52px] items-center justify-between py-3 text-h3 text-ink transition-colors hover:text-accent"
+                    className="flex min-h-[52px] items-center justify-between px-3 py-3 font-mono text-base uppercase tracking-wider text-ink transition-colors duration-100 hover:bg-ink hover:text-bg"
                   >
-                    <span>{item.label}</span>
-                    <span className="text-meta text-muted">
-                      0{idx + 1}
+                    <span>[{item.label}]</span>
+                    <span className="font-mono text-xs text-muted">
+                      {"// "}0{idx + 1} -&gt;
                     </span>
                   </a>
                 </li>
@@ -123,9 +123,9 @@ export function MobileMenu({ items, onOpenPalette }: MobileMenuProps) {
                     window.dispatchEvent(new CustomEvent('open-command-palette'));
                   }
                 }}
-                className="flex w-full min-h-[44px] items-center justify-between rounded-control border border-border bg-surface px-4 py-2.5 text-meta text-ink hover:border-border-strong"
+                className="flex w-full min-h-[44px] items-center justify-between border border-border-subtle bg-bg-primary px-4 py-2.5 font-mono text-xs uppercase tracking-wider text-ink transition-colors duration-100 hover:bg-ink hover:text-bg"
               >
-                <span>Open command palette</span>
+                <span>[OPEN_COMMAND_PALETTE]</span>
                 <Kbd>⌘K</Kbd>
               </button>
             </div>

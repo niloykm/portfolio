@@ -1,8 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { m } from 'framer-motion';
-import { spring } from '@/lib/motion';
 
 export type NavItem = {
   id: string;
@@ -44,26 +42,21 @@ export function NavLinks({ items }: NavLinksProps) {
   }, [items]);
 
   return (
-    <nav aria-label="Primary" className="hidden md:flex items-center gap-5">
+    <nav aria-label="Primary" className="hidden lg:flex items-center gap-1">
       {items.map((item) => {
         const isActive = activeId === item.id;
         return (
           <a
             key={item.id}
-            href={`#${item.id}`}
+            href={`/#${item.id}`}
             aria-current={isActive ? 'location' : undefined}
-            className={`relative py-1.5 text-meta transition-colors duration-[120ms] ${
-              isActive ? 'text-ink' : 'text-muted hover:text-ink'
+            className={`px-2.5 py-1.5 font-mono text-[12px] uppercase tracking-wider transition-colors duration-100 ${
+              isActive
+                ? 'bg-ink text-bg font-medium'
+                : 'text-muted hover:bg-ink hover:text-bg'
             }`}
           >
-            <span>{item.label}</span>
-            {isActive && (
-              <m.span
-                layoutId="nav-active"
-                className="absolute inset-x-0 bottom-0 h-[1.5px] bg-accent"
-                transition={spring.snappy}
-              />
-            )}
+            [{item.label}]
           </a>
         );
       })}

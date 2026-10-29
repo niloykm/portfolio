@@ -8,7 +8,7 @@ type KbdProps = {
 export function Kbd({ children, className = '' }: KbdProps) {
   return (
     <kbd
-      className={`inline-flex items-center justify-center rounded-tag border border-border bg-bg-sunken px-1.5 py-0.5 font-mono text-[11px] leading-none text-ink-2 tabular-nums ${className}`}
+      className={`inline-flex items-center justify-center border border-border-subtle bg-bg-primary px-1.5 py-0.5 font-mono text-[11px] leading-none text-muted tabular-nums ${className}`}
     >
       {children}
     </kbd>

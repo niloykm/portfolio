@@ -1,12 +1,11 @@
 import type { ReactNode } from 'react';
-import { Container } from '@/components/ui/Container';
-import { Rule } from '@/components/ui/Rule';
-import { Reveal } from '@/components/motion/Reveal';
+import { GridSection } from '@/components/GridContainer';
 
 type SectionProps = {
   id: string;
   index: string;
   label: string;
+  meta?: string;
   children: ReactNode;
   className?: string;
 };
@@ -15,37 +14,19 @@ export function Section({
   id,
   index,
   label,
+  meta,
   children,
   className = '',
 }: SectionProps) {
-  const headingId = `${id}-heading`;
-
   return (
-    <section
+    <GridSection
       id={id}
-      aria-labelledby={headingId}
-      className={`scroll-mt-20 ${className}`}
+      index={index}
+      label={label}
+      meta={meta}
+      className={className}
     >
-      <Container>
-        <Rule />
-        <div className="section-pad grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-6">
-          <div className="lg:col-span-3 lg:sticky lg:top-20 lg:self-start">
-            <h2
-              id={headingId}
-              className="text-label text-muted flex items-center gap-2"
-            >
-              <span className="text-ink tabular-nums">{index}</span>
-              <span aria-hidden="true" className="text-faint">
-                —
-              </span>
-              <span>{label}</span>
-            </h2>
-          </div>
-          <div className="lg:col-span-9 min-w-0">
-            <Reveal>{children}</Reveal>
-          </div>
-        </div>
-      </Container>
-    </section>
+      {children}
+    </GridSection>
   );
 }

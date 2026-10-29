@@ -1,20 +1,13 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Header } from '@/components/layout/Header';
-import { Footer } from '@/components/layout/Footer';
-import { CommandPalette } from '@/components/islands/CommandPalette';
-import { KeyboardShortcuts } from '@/components/islands/KeyboardShortcuts';
-import { Container } from '@/components/ui/Container';
-import { Rule } from '@/components/ui/Rule';
-import { Label } from '@/components/ui/Label';
+import { Layout } from '@/components/Layout';
+import { Heading, Body } from '@/components/Typography';
 import { Tag } from '@/components/ui/Tag';
-import { TextLink } from '@/components/ui/TextLink';
 import { ArchDiagram } from '@/components/work/ArchDiagram';
 import { PreviewFrame } from '@/components/work/PreviewFrame';
 import { projects } from '@/data/projects';
 import { profile } from '@/data/profile';
-import { socialLinks } from '@/data/links';
 import { isFilled } from '@/lib/filled';
 
 type PageProps = {
@@ -37,7 +30,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${project.title} — Case File`,
+    title: `${project.title} — Spec File`,
     description: project.summary,
     alternates: {
       canonical: `/work/${project.slug}`,
@@ -71,243 +64,255 @@ export default async function CaseStudyPage({ params }: PageProps) {
   const hasPreview = Boolean(project.preview || isFilled(project.links.live));
 
   return (
-    <>
-      <Header availability={profile.availability} showNotes={false} />
-      <CommandPalette showNotesSection={false} />
-      <KeyboardShortcuts showNotesSection={false} />
-      <main id="main" className="py-12 sm:py-16 lg:py-24">
-        <Container className="space-y-12 sm:space-y-16">
-          {/* Breadcrumb */}
-          <nav aria-label="Breadcrumb" className="text-meta text-muted">
-            <ol className="flex flex-wrap items-center gap-2">
-              <li>
-                <Link
-                  href="/#work"
-                  className="underline decoration-border-strong underline-offset-[3px] hover:text-accent"
-                >
-                  ← Selected work
-                </Link>
-              </li>
-              <li aria-hidden="true" className="text-faint">
-                /
-              </li>
-              <li className="text-ink" aria-current="page">
-                {project.title}
-              </li>
-            </ol>
-          </nav>
+    <Layout showNotes={false}>
+      {/* Top Breadcrumb Bar */}
+      <nav
+        aria-label="Breadcrumb"
+        className="flex flex-wrap items-center justify-between gap-2 border-b border-border-subtle px-4 py-3 sm:px-6 font-mono text-xs uppercase tracking-wider text-muted"
+      >
+        <ol className="flex flex-wrap items-center gap-2">
+          <li>
+            <Link
+              href="/#work"
+              className="text-ink hover:text-accent transition-colors duration-100"
+            >
+              [&lt;- SELECTED_WORK]
+            </Link>
+          </li>
+          <li aria-hidden="true">{"//"}</li>
+          <li className="text-ink" aria-current="page">
+            {project.title}
+          </li>
+        </ol>
+        <span>SPEC_FILE :: {String(index + 1).padStart(2, '0')}</span>
+      </nav>
 
-          {/* Title & Summary */}
-          <header className="space-y-6">
-            <div className="space-y-3">
-              <Label as="p">
-                Case file · {String(index + 1).padStart(2, '0')}
-              </Label>
-              <h1 className="text-display text-ink">{project.title}</h1>
-            </div>
-            <p className="text-lead text-muted measure">{project.summary}</p>
-          </header>
+      {/* Monolithic Title Header */}
+      <header className="border-b border-border-subtle p-6 sm:p-8 lg:p-10 space-y-4">
+        <div className="font-mono text-xs uppercase tracking-widest text-muted">
+          {"// "}CASE_FILE [{String(index + 1).padStart(2, '0')}] ::{' '}
+          {project.kind.toUpperCase()}
+        </div>
+        <Heading as="h1" size="display">
+          {project.title}
+        </Heading>
+        <Body size="lead" muted measure>
+          {project.summary}
+        </Body>
+      </header>
 
-          {/* Ledger */}
-          <dl className="grid grid-cols-1 gap-6 border-y border-border py-6 sm:grid-cols-2 lg:grid-cols-4 text-meta">
-            {isFilled(project.role) && (
-              <div className="space-y-1">
-                <dt className="text-label text-muted">Role</dt>
-                <dd className="text-ink">{project.role}</dd>
-              </div>
+      {/* Blueprint Metadata Ledger */}
+      <dl className="grid grid-cols-1 divide-y divide-border-subtle border-b border-border-subtle sm:grid-cols-2 lg:grid-cols-4 lg:divide-y-0 lg:divide-x font-mono text-xs">
+        <div className="p-4 sm:px-6 space-y-1">
+          <dt className="uppercase tracking-wider text-muted">{"// "}ROLE</dt>
+          <dd className="font-medium text-ink">
+            {isFilled(project.role) ? project.role : 'Full-stack engineer'}
+          </dd>
+        </div>
+
+        <div className="p-4 sm:px-6 space-y-1">
+          <dt className="uppercase tracking-wider text-muted">{"// "}KIND</dt>
+          <dd className="font-medium uppercase text-ink">[{project.kind}]</dd>
+        </div>
+
+        <div className="p-4 sm:px-6 space-y-1">
+          <dt className="uppercase tracking-wider text-muted">{"// "}STATUS</dt>
+          <dd className="font-medium text-ink">
+            {isFilled(project.year) ? project.year : 'PRODUCTION'}
+          </dd>
+        </div>
+
+        <div className="p-4 sm:px-6 space-y-1">
+          <dt className="uppercase tracking-wider text-muted">{"// "}ENDPOINTS</dt>
+          <dd className="flex flex-wrap items-center gap-3">
+            {isFilled(project.links.live) && (
+              <a
+                href={project.links.live}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Open live deployment of ${project.title}`}
+                className="uppercase text-ink underline hover:text-accent"
+              >
+                [LIVE -&gt;]
+              </a>
             )}
-
-            <div className="space-y-1">
-              <dt className="text-label text-muted">Kind</dt>
-              <dd className="text-ink">{project.kind}</dd>
-            </div>
-
-            {isFilled(project.year) && (
-              <div className="space-y-1">
-                <dt className="text-label text-muted">Year</dt>
-                <dd className="text-ink">{project.year}</dd>
-              </div>
+            {isFilled(project.links.repo) && (
+              <a
+                href={project.links.repo}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`View source repository for ${project.title}`}
+                className="uppercase text-ink underline hover:text-accent"
+              >
+                [SOURCE -&gt;]
+              </a>
             )}
+          </dd>
+        </div>
+      </dl>
 
-            <div className="space-y-1 sm:col-span-2 lg:col-span-1">
-              <dt className="text-label text-muted">Links</dt>
-              <dd className="flex flex-wrap items-center gap-4">
-                {isFilled(project.links.live) && (
-                  <TextLink
-                    href={project.links.live}
-                    mono
-                    aria-label={`Open live deployment of ${project.title}`}
-                  >
-                    Live deployment
-                  </TextLink>
-                )}
-                {isFilled(project.links.repo) && (
-                  <TextLink
-                    href={project.links.repo}
-                    mono
-                    aria-label={`View source repository for ${project.title}`}
-                  >
-                    Source code
-                  </TextLink>
-                )}
-              </dd>
-            </div>
+      {/* Stack Bar */}
+      <div className="flex flex-wrap items-center gap-2 border-b border-border-subtle px-4 py-3 sm:px-6">
+        <span className="font-mono text-xs uppercase tracking-wider text-muted mr-2">
+          {"// "}STACK_SPEC:
+        </span>
+        {project.stack.map((tech) => (
+          <Tag key={tech}>{tech}</Tag>
+        ))}
+      </div>
 
-            <div className="space-y-2 sm:col-span-2 lg:col-span-4 border-t border-border pt-4">
-              <dt className="text-label text-muted">Stack</dt>
-              <dd className="flex flex-wrap gap-1.5">
-                {project.stack.map((tech) => (
-                  <Tag key={tech}>{tech}</Tag>
+      {/* Narrative & Evidence 12-Col Blueprint */}
+      <div className="grid grid-cols-1 divide-y divide-border-subtle border-b border-border-subtle lg:grid-cols-12 lg:divide-y-0 lg:divide-x">
+        <div className="p-6 sm:p-8 lg:col-span-7 space-y-8">
+          {hasProblem && (
+            <section aria-labelledby="problem-heading" className="space-y-2">
+              <h2
+                id="problem-heading"
+                className="font-mono text-xs uppercase tracking-widest text-muted"
+              >
+                {"// "}01 [PROBLEM_STATEMENT]
+              </h2>
+              <p className="text-body text-ink measure">{project.problem}</p>
+            </section>
+          )}
+
+          {hasApproach && project.approach && (
+            <section aria-labelledby="approach-heading" className="space-y-3">
+              <h2
+                id="approach-heading"
+                className="font-mono text-xs uppercase tracking-widest text-muted"
+              >
+                {"// "}02 [TECHNICAL_ARCHITECTURE &amp; EXECUTION]
+              </h2>
+              <ul className="space-y-2 text-body text-ink measure">
+                {project.approach.map((item, i) => (
+                  <li key={i} className="flex items-start gap-2.5">
+                    <span
+                      className="font-mono text-xs text-accent shrink-0 pt-1"
+                      aria-hidden="true"
+                    >
+                      -&gt;
+                    </span>
+                    <span>{item}</span>
+                  </li>
                 ))}
-              </dd>
-            </div>
-          </dl>
+              </ul>
+            </section>
+          )}
 
-          {/* Narrative & Evidence Grid */}
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-6">
-            <div className="lg:col-span-7 space-y-10">
-              {hasProblem && (
-                <section aria-labelledby="problem-heading" className="space-y-2">
-                  <h2 id="problem-heading" className="text-label text-muted">
-                    Problem
-                  </h2>
-                  <p className="text-body text-ink measure">
-                    {project.problem}
-                  </p>
-                </section>
-              )}
-
-              {hasApproach && project.approach && (
-                <section
-                  aria-labelledby="approach-heading"
-                  className="space-y-3"
-                >
-                  <h2 id="approach-heading" className="text-label text-muted">
-                    Approach
-                  </h2>
-                  <ul className="space-y-2 text-body text-ink-2 measure list-disc pl-5">
-                    {project.approach.map((item, i) => (
-                      <li key={i}>{item}</li>
+          {hasTradeoffs && project.tradeoffs && (
+            <section aria-labelledby="tradeoffs-heading" className="space-y-3">
+              <h2
+                id="tradeoffs-heading"
+                className="font-mono text-xs uppercase tracking-widest text-muted"
+              >
+                {"// "}03 [ARCHITECTURAL_TRADEOFFS]
+              </h2>
+              <div className="overflow-x-auto border border-border-subtle">
+                <table className="w-full text-left text-secondary">
+                  <thead className="border-b border-border-subtle font-mono text-xs uppercase text-muted">
+                    <tr>
+                      <th className="p-3 font-normal">Decision</th>
+                      <th className="p-3 font-normal">Considered</th>
+                      <th className="p-3 font-normal">Why</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-border-subtle">
+                    {project.tradeoffs.map((t, i) => (
+                      <tr key={i} className="align-top">
+                        <td className="p-3 font-medium text-ink">
+                          {t.decision}
+                        </td>
+                        <td className="p-3 text-muted">{t.alternative}</td>
+                        <td className="p-3 text-ink">{t.why}</td>
+                      </tr>
                     ))}
-                  </ul>
-                </section>
-              )}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          )}
 
-              {hasTradeoffs && project.tradeoffs && (
-                <section
-                  aria-labelledby="tradeoffs-heading"
-                  className="space-y-3"
-                >
-                  <h2 id="tradeoffs-heading" className="text-label text-muted">
-                    Trade-offs
-                  </h2>
-                  <div className="overflow-x-auto border-y border-border">
-                    <table className="w-full text-left text-secondary">
-                      <thead className="border-b border-border text-label text-muted">
-                        <tr>
-                          <th className="py-2 pr-4 font-normal">Decision</th>
-                          <th className="py-2 px-4 font-normal">Considered</th>
-                          <th className="py-2 pl-4 font-normal">Why</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-border">
-                        {project.tradeoffs.map((t, i) => (
-                          <tr key={i} className="align-top">
-                            <td className="py-3 pr-4 font-medium text-ink">
-                              {t.decision}
-                            </td>
-                            <td className="py-3 px-4 text-muted">
-                              {t.alternative}
-                            </td>
-                            <td className="py-3 pl-4 text-ink-2">{t.why}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+          {hasImpact && project.impact && (
+            <section aria-labelledby="impact-heading" className="space-y-3">
+              <h2
+                id="impact-heading"
+                className="font-mono text-xs uppercase tracking-widest text-muted"
+              >
+                {"// "}04 [MEASURABLE_IMPACT]
+              </h2>
+              <dl className="grid grid-cols-2 gap-px border border-border-subtle bg-border-subtle sm:grid-cols-3">
+                {project.impact.map((metric, i) => (
+                  <div key={i} className="bg-bg-primary p-4">
+                    <dt className="font-mono text-xs uppercase text-muted">
+                      {metric.label}
+                    </dt>
+                    <dd className="mt-1 font-mono text-xl font-semibold text-ink tabular-nums">
+                      {metric.value}
+                    </dd>
+                    <dd className="font-mono text-xs text-muted">
+                      {metric.source}
+                    </dd>
                   </div>
-                </section>
-              )}
+                ))}
+              </dl>
+            </section>
+          )}
+        </div>
 
-              {hasImpact && project.impact && (
-                <section aria-labelledby="impact-heading" className="space-y-3">
-                  <h2 id="impact-heading" className="text-label text-muted">
-                    Impact
-                  </h2>
-                  <dl className="grid grid-cols-2 gap-4 border-y border-border py-4 sm:grid-cols-3">
-                    {project.impact.map((metric, i) => (
-                      <div key={i}>
-                        <dt className="text-label text-muted">{metric.label}</dt>
-                        <dd className="mt-1 font-mono text-xl text-ink tabular-nums">
-                          {metric.value}
-                        </dd>
-                        <dd className="text-meta text-muted">{metric.source}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </section>
-              )}
-            </div>
+        <div className="divide-y divide-border-subtle lg:col-span-5">
+          {hasPreview && (
+            <section aria-label="Application preview" className="p-4 sm:p-6">
+              <PreviewFrame
+                title={project.title}
+                liveUrl={project.links.live}
+                imageSrc={project.preview?.src}
+                imageAlt={project.preview?.alt}
+                allowIframe={project.preview?.kind === 'iframe'}
+              />
+            </section>
+          )}
 
-            <div className="lg:col-span-5 space-y-6">
-              {hasArchitecture && project.architecture && (
-                <section aria-label="System architecture">
-                  <ArchDiagram
-                    layers={project.architecture.layers}
-                    title="System architecture"
-                  />
-                </section>
-              )}
+          {hasArchitecture && project.architecture && (
+            <section aria-label="System architecture">
+              <ArchDiagram
+                layers={project.architecture.layers}
+                title="SYSTEM_TOPOLOGY"
+              />
+            </section>
+          )}
+        </div>
+      </div>
 
-              {hasPreview && (
-                <section aria-label="Application preview" className="space-y-2">
-                  <Label as="p">Preview</Label>
-                  <PreviewFrame
-                    title={project.title}
-                    liveUrl={project.links.live}
-                    imageSrc={project.preview?.src}
-                    imageAlt={project.preview?.alt}
-                    allowIframe={project.preview?.kind === 'iframe'}
-                  />
-                </section>
-              )}
-            </div>
-          </div>
+      {/* Prev / Next Navigation */}
+      <nav
+        aria-label="Project pagination"
+        className="grid grid-cols-1 divide-y divide-border-subtle sm:grid-cols-2 sm:divide-y-0 sm:divide-x"
+      >
+        <Link
+          href={`/work/${prevProject.slug}`}
+          className="group p-6 transition-colors duration-100 hover:bg-ink hover:text-bg"
+        >
+          <span className="font-mono text-xs uppercase tracking-wider text-muted group-hover:text-bg/80 block">
+            [&lt;- PREVIOUS_SPEC]
+          </span>
+          <span className="mt-1 font-sans text-lg font-semibold text-ink group-hover:text-bg block">
+            {prevProject.title}
+          </span>
+        </Link>
 
-          <Rule />
-
-          {/* Prev / Next Navigation */}
-          <nav
-            aria-label="Project pagination"
-            className="grid grid-cols-1 gap-4 sm:grid-cols-2"
-          >
-            <Link
-              href={`/work/${prevProject.slug}`}
-              className="group rounded-control border border-border bg-surface p-4 transition-colors hover:border-border-strong"
-            >
-              <span className="text-label text-muted block">← Previous</span>
-              <span className="mt-1 font-sans text-base font-medium text-ink block">
-                <span className="row-underline">{prevProject.title}</span>
-              </span>
-            </Link>
-
-            <Link
-              href={`/work/${nextProject.slug}`}
-              className="group rounded-control border border-border bg-surface p-4 text-left sm:text-right transition-colors hover:border-border-strong"
-            >
-              <span className="text-label text-muted block">Next →</span>
-              <span className="mt-1 font-sans text-base font-medium text-ink block">
-                <span className="row-underline">{nextProject.title}</span>
-              </span>
-            </Link>
-          </nav>
-        </Container>
-      </main>
-      <Footer
-        name={profile.name}
-        timeZone={profile.timeZone}
-        showNotes={false}
-        elsewhere={socialLinks.map((s) => ({ label: s.label, href: s.href }))}
-      />
-    </>
+        <Link
+          href={`/work/${nextProject.slug}`}
+          className="group p-6 text-left sm:text-right transition-colors duration-100 hover:bg-ink hover:text-bg"
+        >
+          <span className="font-mono text-xs uppercase tracking-wider text-muted group-hover:text-bg/80 block">
+            [NEXT_SPEC -&gt;]
+          </span>
+          <span className="mt-1 font-sans text-lg font-semibold text-ink group-hover:text-bg block">
+            {nextProject.title}
+          </span>
+        </Link>
+      </nav>
+    </Layout>
   );
 }

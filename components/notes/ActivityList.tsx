@@ -1,6 +1,5 @@
 import type { RecentRepo, ContributionDay } from '@/lib/github';
 import { formatRelativeTime } from '@/lib/build-info';
-import { Label } from '@/components/ui/Label';
 
 type ActivityListProps = {
   repos: RecentRepo[] | null;
@@ -16,55 +15,52 @@ export function ActivityList({ repos, contributions }: ActivityListProps) {
       : null;
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-3">
-        <div className="flex items-baseline justify-between">
-          <Label as="h3">Recently pushed</Label>
-          <span className="text-meta text-muted">GitHub</span>
-        </div>
-
-        <ul className="divide-y divide-border border-y border-border">
-          {repos.map((repo) => {
-            const relTime = formatRelativeTime(repo.pushedAt);
-            return (
-              <li key={repo.id}>
-                <a
-                  href={repo.htmlUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-baseline justify-between gap-4 py-3 px-2 -mx-2 transition-colors duration-[120ms] hover:bg-surface"
-                >
-                  <div className="min-w-0">
-                    <span className="font-mono text-[13px] font-medium text-ink">
-                      <span className="row-underline">{repo.name}</span>
-                    </span>
-                    {repo.language && (
-                      <span className="ml-2 text-meta text-muted">
-                        · {repo.language}
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="flex items-center gap-2 shrink-0 text-meta text-muted">
-                    <time dateTime={repo.pushedAt}>{relTime}</time>
-                    <span
-                      aria-hidden="true"
-                      className="transition-transform duration-[160ms] group-hover:translate-x-[2px] group-hover:text-ink"
-                    >
-                      ↗
-                    </span>
-                  </div>
-                </a>
-              </li>
-            );
-          })}
-        </ul>
+    <div>
+      <div className="flex items-baseline justify-between border-b border-border-subtle px-4 py-3 sm:px-6 font-mono text-xs uppercase tracking-wider">
+        <h3 className="font-medium text-ink">{"// "}RECENT_COMMITS</h3>
+        <span className="text-muted">[GITHUB_FEED]</span>
       </div>
 
+      <ul className="divide-y divide-border-subtle">
+        {repos.map((repo) => {
+          const relTime = formatRelativeTime(repo.pushedAt);
+          return (
+            <li key={repo.id}>
+              <a
+                href={repo.htmlUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-baseline justify-between gap-4 px-4 py-3.5 transition-colors duration-100 hover:bg-ink hover:text-bg sm:px-6"
+              >
+                <div className="min-w-0">
+                  <span className="font-mono text-xs font-semibold text-ink group-hover:text-bg">
+                    {repo.name}
+                  </span>
+                  {repo.language && (
+                    <span className="ml-2 font-mono text-[11px] uppercase text-muted group-hover:text-bg/80">
+                      [{repo.language}]
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-2 shrink-0 font-mono text-xs text-muted group-hover:text-bg">
+                  <time dateTime={repo.pushedAt} className="tabular-nums">
+                    {relTime}
+                  </time>
+                  <span aria-hidden="true">-&gt;</span>
+                </div>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+
       {recentContributionSlice && (
-        <div className="space-y-2">
-          <Label as="p">Recent activity (12 weeks)</Label>
-          <div className="inline-block rounded-control border border-border bg-surface p-2">
+        <div className="border-t border-border-subtle p-4 sm:px-6 space-y-2">
+          <p className="font-mono text-[11px] uppercase tracking-wider text-muted">
+            {"// "}CONTRIBUTION_MATRIX (12_WEEKS)
+          </p>
+          <div className="inline-block border border-border-subtle bg-bg-primary p-2">
             <svg
               width={12 * 10}
               height={7 * 10}
@@ -77,12 +73,10 @@ export function ActivityList({ repos, contributions }: ActivityListProps) {
                 const row = i % 7;
                 const fill =
                   day.contributionCount === 0
-                    ? 'var(--bg-sunken)'
+                    ? 'var(--border-subtle)'
                     : day.contributionCount <= 2
-                    ? 'var(--border-strong)'
-                    : day.contributionCount <= 5
-                    ? 'var(--muted)'
-                    : 'var(--ink)';
+                      ? 'var(--text-muted)'
+                      : 'var(--text-primary)';
                 return (
                   <rect
                     key={day.date}
@@ -90,7 +84,7 @@ export function ActivityList({ repos, contributions }: ActivityListProps) {
                     y={row * 10 + 1}
                     width="8"
                     height="8"
-                    rx="1"
+                    rx="0"
                     fill={fill}
                   />
                 );

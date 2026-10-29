@@ -2,42 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Base tokens for High-Density Craft Minimalism & Utility */
 :root {
-  --bg:            #F4F3EF; /* warm paper */
-  --bg-sunken:     #ECEAE3;
-  --surface:       #FBFAF7;
-  --surface-raised:#FDFCF9;
-  --ink:           #14130F; /* 16:1 on --bg */
-  --ink-2:         #3B3933; /* secondary text */
-  --muted:         #5E5C55; /* ~6:1 on --bg, min for body-secondary */
-  --faint:         #9B988D; /* decorative only (rules, disabled), never for text */
-  --border:        #DEDCD4;
-  --border-strong: #C9C6BB;
-  --accent:        #C93A1E; /* vermilion; ~4.6:1 on --bg: OK for text >=14px bold/links w/ underline */
-  --accent-ink:    #FFF7F3;
-  --accent-soft:   #F6DDD6;
-  --success:       #2F7D4F;
-  --warning:       #8A5E0E;
-  --ring:          var(--accent);
+  --bg-primary: #ffffff;
+  --text-primary: #111111;
+  --text-muted: #666666;
+  --border-subtle: #e5e5e5;
+  --accent-color: #0055FF;
+  --font-sans: var(--font-geist-sans), 'Geist', 'Inter', sans-serif;
+  --font-mono: var(--font-jetbrains-mono), 'Geist Mono', 'JetBrains Mono', monospace;
+  --font-display: var(--font-sans);
+  --radius-strict: 0px;
+
+  /* Semantic aliases mapped to the strict monochrome palette */
+  --bg: #ffffff;
+  --bg-sunken: #ffffff;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --ink: #111111;
+  --ink-2: #333333;
+  --muted: #666666;
+  --faint: #999999;
+  --border: #e5e5e5;
+  --border-strong: #111111;
+  --accent: #0055FF;
+  --accent-ink: #ffffff;
+  --accent-soft: #e5eeff;
+  --success: #007700;
+  --warning: #8a5e0e;
+  --ring: var(--accent-color);
 }
 
 .dark {
-  --bg:            #0E0E0C;
-  --bg-sunken:     #0A0A09;
-  --surface:       #151513;
-  --surface-raised:#1B1B18;
-  --ink:           #ECEAE3;
-  --ink-2:         #C9C6BB;
-  --muted:         #9A978D;
-  --faint:         #5D5B53;
-  --border:        #26251F;
-  --border-strong: #35342C;
-  --accent:        #FF6B4A; /* ~6.9:1 on --bg */
-  --accent-ink:    #1A0A05;
-  --accent-soft:   #2A1510;
-  --success:       #4CC38A;
-  --warning:       #E3AE45;
-  --ring:          var(--accent);
+  --bg-primary: #000000;
+  --text-primary: #ededed;
+  --text-muted: #888888;
+  --border-subtle: #222222;
+  --accent-color: #0055FF;
+
+  /* Semantic aliases mapped to the strict dark monochrome palette */
+  --bg: #000000;
+  --bg-sunken: #000000;
+  --surface: #000000;
+  --surface-raised: #000000;
+  --ink: #ededed;
+  --ink-2: #cccccc;
+  --muted: #888888;
+  --faint: #555555;
+  --border: #222222;
+  --border-strong: #ededed;
+  --accent: #0055FF;
+  --accent-ink: #ffffff;
+  --accent-soft: #001a4d;
+  --success: #00ff00;
+  --warning: #e3ae45;
+  --ring: var(--accent-color);
 }
 
 html {
@@ -51,8 +70,8 @@ html {
 }
 
 ::selection {
-  background: var(--accent-soft);
-  color: var(--ink);
+  background: var(--text-primary);
+  color: var(--bg-primary);
 }
 
 .shiki,
@@ -69,70 +88,71 @@ html {
 
 @layer base {
   * {
-    border-color: var(--border);
+    border-color: var(--border-subtle);
+    border-radius: var(--radius-strict);
   }
 
   body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: var(--font-sans), system-ui, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
     font-weight: 400;
-    line-height: 1.65;
-    letter-spacing: -0.005em;
+    line-height: 1.6;
+    letter-spacing: -0.01em;
   }
 
   :focus-visible {
-    outline: 2px solid var(--ring);
+    outline: 2px solid var(--accent-color);
     outline-offset: 2px;
   }
 }
 
 @layer utilities {
   .text-display {
-    font-family: var(--font-display), Georgia, serif;
-    font-size: clamp(2.75rem, 1.4rem + 6vw, 6.5rem);
-    line-height: 0.95;
-    letter-spacing: -0.035em;
-    font-weight: 400;
+    font-family: var(--font-sans);
+    font-size: clamp(2.25rem, 1.5rem + 4.2vw, 4.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+    font-weight: 600;
     text-wrap: balance;
   }
 
   .text-h2 {
-    font-family: var(--font-display), Georgia, serif;
-    font-size: clamp(2rem, 1.2rem + 3vw, 3.5rem);
-    line-height: 1.02;
+    font-family: var(--font-sans);
+    font-size: clamp(1.5rem, 1.15rem + 1.8vw, 2.5rem);
+    line-height: 1.1;
     letter-spacing: -0.03em;
-    font-weight: 400;
+    font-weight: 600;
     text-wrap: balance;
   }
 
   .text-h3 {
-    font-family: var(--font-sans), system-ui, sans-serif;
-    font-size: clamp(1.5rem, 1.35rem + 0.75vw, 1.875rem);
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    font-weight: 500;
+    font-family: var(--font-sans);
+    font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    font-weight: 600;
     text-wrap: balance;
   }
 
   .text-lead {
-    font-family: var(--font-sans), system-ui, sans-serif;
-    font-size: 1.25rem;
-    line-height: 1.5;
+    font-family: var(--font-sans);
+    font-size: 1.125rem;
+    line-height: 1.55;
     letter-spacing: -0.01em;
     font-weight: 400;
   }
 
   .text-body {
-    font-family: var(--font-sans), system-ui, sans-serif;
-    font-size: 1rem;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
     line-height: 1.65;
     letter-spacing: -0.005em;
     font-weight: 400;
   }
 
   .text-secondary {
-    font-family: var(--font-sans), system-ui, sans-serif;
+    font-family: var(--font-sans);
     font-size: 0.875rem;
     line-height: 1.55;
     letter-spacing: 0;
@@ -140,30 +160,40 @@ html {
   }
 
   .text-label {
-    font-family: var(--font-mono), monospace;
+    font-family: var(--font-mono);
     font-size: 0.75rem;
     line-height: 1.3;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    font-weight: 400;
+    font-weight: 500;
   }
 
   .text-meta {
-    font-family: var(--font-mono), monospace;
+    font-family: var(--font-mono);
     font-size: 0.8125rem;
-    line-height: 1.4;
+    line-height: 1.45;
     letter-spacing: 0.01em;
     font-weight: 400;
     font-variant-numeric: tabular-nums;
   }
 
   .measure {
-    max-width: 62ch;
+    max-width: 64ch;
   }
 
   .section-pad {
-    padding-top: clamp(80px, 12vw, 160px);
-    padding-bottom: clamp(80px, 12vw, 160px);
+    padding-top: clamp(48px, 6vw, 80px);
+    padding-bottom: clamp(48px, 6vw, 80px);
+  }
+
+  .invert-hover {
+    transition: background-color 100ms linear, color 100ms linear, border-color 100ms linear;
+  }
+
+  .invert-hover:hover,
+  .invert-hover:focus-visible {
+    background-color: var(--text-primary);
+    color: var(--bg-primary);
   }
 
   .row-underline {
@@ -178,10 +208,10 @@ html {
     right: 0;
     bottom: -2px;
     height: 1px;
-    background-color: var(--ink);
+    background-color: currentColor;
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 100ms linear;
   }
 
   .group:hover .row-underline::after,
