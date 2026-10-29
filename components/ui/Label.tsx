@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 type LabelProps = {
   children: ReactNode;
   className?: string;
-  as?: 'span' | 'p' | 'div' | 'dt';
+  as?: 'span' | 'p' | 'div' | 'dt' | 'h3' | 'h4';
 };
 
 export function Label({

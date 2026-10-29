@@ -12,8 +12,8 @@
 
 ## 📊 Overall Progress
 - **Total Tasks:** 36
-- **Completed:** 13 / 36
-- **Current Status:** Phase 3 complete
+- **Completed:** 21 / 36
+- **Current Status:** Phase 4 complete
 
 ---
 
@@ -391,49 +391,49 @@ Page order: **Hero → Work → Stack → Experience → Notes & Activity → Co
   - **Verification:** Works with and without a token; offline build does not fail.
 
 ## Phase 4: Sections
-- [ ] **Task 4.1: Hero + LocalClock + CopyEmail**
+- [x] **Task 4.1: Hero + LocalClock + CopyEmail**
   - **Goal:** §6.1.
   - **Files:** `components/sections/Hero.tsx`, `components/islands/{LocalClock,CopyEmail}.tsx`
   - **Changes:** Implement layout, ledger (hide rows lacking data), portrait square, two anchors. `LocalClock`: render after mount with `Intl.DateTimeFormat('en-GB', { timeZone, hour:'2-digit', minute:'2-digit' })`, reserved width, `tabular-nums`, 30s interval. `CopyEmail` per §3.4.
   - **Verification:** No hydration warnings; H1 is the LCP element; first viewport fits at 375/768/1440.
 
-- [ ] **Task 4.2: ArchDiagram and PreviewFrame components**
+- [x] **Task 4.2: ArchDiagram and PreviewFrame components**
   - **Goal:** Reusable evidence components.
   - **Files:** `components/work/ArchDiagram.tsx`, `PreviewFrame.tsx`
   - **Changes:** `ArchDiagram` takes `layers`; CSS grid rows per layer with mono node boxes and 1px SVG connectors between adjacent layers (decorative, `aria-hidden`), with a visually-hidden `<ol>` text equivalent. `PreviewFrame`: click-to-load iframe (see §6.2), fallback image, URL bar in mono, `title` attribute set.
   - **Verification:** Diagram readable at 320px (stacks vertically); no iframe loads before click.
 
-- [ ] **Task 4.3: Selected Work (index + case files)**
+- [x] **Task 4.3: Selected Work (index + case files)**
   - **Goal:** §6.2.
   - **Files:** `components/sections/Work.tsx`, `components/work/CaseFile.tsx`, `WorkIndex.tsx`
   - **Changes:** Implement index table and case files using `data/projects.ts`; compact variant when narrative fields are missing; links with descriptive `aria-label`.
   - **Verification:** Every featured project appears once; no empty headings.
 
-- [ ] **Task 4.4: Archive table**
+- [x] **Task 4.4: Archive table**
   - **Goal:** Non-featured projects without cards.
   - **Files:** `components/work/Archive.tsx`
   - **Changes:** Semantic `<table>` (`<caption class="sr-only">`), columns Project/Kind/Stack/Links; at `<md` collapse each row into a stacked definition block.
   - **Verification:** No project duplicated between featured and archive.
 
-- [ ] **Task 4.5: Stack systems map**
+- [x] **Task 4.5: Stack systems map**
   - **Goal:** §6.3.
   - **Files:** `components/sections/Stack.tsx`, `components/islands/SystemsMap.tsx`, `data/stack.ts`
   - **Changes:** Static layered rows (server) + client island for cross-highlight; computed project lists from `projects.stack`; keyboard accessible.
   - **Verification:** Works with keyboard; with JS disabled the rows still read fully.
 
-- [ ] **Task 4.6: Experience ledger**
+- [x] **Task 4.6: Experience ledger**
   - **Goal:** §6.4.
   - **Files:** `components/sections/Experience.tsx`
   - **Changes:** Semantic table/`dl`; hide unknown dates; education row.
   - **Verification:** No `TODO(niloy)` text appears on the page.
 
-- [ ] **Task 4.7: Notes & Activity**
+- [x] **Task 4.7: Notes & Activity**
   - **Goal:** §6.5.
   - **Files:** `components/sections/Notes.tsx`, `components/notes/ActivityList.tsx`
   - **Changes:** Notes list + activity; hide empty columns/sections entirely (also remove nav + palette entries when empty).
   - **Verification:** With 0 notes the section collapses to Activity only (or disappears if the fetch also fails); nav stays consistent.
 
-- [ ] **Task 4.8: Contact**
+- [x] **Task 4.8: Contact**
   - **Goal:** §6.6.
   - **Files:** `components/sections/Contact.tsx`
   - **Changes:** Serif line, large mono email + copy + mailto, social links; delete old form code and API route if it exists.
