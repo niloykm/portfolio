@@ -17,6 +17,7 @@ export function Contact() {
           <div className="font-mono text-lg sm:text-2xl text-ink break-all">
             <a
               href={`mailto:${profile.email}`}
+              aria-label={`Email ${profile.email}`}
               className="underline decoration-border-strong underline-offset-4 transition-colors duration-[120ms] hover:text-accent hover:decoration-accent"
             >
               {profile.email}

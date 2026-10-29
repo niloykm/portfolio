@@ -86,7 +86,7 @@ export function Header({
             type="button"
             onClick={triggerPalette}
             aria-label="Search and commands (Command K)"
-            className="inline-flex h-9 items-center gap-2 rounded-control border border-border bg-surface px-2.5 text-meta text-muted transition-colors hover:border-border-strong hover:text-ink active:scale-[0.98]"
+            className="inline-flex h-11 items-center gap-2 rounded-control border border-border bg-surface px-3 text-meta text-muted transition-colors hover:border-border-strong hover:text-ink active:scale-[0.98]"
           >
             <span>Search</span>
             <Kbd>⌘K</Kbd>

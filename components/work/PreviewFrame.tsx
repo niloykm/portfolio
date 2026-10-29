@@ -1,8 +1,25 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
+import Image, { type StaticImageData } from 'next/image';
 import { TextLink } from '@/components/ui/TextLink';
+import handsOnImg from '@/public/images/projects/handsOn.png';
+import ndemyImg from '@/public/images/projects/ndemy1.png';
+import newcareImg from '@/public/images/projects/newcare.png';
+import inventoryImg from '@/public/images/projects/niloyinventory.png';
+import nobotImg from '@/public/images/projects/nobot.png';
+import nqrImg from '@/public/images/projects/nqr.png';
+import nrlImg from '@/public/images/projects/nrl.png';
+
+const STATIC_PROJECT_IMAGES: Record<string, StaticImageData> = {
+  '/images/projects/handsOn.png': handsOnImg,
+  '/images/projects/ndemy1.png': ndemyImg,
+  '/images/projects/newcare.png': newcareImg,
+  '/images/projects/niloyinventory.png': inventoryImg,
+  '/images/projects/nobot.png': nobotImg,
+  '/images/projects/nqr.png': nqrImg,
+  '/images/projects/nrl.png': nrlImg,
+};
 
 type PreviewFrameProps = {
   title: string;
@@ -82,10 +99,13 @@ export function PreviewFrame({
           <div className="relative h-full w-full">
             {imageSrc ? (
               <Image
-                src={imageSrc}
+                src={STATIC_PROJECT_IMAGES[imageSrc] ?? imageSrc}
                 alt={imageAlt || `${title} screenshot`}
                 fill
-                sizes="(min-width: 1024px) 360px, (min-width: 640px) 600px, 100vw"
+                sizes="(min-width: 1024px) 380px, (min-width: 640px) 600px, 100vw"
+                placeholder={
+                  STATIC_PROJECT_IMAGES[imageSrc] ? 'blur' : 'empty'
+                }
                 className="object-cover object-top"
               />
             ) : (

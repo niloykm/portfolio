@@ -15,7 +15,7 @@ export function ThemeToggle() {
   if (!mounted) {
     return (
       <div
-        className="h-9 w-9 rounded-control border border-border bg-surface"
+        className="h-11 w-11 rounded-control border border-border bg-surface"
         aria-hidden="true"
       />
     );
@@ -75,7 +75,7 @@ export function ThemeToggle() {
       onClick={handleToggle}
       aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
       title={isDark ? 'Switch to light theme (t)' : 'Switch to dark theme (t)'}
-      className="inline-flex h-9 w-9 min-h-[44px] min-w-[44px] sm:min-h-[36px] sm:min-w-[36px] items-center justify-center rounded-control border border-border bg-surface text-ink-2 transition-colors hover:border-border-strong hover:text-ink active:scale-[0.98]"
+      className="inline-flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-control border border-border bg-surface text-ink-2 transition-colors hover:border-border-strong hover:text-ink active:scale-[0.98]"
     >
       {isDark ? (
         <Sun className="h-4 w-4" aria-hidden="true" />

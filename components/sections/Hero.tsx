@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import portraitImg from '@/public/images/profileNiloy.png';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { TextLink } from '@/components/ui/TextLink';
@@ -77,11 +78,12 @@ export function Hero({ lastPushIso }: HeroProps) {
               </div>
               <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-control border border-border bg-surface">
                 <Image
-                  src={profile.portraitUrl}
+                  src={portraitImg}
                   alt={`Portrait of ${profile.name}`}
                   width={96}
                   height={96}
                   sizes="96px"
+                  placeholder="blur"
                   className="h-full w-full object-cover object-top grayscale transition-[filter] duration-200 hover:grayscale-0 focus:grayscale-0"
                 />
               </div>

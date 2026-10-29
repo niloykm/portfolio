@@ -15,7 +15,12 @@ module.exports = defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome'],
+        launchOptions: {
+          executablePath: '/home/niloykumarmohonta/.local/bin/google-chrome',
+        },
+      },
     },
   ],
   webServer: {
