@@ -12,8 +12,8 @@
 
 ## 📊 Overall Progress
 - **Total Tasks:** 36
-- **Completed:** 7 / 36
-- **Current Status:** Phase 1 complete
+- **Completed:** 10 / 36
+- **Current Status:** Phase 2 complete
 
 ---
 
@@ -353,19 +353,19 @@ Page order: **Hero → Work → Stack → Experience → Notes & Activity → Co
   - **Verification:** A temporary `/_kit` page renders every primitive in both themes (delete the page afterwards).
 
 ## Phase 2: Shell & Grid
-- [ ] **Task 2.1: Section scaffold with index rail**
+- [x] **Task 2.1: Section scaffold with index rail**
   - **Goal:** The signature 3/9 rail layout.
   - **Files:** `components/layout/Section.tsx`
   - **Changes:** `<Section id index label>`: renders `<section aria-labelledby>`; at `lg` grid `grid-cols-12`, rail `col-span-3` (`sticky top-20 self-start`, mono `01 — Work`), content `col-span-9`; below `lg` the label sits above content. Top hairline; padding per §3.3; `scroll-mt-20`.
   - **Verification:** Rail sticks within its section only; no overflow at 375px.
 
-- [ ] **Task 2.2: Header and mobile sheet**
+- [x] **Task 2.2: Header and mobile sheet**
   - **Goal:** §6.0.
   - **Files:** `components/layout/Header.tsx`, `NavLinks.tsx`, `MobileMenu.tsx`
   - **Changes:** Solid header + scroll hairline; `useActiveSection` (IntersectionObserver) drives `layoutId="nav-active"`; skip link → `#main` (visible on focus); status dot with accessible text; palette trigger button (wired in 6.1); mobile sheet with focus trap/`Esc`.
   - **Verification:** Keyboard-only navigation works; active item tracks scroll.
 
-- [ ] **Task 2.3: Footer and colophon**
+- [x] **Task 2.3: Footer and colophon**
   - **Goal:** §6.6 footer + deploy proof.
   - **Files:** `components/layout/Footer.tsx`, `lib/build-info.ts`
   - **Changes:** Read `process.env.VERCEL_GIT_COMMIT_SHA` (short 7 chars, fallback `local`) and build timestamp at build time; render "Commit `abc1234` · deployed {relative}" via a `<time>`; 3 columns; live `LocalClock` island reused from 4.1.
