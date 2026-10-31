@@ -41,6 +41,120 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: 'nexusops',
+    title: 'NexusOps',
+    subtitle: 'Autonomous AI Agent, pgvector RAG & Webhook Platform',
+    year: '2026',
+    role: 'Principal Full-Stack & AI Systems Architect',
+    kind: 'product',
+    category: 'AI & Automation',
+    categories: ['AI & Automation', 'Full-Stack SaaS', 'Frontend Architecture'],
+    featured: true,
+    bentoSpan: 'large',
+    metricBadge: '5-Stage Tracing • pgvector HNSW • n8n DAG',
+    highlights: [
+      '5-Stage Autonomous Agent Trace & Tool Calling',
+      'pgvector 1536d Cosine Retrieval & Dynamic Chunker',
+      'Visual n8n Webhook DAG with Live JSON Execution',
+      'NestJS + PostgreSQL 16 Reference Architecture',
+    ],
+    summary:
+      'Industrial-grade developer console inspired by Linear and Vercel for orchestrating autonomous AI agent pipelines, PostgreSQL pgvector RAG retrieval, and signed webhook automations.',
+    problem:
+      'Most AI agent and RAG demos are superficial chat wrappers lacking deterministic tool traces, inspectable vector embeddings, runtime schema guarantees, and robust webhook orchestration for enterprise workflows.',
+    solution:
+      'Engineered NexusOps—a production developer workbench pairing a Next.js App Router client with Zustand persistent state, a 5-stage deterministic agent execution engine, live pgvector similarity scoring, an interactive n8n webhook DAG studio, and clean NestJS + pgvector backend architecture.',
+    approach: [
+      'Built a dark-first obsidian developer console (#09090B / #121215) featuring 1px borders, monospace telemetry, and keyboard-first Cmd+K navigation.',
+      'Developed a 5-stage execution trace engine (Guardrails -> pgvector RAG -> Tool Calling -> Signed Webhook Dispatch -> Enforced Zod Validation) with sub-millisecond telemetry.',
+      'Created an interactive RAG knowledge base supporting dynamic token chunking (256/512/1024), live cosine similarity scoring, and custom markdown document ingestion.',
+      'Constructed a visual DAG webhook pipeline studio with a live JSON editor and step-by-step node execution status badges.',
+      'Designed a modular NestJS controller, service, and PostgreSQL 16 pgvector HNSW schema inspectable directly within the platform.',
+    ],
+    tradeoffs: [
+      {
+        decision: 'Hybrid execution engine with bulletproof simulation fallback',
+        alternative: 'Mandatory third-party API keys for all interactions',
+        why: 'Guarantees recruiters and hiring managers can explore 100% of the interactive trace capabilities immediately with zero rate-limit or 500 errors.',
+      },
+      {
+        decision: 'Native pgvector cosine distance (<=>) with HNSW indexing',
+        alternative: 'In-memory linear vector scanning or external vector DB wrapper',
+        why: 'Delivers sub-40ms retrieval latency while preserving relational integrity with operational ledger and audit tables.',
+      },
+    ],
+    impact: [
+      {
+        label: 'Pipeline Stages',
+        value: '5-Stage Traced',
+        source: 'Deterministic execution pipeline',
+      },
+      {
+        label: 'Vector Retrieval',
+        value: '< 45ms HNSW',
+        source: '1536d pgvector cosine index',
+      },
+      {
+        label: 'Schema Reliability',
+        value: '100% Validated',
+        source: 'Zod runtime contract enforcement',
+      },
+    ],
+    architecture: {
+      layers: [
+        {
+          name: 'Presentation & Console Shell',
+          role: 'Obsidian Developer Console UI',
+          nodes: [
+            'Next.js 15 (App Router)',
+            'Tailwind CSS v4',
+            'Zustand LocalStorage Store',
+            'Cmd+K Command Palette',
+          ],
+        },
+        {
+          name: 'Agent & Webhook Orchestrator',
+          role: '5-Stage Execution & DAG Engine',
+          nodes: [
+            'Next.js Route Handlers',
+            'Guardrail Intent Classifier',
+            'Autonomous Tool Calling Graph',
+            'n8n Webhook Dispatcher',
+          ],
+        },
+        {
+          name: 'Data & Vector Storage',
+          role: 'Relational & Embedding Infrastructure',
+          nodes: [
+            'PostgreSQL 16 + pgvector',
+            'HNSW Cosine Index (1536d)',
+            'Immutable Telemetry Ledger',
+            'NestJS Reference Microservice',
+          ],
+        },
+      ],
+    },
+    stack: [
+      'Next.js',
+      'TypeScript',
+      'NestJS',
+      'PostgreSQL',
+      'pgvector',
+      'Tailwind CSS',
+      'Zustand',
+      'Zod',
+    ],
+    links: {
+      live: 'https://nexusops-six.vercel.app',
+      repo: 'https://github.com/niloykm/NexusOps',
+    },
+    preview: {
+      kind: 'mockup',
+      alt: 'NexusOps Autonomous AI Agent and pgvector RAG platform console preview',
+      accentColor: '#10B981',
+    },
+  },
+  {
     slug: 'newcare',
     title: 'NewCare',
     subtitle: 'Role-Based Healthcare & Appointment SaaS Platform',
