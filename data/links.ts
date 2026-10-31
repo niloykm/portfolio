@@ -1,5 +1,4 @@
 import { profile } from './profile';
-import { isFilled } from '@/lib/filled';
 
 export type SocialLink = {
   label: string;
@@ -8,31 +7,25 @@ export type SocialLink = {
 };
 
 export const socialLinks: SocialLink[] = [
-  ...(isFilled(profile.github)
-    ? [
-        {
-          label: 'GitHub',
-          href: `https://github.com/${profile.github}`,
-          handle: `@${profile.github}`,
-        },
-      ]
-    : []),
-  ...(isFilled(profile.linkedin)
+  {
+    label: 'GitHub',
+    href: `https://github.com/${profile.github}`,
+    handle: `@${profile.github}`,
+  },
+  ...(profile.linkedin
     ? [
         {
           label: 'LinkedIn',
           href: profile.linkedin,
+          handle: 'in/niloykumarmohonta000',
         },
       ]
     : []),
-  ...(isFilled(profile.x)
-    ? [
-        {
-          label: 'X',
-          href: profile.x,
-        },
-      ]
-    : []),
+  {
+    label: 'WhatsApp',
+    href: profile.whatsapp,
+    handle: profile.phone,
+  },
   {
     label: 'Email',
     href: `mailto:${profile.email}`,

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Command } from 'cmdk';
 import { useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
+import { Search } from 'lucide-react';
 import { buildCommands, type CommandItem } from '@/lib/commands';
 import { profile } from '@/data/profile';
 import { Kbd } from '@/components/ui/Kbd';
@@ -108,43 +109,41 @@ export default function CommandPaletteDialog({
       className="fixed inset-0 z-50 flex items-start justify-center px-4 pt-[14vh]"
     >
       <div
-        className="fixed inset-0 bg-ink/50"
+        className="fixed inset-0 bg-zinc-950/60 backdrop-blur-sm"
         onClick={() => onOpenChange(false)}
         aria-hidden="true"
       />
 
-      <div className="relative z-10 w-full max-w-xl border border-ink bg-bg-primary text-ink">
+      <div className="relative z-10 w-full max-w-xl overflow-hidden rounded-2xl border border-zinc-200/80 bg-surface text-ink shadow-2xl dark:border-zinc-800">
         <Command
           label="Command palette"
           value={selectedValue}
           onValueChange={setSelectedValue}
           className="flex flex-col"
         >
-          <div className="flex items-center justify-between border-b border-border-subtle px-4 py-3">
-            <span
-              className="mr-2 font-mono text-xs text-accent"
+          <div className="flex items-center justify-between border-b border-zinc-200/80 px-4 py-3.5 dark:border-zinc-800">
+            <Search
+              className="mr-3 h-4 w-4 shrink-0 text-muted"
               aria-hidden="true"
-            >
-              &gt;
-            </span>
+            />
             <Command.Input
               ref={inputRef}
-              placeholder="TYPE_COMMAND_OR_SEARCH..."
-              className="w-full bg-transparent font-mono text-xs uppercase tracking-wider text-ink placeholder:text-muted focus:outline-none"
+              placeholder="Type a command or search projects..."
+              className="w-full bg-transparent text-sm text-ink placeholder:text-muted focus:outline-none"
             />
             <button
               type="button"
               onClick={() => onOpenChange(false)}
               aria-label="Close command palette"
-              className="ml-2 shrink-0"
+              className="ml-2 shrink-0 rounded-md border border-zinc-200/80 bg-bg-sunken px-2 py-0.5 font-mono text-[11px] text-muted hover:text-ink dark:border-zinc-800"
             >
-              <Kbd>[ESC]</Kbd>
+              ESC
             </button>
           </div>
 
-          <Command.List className="max-h-[340px] overflow-y-auto p-2">
-            <Command.Empty className="py-8 text-center font-mono text-xs uppercase text-muted">
-              {"// "}NO_MATCHING_COMMANDS
+          <Command.List className="max-h-[360px] overflow-y-auto p-2">
+            <Command.Empty className="py-8 text-center text-xs text-muted">
+              No matching commands found.
             </Command.Empty>
 
             {GROUPS.map((groupName) => {
@@ -154,8 +153,8 @@ export default function CommandPaletteDialog({
               return (
                 <Command.Group
                   key={groupName}
-                  heading={`// ${groupName.toUpperCase()}`}
-                  className="mb-2 last:mb-0 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:font-mono [&_[cmdk-group-heading]]:text-[11px] [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wider [&_[cmdk-group-heading]]:text-muted"
+                  heading={groupName}
+                  className="mb-2 last:mb-0 [&_[cmdk-group-heading]]:px-2.5 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:font-mono [&_[cmdk-group-heading]]:text-[11px] [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wider [&_[cmdk-group-heading]]:text-muted"
                 >
                   {items.map((item) => {
                     const isSelected = selectedValue === item.id;
@@ -165,10 +164,10 @@ export default function CommandPaletteDialog({
                         value={item.id}
                         keywords={item.keywords}
                         onSelect={() => runCommand(item)}
-                        className={`flex cursor-pointer select-none items-center justify-between gap-3 px-3 py-2 font-mono text-xs outline-none transition-colors duration-100 ${
+                        className={`flex cursor-pointer select-none items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-xs outline-none transition-colors duration-100 ${
                           isSelected
-                            ? 'bg-ink text-bg'
-                            : 'text-ink hover:bg-ink hover:text-bg'
+                            ? 'bg-ink text-bg font-medium'
+                            : 'text-ink hover:bg-bg-sunken'
                         }`}
                       >
                         <span className="truncate">{item.label}</span>

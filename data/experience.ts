@@ -1,58 +1,131 @@
 export type ExperienceEntry = {
+  id: string;
   role: string;
   organisation: string;
-  period?: string;
-  location?: string;
+  period: string;
+  location: string;
+  current?: boolean;
+  metricBadge?: string;
   summary: string;
+  bullets: string[];
+  tags: string[];
   href?: string;
   kind: 'work' | 'education';
 };
 
 export const experience: ExperienceEntry[] = [
   {
-    role: 'Co-founder',
+    id: 'gen-stella-it',
+    role: 'Co-Founder & Technical Lead',
     organisation: 'Gen Stella IT',
-    period: undefined, // TODO(niloy): add start date / period for Gen Stella IT
+    period: 'Jan 2026 – Present',
     location: 'Dhaka',
+    current: true,
+    metricBadge: '-40% Manual Triage via n8n',
     summary:
-      'Small full-stack software and DevOps services studio building web applications and deployment pipelines.',
-    href: undefined, // TODO(niloy): add Gen Stella IT URL if public
+      'Directing end-to-end MVP-to-Production SaaS architecture, backend microservices, and AI/webhook automation pipelines.',
+    bullets: [
+      'Direct product architecture and technical roadmaps, translating business ideas into production SaaS platforms across Healthcare, EdTech, and Travel.',
+      'Architect modular Next.js frontends and NestJS/PostgreSQL backend microservices with automated Vercel CI/CD pipelines.',
+      'Implemented automated data ingestion and notification workflows using n8n and webhooks, cutting manual triage time by 40%.',
+    ],
+    tags: [
+      'Next.js',
+      'NestJS',
+      'PostgreSQL',
+      'n8n Automation',
+      'Webhooks',
+      'Vercel CI/CD',
+    ],
     kind: 'work',
   },
   {
-    role: 'Full-Stack Developer / Founder',
+    id: 'scholarpass',
+    role: 'Full-Stack Software Engineer',
     organisation: 'ScholarPASS',
-    period: undefined, // TODO(niloy): add period for ScholarPASS
+    period: 'Nov 2025 – Present',
+    location: 'Remote',
+    current: true,
+    metricBadge: '-30% DB Query Latency',
     summary:
-      'Designed and built the full-stack web application and backend API architecture.',
-    href: undefined, // TODO(niloy): add ScholarPASS URL if public
+      'Engineering multi-tenant LMS portals, donor governance dashboards, and optimized MongoDB aggregation pipelines.',
+    bullets: [
+      'Engineered full-stack LMS portals and governance dashboards with Next.js, Node.js, and MongoDB.',
+      'Implemented JWT and OAuth role-based access control (RBAC) across enrollment, donor, and partner portals.',
+      'Optimized MongoDB queries and aggregation pipelines, reducing data-loading latency and search response times by 30%.',
+    ],
+    tags: [
+      'Next.js',
+      'Node.js',
+      'MongoDB',
+      'JWT & OAuth RBAC',
+      'Aggregation Pipelines',
+    ],
     kind: 'work',
   },
   {
-    role: 'Contract Frontend Developer',
+    id: 'tripbooking-ai',
+    role: 'Frontend Engineer (Contract)',
     organisation: 'TripBooking.ai',
-    period: undefined, // TODO(niloy): add period for TripBooking.ai
+    period: 'Jan 2026 – Aug 2026',
+    location: 'Dhaka',
+    metricBadge: 'Real-Time Availability Sync',
     summary:
-      'Developed frontend booking flows and search interfaces for an AI travel booking platform.',
-    href: undefined, // TODO(niloy): add TripBooking.ai URL if public
+      'Built AI-assisted travel discovery interfaces, dynamic property listings, and smart search filters.',
+    bullets: [
+      'Engineered responsive travel discovery workflows, dynamic property listings, and smart search filters using Next.js and TypeScript.',
+      'Collaborated with backend teams to integrate RESTful APIs and real-time property availability synchronization.',
+    ],
+    tags: [
+      'Next.js',
+      'TypeScript',
+      'Tailwind CSS',
+      'RESTful APIs',
+      'Search Architecture',
+    ],
     kind: 'work',
   },
   {
+    id: 'tutorsplan',
     role: 'Junior Frontend Developer',
     organisation: 'TutorsPlan',
-    period: undefined, // TODO(niloy): add period for TutorsPlan
+    period: 'Apr 2025 – Aug 2025',
+    location: 'Dhaka',
+    metricBadge: '3.2s → 1.5s LCP Optimization',
     summary:
-      'Built responsive React user interfaces and student/tutor dashboard views.',
-    href: undefined, // TODO(niloy): add TutorsPlan URL if public
+      'Developed EdTech marketplace interfaces and admin analytics dashboards with major Core Web Vitals improvements.',
+    bullets: [
+      'Built marketplace interfaces and admin analytics dashboards using Next.js, TypeScript, and Zustand/Redux Toolkit.',
+      'Reduced Largest Contentful Paint (LCP) from 3.2s to 1.5s via Next.js image optimization and route-level lazy loading.',
+    ],
+    tags: [
+      'Next.js',
+      'TypeScript',
+      'Zustand',
+      'Redux Toolkit',
+      'Core Web Vitals',
+    ],
     kind: 'work',
   },
   {
-    role: 'BSc in Computer Science & Engineering',
+    id: 'diu-cse',
+    role: 'B.Sc. in Computer Science & Engineering',
     organisation: 'Daffodil International University',
-    period: '2020 — 2024',
+    period: '2020 – 2024',
     location: 'Dhaka',
+    metricBadge: '200+ C++ Problems Solved',
     summary:
-      'Undergraduate degree in computer science, algorithms, software engineering, and web systems.',
+      'Undergraduate foundation in algorithms, data structures, relational database design, and distributed web engineering.',
+    bullets: [
+      'Competitive Programming: Solved 200+ algorithmic problems in C++ across Codeforces, LeetCode, and beecrowd.',
+      'Completed core coursework and capstone architectures in software engineering, operating systems, and database management.',
+    ],
+    tags: [
+      'C++',
+      'Algorithms & Data Structures',
+      'Codeforces & LeetCode',
+      'Database Systems',
+    ],
     kind: 'education',
   },
 ];

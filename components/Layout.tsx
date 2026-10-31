@@ -20,13 +20,13 @@ export function Layout({
   mainClassName = '',
 }: LayoutProps) {
   return (
-    <div className="min-h-screen bg-bg-primary text-ink">
+    <div className="min-h-screen bg-bg-primary text-ink selection:bg-ink selection:text-bg">
       <Header availability={profile.availability} showNotes={showNotes} />
       <CommandPalette notes={notes} showNotesSection={showNotes} />
       <KeyboardShortcuts showNotesSection={showNotes} />
       <main
         id="main"
-        className={`mx-auto w-full max-w-container border-x border-border-subtle bg-bg-primary ${mainClassName}`.trim()}
+        className={`mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8 ${mainClassName}`.trim()}
       >
         {children}
       </main>

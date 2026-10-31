@@ -42,7 +42,10 @@ export function NavLinks({ items }: NavLinksProps) {
   }, [items]);
 
   return (
-    <nav aria-label="Primary" className="hidden lg:flex items-center gap-1">
+    <nav
+      aria-label="Primary"
+      className="hidden md:flex items-center gap-1 rounded-full border border-border-subtle/80 bg-bg-sunken/70 p-1"
+    >
       {items.map((item) => {
         const isActive = activeId === item.id;
         return (
@@ -50,13 +53,13 @@ export function NavLinks({ items }: NavLinksProps) {
             key={item.id}
             href={`/#${item.id}`}
             aria-current={isActive ? 'location' : undefined}
-            className={`px-2.5 py-1.5 font-mono text-[12px] uppercase tracking-wider transition-colors duration-100 ${
+            className={`rounded-full px-3 py-1 text-xs font-medium transition-all duration-150 ${
               isActive
-                ? 'bg-ink text-bg font-medium'
-                : 'text-muted hover:bg-ink hover:text-bg'
+                ? 'bg-ink text-bg shadow-sm'
+                : 'text-muted hover:text-ink'
             }`}
           >
-            [{item.label}]
+            {item.label}
           </a>
         );
       })}

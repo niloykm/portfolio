@@ -3,6 +3,7 @@ const tailwindConfig = {
   content: [
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./data/**/*.{js,ts,jsx,tsx}",
     "./mdx-components.tsx",
   ],
   theme: {
@@ -54,32 +55,18 @@ const tailwindConfig = {
         sans: ["var(--font-sans)"],
         mono: ["var(--font-mono)"],
       },
-      borderRadius: {
-        none: "0px",
-        strict: "var(--radius-strict)",
-        tag: "0px",
-        sm: "0px",
-        control: "0px",
-        DEFAULT: "0px",
-        md: "0px",
-        panel: "0px",
-        lg: "0px",
-        xl: "0px",
-        "2xl": "0px",
-        "3xl": "0px",
-        full: "0px",
-      },
-      boxShadow: {
-        none: "none",
-        DEFAULT: "none",
-        palette: "none",
-      },
-      transitionDuration: {
-        DEFAULT: "100ms",
-      },
       maxWidth: {
-        container: "1152px",
-        measure: "64ch",
+        container: "1024px",
+        measure: "65ch",
+      },
+      keyframes: {
+        pulseSlow: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.4" },
+        },
+      },
+      animation: {
+        "pulse-slow": "pulseSlow 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
     },
   },

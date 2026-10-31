@@ -2,60 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Base tokens for High-Density Craft Minimalism & Utility */
+/* Linear / Vercel High-Craft Minimalist Product Showcase Tokens */
 :root {
-  --bg-primary: #ffffff;
-  --text-primary: #111111;
-  --text-muted: #666666;
-  --border-subtle: #e5e5e5;
-  --accent-color: #0055FF;
-  --font-sans: var(--font-geist-sans), 'Geist', 'Inter', sans-serif;
+  --bg-primary: #FAFAFA;
+  --text-primary: #18181B;
+  --text-muted: #52525B;
+  --border-subtle: #E4E4E7;
+  --accent-color: #2563EB;
+  --font-sans: var(--font-geist-sans), 'Geist', 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-jetbrains-mono), 'Geist Mono', 'JetBrains Mono', monospace;
   --font-display: var(--font-sans);
-  --radius-strict: 0px;
 
-  /* Semantic aliases mapped to the strict monochrome palette */
-  --bg: #ffffff;
-  --bg-sunken: #ffffff;
-  --surface: #ffffff;
-  --surface-raised: #ffffff;
-  --ink: #111111;
-  --ink-2: #333333;
-  --muted: #666666;
-  --faint: #999999;
-  --border: #e5e5e5;
-  --border-strong: #111111;
-  --accent: #0055FF;
-  --accent-ink: #ffffff;
-  --accent-soft: #e5eeff;
-  --success: #007700;
-  --warning: #8a5e0e;
+  /* Semantic tokens */
+  --bg: #FAFAFA;
+  --bg-sunken: #F4F4F5;
+  --surface: #FFFFFF;
+  --surface-raised: #FFFFFF;
+  --ink: #18181B;
+  --ink-2: #3F3F46;
+  --muted: #52525B;
+  --faint: #71717A;
+  --border: #E4E4E7;
+  --border-strong: #18181B;
+  --accent: #2563EB;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #EFF6FF;
+  --success: #15803D;
+  --warning: #854D0E;
   --ring: var(--accent-color);
 }
 
 .dark {
-  --bg-primary: #000000;
-  --text-primary: #ededed;
-  --text-muted: #888888;
-  --border-subtle: #222222;
-  --accent-color: #0055FF;
+  --bg-primary: #09090B;
+  --text-primary: #F4F4F5;
+  --text-muted: #A1A1AA;
+  --border-subtle: #27272A;
+  --accent-color: #3B82F6;
 
-  /* Semantic aliases mapped to the strict dark monochrome palette */
-  --bg: #000000;
-  --bg-sunken: #000000;
-  --surface: #000000;
-  --surface-raised: #000000;
-  --ink: #ededed;
-  --ink-2: #cccccc;
-  --muted: #888888;
-  --faint: #555555;
-  --border: #222222;
-  --border-strong: #ededed;
-  --accent: #0055FF;
-  --accent-ink: #ffffff;
-  --accent-soft: #001a4d;
-  --success: #00ff00;
-  --warning: #e3ae45;
+  /* Semantic tokens */
+  --bg: #09090B;
+  --bg-sunken: #0D0D10;
+  --surface: #121215;
+  --surface-raised: #18181C;
+  --ink: #F4F4F5;
+  --ink-2: #D4D4D8;
+  --muted: #A1A1AA;
+  --faint: #71717A;
+  --border: #27272A;
+  --border-strong: #F4F4F5;
+  --accent: #2563EB;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #172554;
+  --success: #22C55E;
+  --warning: #EAB308;
   --ring: var(--accent-color);
 }
 
@@ -89,7 +88,6 @@ html {
 @layer base {
   * {
     border-color: var(--border-subtle);
-    border-radius: var(--radius-strict);
   }
 
   body {
@@ -98,7 +96,8 @@ html {
     font-family: var(--font-sans);
     font-weight: 400;
     line-height: 1.6;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.011em;
+    overflow-x: hidden;
   }
 
   :focus-visible {
@@ -110,17 +109,17 @@ html {
 @layer utilities {
   .text-display {
     font-family: var(--font-sans);
-    font-size: clamp(2.25rem, 1.5rem + 4.2vw, 4.5rem);
-    line-height: 1.02;
-    letter-spacing: -0.04em;
+    font-size: clamp(2rem, 1.4rem + 3vw, 3.5rem);
+    line-height: 1.08;
+    letter-spacing: -0.035em;
     font-weight: 600;
     text-wrap: balance;
   }
 
   .text-h2 {
     font-family: var(--font-sans);
-    font-size: clamp(1.5rem, 1.15rem + 1.8vw, 2.5rem);
-    line-height: 1.1;
+    font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.125rem);
+    line-height: 1.15;
     letter-spacing: -0.03em;
     font-weight: 600;
     text-wrap: balance;
@@ -128,17 +127,17 @@ html {
 
   .text-h3 {
     font-family: var(--font-sans);
-    font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
-    line-height: 1.2;
-    letter-spacing: -0.025em;
+    font-size: clamp(1.125rem, 1.05rem + 0.4vw, 1.375rem);
+    line-height: 1.25;
+    letter-spacing: -0.02em;
     font-weight: 600;
     text-wrap: balance;
   }
 
   .text-lead {
     font-family: var(--font-sans);
-    font-size: 1.125rem;
-    line-height: 1.55;
+    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+    line-height: 1.6;
     letter-spacing: -0.01em;
     font-weight: 400;
   }
@@ -163,7 +162,7 @@ html {
     font-family: var(--font-mono);
     font-size: 0.75rem;
     line-height: 1.3;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     font-weight: 500;
   }
@@ -178,7 +177,7 @@ html {
   }
 
   .measure {
-    max-width: 64ch;
+    max-width: 65ch;
   }
 
   .section-pad {
@@ -186,37 +185,28 @@ html {
     padding-bottom: clamp(48px, 6vw, 80px);
   }
 
-  .invert-hover {
-    transition: background-color 100ms linear, color 100ms linear, border-color 100ms linear;
+  .bento-card {
+    background-color: var(--surface);
+    border: 1px solid rgba(228, 228, 231, 0.85);
+    border-radius: 1rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+    transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
   }
 
-  .invert-hover:hover,
-  .invert-hover:focus-visible {
-    background-color: var(--text-primary);
-    color: var(--bg-primary);
+  .dark .bento-card {
+    background-color: var(--surface);
+    border: 1px solid rgba(39, 39, 42, 0.85);
+    box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.03) inset;
   }
 
-  .row-underline {
-    position: relative;
-    display: inline-block;
+  .bento-card:hover {
+    border-color: rgba(161, 161, 170, 0.6);
+    box-shadow: 0 8px 30px -12px rgba(0, 0, 0, 0.08);
   }
 
-  .row-underline::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -2px;
-    height: 1px;
-    background-color: currentColor;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 100ms linear;
-  }
-
-  .group:hover .row-underline::after,
-  .group:focus-visible .row-underline::after {
-    transform: scaleX(1);
+  .dark .bento-card:hover {
+    border-color: rgba(82, 82, 91, 0.8);
+    box-shadow: 0 8px 30px -12px rgba(0, 0, 0, 0.5), 0 1px 0 0 rgba(255, 255, 255, 0.06) inset;
   }
 }
 

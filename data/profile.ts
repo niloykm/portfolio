@@ -1,21 +1,61 @@
+export type HeroMetric = {
+  value: string;
+  label: string;
+  detail: string;
+};
+
 export const profile = {
   name: 'Niloy Kumar Mohonta',
   handle: 'Niloy',
-  role: 'Full-stack engineer',
-  location: 'Dhaka, Bangladesh',
-  timeZone: 'Asia/Dhaka', // UTC+6
+  role: 'Senior Full-Stack & AI Product Engineer',
+  title:
+    'Senior Software Engineer (Full-Stack, AI Systems & Product Architecture) & Co-Founder @ Gen Stella IT',
+  badge: 'Co-Founder @ Gen Stella IT • Senior Full-Stack & AI Engineer',
+  statusText:
+    'Available for Senior Engineering & Technical Lead Roles • Dhaka / Remote',
+  headline:
+    'Engineering scalable SaaS products, AI-driven workflows, and high-speed web systems.',
+  subheadline:
+    'Architecting production SaaS platforms end-to-end with Next.js, NestJS, TypeScript, and PostgreSQL — powered by OpenAI/Gemini structured LLM pipelines and n8n automation.',
+  location: 'Dhaka, Bangladesh (Open to On-Site & Remote)',
+  timeZone: 'Asia/Dhaka',
   email: 'niloykumarmohonta@gmail.com',
-  github: 'niloykm', // TODO(niloy): confirm handle. The old site linked "niloydiu"; repo is niloykm/portfolio
-  linkedin: undefined as string | undefined, // TODO(niloy): confirm LinkedIn URL
-  x: undefined as string | undefined, // TODO(niloy): confirm X / Twitter URL
-  resumeUrl: undefined as string | undefined, // TODO(niloy): /resume.pdf
+  phone: '+8801518323782',
+  whatsapp: 'https://wa.me/8801518323782',
+  github: 'niloykm',
+  githubAlt: 'niloydiu',
+  linkedin: 'https://linkedin.com/in/niloykumarmohonta000',
+  x: undefined as string | undefined,
+  resumeUrl: '/niloy.pdf',
   availability: 'open' as 'open' | 'limited' | 'closed',
-  openTo: 'Full-time roles and freelance projects',
+  openTo: 'Senior Engineering & Technical Lead Roles (On-Site & Remote)',
   now: {
-    label: 'Co-founder, Gen Stella IT',
-    href: undefined as string | undefined, // TODO(niloy): Gen Stella IT website URL
+    label: 'Co-Founder & Technical Lead @ Gen Stella IT',
+    href: '#experience',
   },
   summary:
-    'I build web products end to end, and keep them fast, accessible and easy to change.',
+    'Senior Full-Stack & AI Product Engineer and Co-Founder at Gen Stella IT. Engineering scalable SaaS products, AI-driven workflows, and high-speed web systems.',
   portraitUrl: '/images/profileNiloy.png',
+  metrics: [
+    {
+      value: '30%',
+      label: 'DB Latency Reduction',
+      detail: 'MongoDB query & aggregation pipeline optimization @ ScholarPASS',
+    },
+    {
+      value: '3.2s → 1.5s',
+      label: 'Core Web Vitals LCP',
+      detail: 'Next.js image & route-level lazy loading @ TutorsPlan',
+    },
+    {
+      value: '4+ Shipped',
+      label: 'Production SaaS Systems',
+      detail: 'End-to-end MVP-to-Production ownership + -40% manual triage via n8n',
+    },
+    {
+      value: '200+',
+      label: 'Algorithmic Problems',
+      detail: 'Solved in C++ across Codeforces, LeetCode, and beecrowd',
+    },
+  ] satisfies HeroMetric[],
 };

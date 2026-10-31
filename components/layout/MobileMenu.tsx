@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Kbd } from '@/components/ui/Kbd';
+import { Menu, X, FileText, Command as CommandIcon } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { profile } from '@/data/profile';
 import type { NavItem } from './NavLinks';
 
 type MobileMenuProps = {
@@ -55,7 +56,7 @@ export function MobileMenu({ items, onOpenPalette }: MobileMenuProps) {
   }, [open]);
 
   return (
-    <div className="lg:hidden flex items-center gap-2">
+    <div className="md:hidden flex items-center gap-2">
       <ThemeToggle />
       <button
         ref={triggerRef}
@@ -63,9 +64,10 @@ export function MobileMenu({ items, onOpenPalette }: MobileMenuProps) {
         onClick={() => setOpen(true)}
         aria-expanded={open}
         aria-controls="mobile-menu-sheet"
-        className="inline-flex min-h-[44px] items-center gap-2 border border-border-subtle bg-bg-primary px-3 py-1.5 font-mono text-[12px] font-medium uppercase tracking-wider text-ink transition-colors duration-100 hover:bg-ink hover:text-bg"
+        aria-label="Open navigation menu"
+        className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border-subtle bg-surface text-ink transition-colors hover:bg-bg-sunken"
       >
-        <span>[MENU]</span>
+        <Menu className="h-4 w-4" aria-hidden="true" />
       </button>
 
       {open && (
@@ -75,44 +77,54 @@ export function MobileMenu({ items, onOpenPalette }: MobileMenuProps) {
           role="dialog"
           aria-modal="true"
           aria-label="Site navigation"
-          className="fixed inset-0 z-50 flex flex-col bg-bg-primary text-ink"
+          className="fixed inset-0 z-50 flex flex-col bg-bg-primary/95 p-4 text-ink backdrop-blur-xl"
         >
-          <div className="flex h-14 items-center justify-between border-b border-border-subtle px-4 sm:px-6">
-            <span className="font-mono text-xs uppercase tracking-widest text-muted">
-              {"// "}NAVIGATION_INDEX
+          <div className="flex items-center justify-between rounded-2xl border border-border-subtle bg-surface px-4 py-3">
+            <span className="font-mono text-xs font-medium uppercase tracking-wider text-muted">
+              Navigation
             </span>
             <button
               type="button"
               onClick={() => setOpen(false)}
               aria-label="Close navigation menu"
-              className="inline-flex min-h-[44px] items-center justify-center border border-border-subtle bg-bg-primary px-3 font-mono text-xs uppercase tracking-wider text-ink transition-colors duration-100 hover:bg-ink hover:text-bg"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border-subtle bg-bg-sunken text-ink"
             >
-              [CLOSE_X]
+              <X className="h-4 w-4" aria-hidden="true" />
             </button>
           </div>
 
           <nav
             aria-label="Mobile"
-            className="flex flex-1 flex-col justify-between p-6"
+            className="mt-4 flex flex-1 flex-col justify-between rounded-2xl border border-border-subtle bg-surface p-5"
           >
-            <ul className="divide-y divide-border-subtle border-y border-border-subtle">
-              {items.map((item, idx) => (
+            <ul className="divide-y divide-border-subtle/70">
+              {items.map((item) => (
                 <li key={item.id}>
                   <a
                     href={`/#${item.id}`}
                     onClick={() => setOpen(false)}
-                    className="flex min-h-[52px] items-center justify-between px-3 py-3 font-mono text-base uppercase tracking-wider text-ink transition-colors duration-100 hover:bg-ink hover:text-bg"
+                    className="flex items-center justify-between py-3.5 text-base font-medium text-ink transition-colors hover:text-accent"
                   >
-                    <span>[{item.label}]</span>
-                    <span className="font-mono text-xs text-muted">
-                      {"// "}0{idx + 1} -&gt;
-                    </span>
+                    <span>{item.label}</span>
+                    <span className="font-mono text-xs text-muted">→</span>
                   </a>
                 </li>
               ))}
             </ul>
 
-            <div className="space-y-3 pt-6">
+            <div className="space-y-2.5 pt-4">
+              {profile.resumeUrl && (
+                <a
+                  href={profile.resumeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setOpen(false)}
+                  className="flex w-full items-center justify-center gap-2 rounded-full bg-ink px-4 py-2.5 text-sm font-medium text-bg"
+                >
+                  <FileText className="h-4 w-4" aria-hidden="true" />
+                  <span>Resume PDF</span>
+                </a>
+              )}
               <button
                 type="button"
                 onClick={() => {
@@ -123,10 +135,13 @@ export function MobileMenu({ items, onOpenPalette }: MobileMenuProps) {
                     window.dispatchEvent(new CustomEvent('open-command-palette'));
                   }
                 }}
-                className="flex w-full min-h-[44px] items-center justify-between border border-border-subtle bg-bg-primary px-4 py-2.5 font-mono text-xs uppercase tracking-wider text-ink transition-colors duration-100 hover:bg-ink hover:text-bg"
+                className="flex w-full items-center justify-between rounded-full border border-border-subtle bg-bg-sunken px-4 py-2.5 text-xs font-medium text-ink"
               >
-                <span>[OPEN_COMMAND_PALETTE]</span>
-                <Kbd>⌘K</Kbd>
+                <span className="inline-flex items-center gap-1.5">
+                  <CommandIcon className="h-3.5 w-3.5 text-muted" aria-hidden="true" />
+                  <span>Command Menu</span>
+                </span>
+                <kbd className="font-mono text-[11px] text-muted">⌘K</kbd>
               </button>
             </div>
           </nav>

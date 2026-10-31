@@ -1,216 +1,186 @@
 import Image from 'next/image';
+import {
+  ArrowRight,
+  FileText,
+  Github,
+  Linkedin,
+  MapPin,
+  Sparkles,
+  Calendar,
+} from 'lucide-react';
 import portraitImg from '@/public/images/profileNiloy.png';
-import { Heading, Body, MonoText } from '@/components/Typography';
-import { Button } from '@/components/ui/Button';
-import { LocalClock } from '@/components/islands/LocalClock';
 import { CopyEmail } from '@/components/islands/CopyEmail';
+import { LocalClock } from '@/components/islands/LocalClock';
 import { profile } from '@/data/profile';
-import { isFilled } from '@/lib/filled';
-import { buildInfo, formatRelativeTime } from '@/lib/build-info';
 
 export type HeroSectionProps = {
   lastPushIso?: string | null;
 };
 
-export function HeroSection({ lastPushIso }: HeroSectionProps) {
-  const relativeLastPush = lastPushIso ? formatRelativeTime(lastPushIso) : null;
-  const relativeDeploy = formatRelativeTime(buildInfo.builtAtIso);
-
+export function HeroSection({}: HeroSectionProps) {
   return (
     <section
       id="top"
       aria-labelledby="hero-heading"
-      className="scroll-mt-14 border-b border-border-subtle bg-bg-primary"
+      className="scroll-mt-24 pt-8 pb-12 sm:pt-12 sm:pb-16"
     >
-      {/* Top Blueprint Telemetry Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border-subtle px-4 py-2.5 sm:px-6 font-mono text-[11px] uppercase tracking-wider text-muted">
-        <div className="flex items-center gap-2">
-          <span className="text-accent" aria-hidden="true">{"//"}</span>
-          <span>00 [SYSTEM_INDEX :: ARCHITECTURE &amp; ENGINEERING]</span>
-        </div>
-        <div className="flex items-center gap-3 tabular-nums">
-          <span>BUILD: {buildInfo.commitSha}</span>
-          <span aria-hidden="true">|</span>
-          <span>TZ: UTC+06:00</span>
-        </div>
-      </div>
+      <div className="relative overflow-hidden rounded-3xl border border-zinc-200/80 bg-surface p-6 shadow-sm dark:border-zinc-800/80 sm:p-10">
+        {/* Subtle top radial spotlight */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-24 left-1/2 h-64 w-[520px] -translate-x-1/2 rounded-full bg-blue-500/10 blur-3xl dark:bg-blue-500/15"
+        />
 
-      {/* Main 12-Column Monolithic Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12">
-        {/* Left 7 Columns: Monolithic Statement & Primary Controls */}
-        <div className="min-w-0 flex flex-col justify-between border-b border-border-subtle p-6 sm:p-8 lg:col-span-7 lg:border-b-0 lg:border-r lg:p-10">
-          <div className="space-y-6 min-w-0">
-            <div className="inline-flex flex-wrap items-center gap-2 border border-border-subtle px-2.5 py-1 font-mono text-xs uppercase tracking-widest text-muted">
-              <span>[{profile.role}]</span>
-              <span aria-hidden="true">{"//"}</span>
-              <span className="text-ink">{profile.name}</span>
+        <div className="relative z-10 space-y-6">
+          {/* Status Pill */}
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-3.5 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-300">
+              <span className="relative flex h-2 w-2" aria-hidden="true">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+              </span>
+              <span>{profile.statusText}</span>
             </div>
 
-            <Heading
-              id="hero-heading"
-              as="h1"
-              size="display"
-              className="tracking-tight"
-            >
-              I build web products end to end, and keep them fast, accessible
-              and easy to change.
-            </Heading>
-
-            <Body size="lead" muted measure>
-              Full-stack software engineer in Dhaka and co-founder of Gen Stella
-              IT. Architecting production web systems with Next.js, TypeScript,
-              Node.js, PostgreSQL, and MongoDB.
-            </Body>
-          </div>
-
-          <div className="mt-10 flex flex-wrap items-center gap-3 border-t border-border-subtle pt-6">
-            <Button href="#work" variant="primary">
-              <span>[SELECTED_WORK]</span>
-              <span aria-hidden="true">-&gt;</span>
-            </Button>
-
-            {isFilled(profile.github) && (
-              <Button
-                href={`https://github.com/${profile.github}`}
-                variant="secondary"
-                external
-              >
-                <span>[GITHUB]</span>
-                <span aria-hidden="true">-&gt;</span>
-              </Button>
-            )}
-
-            <CopyEmail email={profile.email} label="[COPY_EMAIL]" />
-          </div>
-        </div>
-
-        {/* Right 5 Columns: Strict Monospace Terminal / JSON Metadata Grid */}
-        <aside
-          aria-label="System metadata and status ledger"
-          className="min-w-0 flex flex-col justify-between bg-bg-primary lg:col-span-5"
-        >
-          {/* Identity Header Cell */}
-          <div className="flex items-stretch justify-between border-b border-border-subtle">
-            <div className="flex min-w-0 flex-col justify-between p-4 sm:p-6">
-              <MonoText as="p" variant="label" muted>
-                {"// "}NODE_IDENTITY
-              </MonoText>
-              <div className="mt-3 space-y-1 font-mono text-xs min-w-0">
-                <p className="font-semibold uppercase text-ink truncate">
-                  {profile.name}
-                </p>
-                <p className="text-muted break-all">{profile.email}</p>
-              </div>
+            <div className="hidden sm:inline-flex items-center gap-2 rounded-full border border-zinc-200/80 bg-bg-sunken/70 px-3 py-1 font-mono text-[11px] text-muted dark:border-zinc-800/80">
+              <MapPin className="h-3 w-3 text-accent" aria-hidden="true" />
+              <span>
+                Dhaka • <LocalClock timeZone={profile.timeZone} /> UTC+6
+              </span>
             </div>
-            <div className="relative h-24 w-24 sm:h-28 sm:w-28 shrink-0 border-l border-border-subtle bg-bg-primary">
+          </div>
+
+          {/* Identity Row: Avatar + Name + Role Badge */}
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+            <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-zinc-200/90 bg-bg-sunken shadow-sm dark:border-zinc-800">
               <Image
                 src={portraitImg}
                 alt={`Portrait of ${profile.name}`}
-                width={112}
-                height={112}
-                sizes="112px"
+                width={64}
+                height={64}
+                sizes="64px"
+                priority
                 placeholder="blur"
-                className="h-full w-full object-cover object-top grayscale contrast-125 transition-all duration-100 hover:grayscale-0 focus:grayscale-0"
+                className="h-full w-full object-cover object-top"
               />
             </div>
-          </div>
 
-          {/* Strict Monospace Key/Value Ledger */}
-          <dl className="divide-y divide-border-subtle font-mono text-xs">
-            {isFilled(profile.location) && (
-              <div className="grid grid-cols-12 items-baseline px-4 py-3 sm:px-6">
-                <dt className="col-span-5 uppercase tracking-wider text-muted">
-                  &quot;location&quot;:
-                </dt>
-                <dd className="col-span-7 text-right text-ink">
-                  &quot;{profile.location}&quot;
-                </dd>
+            <div className="space-y-1 min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-lg font-semibold tracking-tight text-ink">
+                  {profile.name}
+                </span>
+                <span className="inline-flex items-center gap-1 rounded-full border border-blue-500/25 bg-blue-500/10 px-2.5 py-0.5 font-mono text-[11px] font-medium text-blue-700 dark:text-blue-300">
+                  <Sparkles className="h-3 w-3" aria-hidden="true" />
+                  <span>{profile.badge}</span>
+                </span>
               </div>
-            )}
-
-            {isFilled(profile.timeZone) && (
-              <div className="grid grid-cols-12 items-baseline px-4 py-3 sm:px-6">
-                <dt className="col-span-5 uppercase tracking-wider text-muted">
-                  &quot;local_time&quot;:
-                </dt>
-                <dd className="col-span-7 text-right text-ink tabular-nums">
-                  &quot;<LocalClock timeZone={profile.timeZone} /> UTC+6&quot;
-                </dd>
-              </div>
-            )}
-
-            {isFilled(profile.now?.label) && (
-              <div className="grid grid-cols-12 items-baseline px-4 py-3 sm:px-6">
-                <dt className="col-span-5 uppercase tracking-wider text-muted">
-                  &quot;current_role&quot;:
-                </dt>
-                <dd className="col-span-7 text-right text-ink">
-                  &quot;{profile.now.label}&quot;
-                </dd>
-              </div>
-            )}
-
-            {isFilled(profile.openTo) && (
-              <div className="grid grid-cols-12 items-baseline px-4 py-3 sm:px-6">
-                <dt className="col-span-5 uppercase tracking-wider text-muted">
-                  &quot;availability&quot;:
-                </dt>
-                <dd className="col-span-7 flex items-center justify-end gap-2 text-right text-ink">
-                  {profile.availability === 'open' && (
-                    <span
-                      className="h-2 w-2 shrink-0 bg-success"
-                      aria-hidden="true"
-                    />
-                  )}
-                  <span>&quot;{profile.openTo}&quot;</span>
-                </dd>
-              </div>
-            )}
-
-            {relativeLastPush && lastPushIso && (
-              <div className="grid grid-cols-12 items-baseline px-4 py-3 sm:px-6">
-                <dt className="col-span-5 uppercase tracking-wider text-muted">
-                  &quot;last_push&quot;:
-                </dt>
-                <dd className="col-span-7 text-right text-ink tabular-nums">
-                  <time dateTime={lastPushIso}>
-                    &quot;{relativeLastPush}&quot;
-                  </time>
-                </dd>
-              </div>
-            )}
-
-            <div className="grid grid-cols-12 items-baseline px-4 py-3 sm:px-6">
-              <dt className="col-span-5 uppercase tracking-wider text-muted">
-                &quot;deploy_sha&quot;:
-              </dt>
-              <dd className="col-span-7 text-right text-ink tabular-nums">
-                <code>{buildInfo.commitSha}</code>{' '}
-                <span className="text-muted">({relativeDeploy})</span>
-              </dd>
+              <p className="text-xs sm:text-sm text-muted">
+                {profile.title}
+              </p>
             </div>
-          </dl>
-
-          {/* Bottom Quick Links Row */}
-          <div className="grid grid-cols-2 divide-x divide-border-subtle border-t border-border-subtle font-mono text-xs">
-            <a
-              href={`https://github.com/${profile.github}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex min-h-[44px] items-center justify-between px-4 py-2.5 uppercase tracking-wider text-ink transition-colors duration-100 hover:bg-ink hover:text-bg sm:px-6"
-            >
-              <span>[GITHUB]</span>
-              <span aria-hidden="true">-&gt;</span>
-            </a>
-            <a
-              href={`mailto:${profile.email}`}
-              className="flex min-h-[44px] items-center justify-between px-4 py-2.5 uppercase tracking-wider text-ink transition-colors duration-100 hover:bg-ink hover:text-bg sm:px-6"
-            >
-              <span>[EMAIL_DIRECT]</span>
-              <span aria-hidden="true">-&gt;</span>
-            </a>
           </div>
-        </aside>
+
+          {/* Punchy High-Contrast Headline */}
+          <div className="space-y-4 pt-1">
+            <h1
+              id="hero-heading"
+              className="text-display max-w-4xl font-semibold tracking-tight text-ink"
+            >
+              {profile.headline}
+            </h1>
+
+            <p className="text-lead max-w-3xl text-muted">
+              {profile.subheadline}
+            </p>
+          </div>
+
+          {/* Primary CTAs & Social Pills */}
+          <div className="flex flex-wrap items-center gap-3 pt-2">
+            <a
+              href="#work"
+              className="inline-flex min-h-[42px] items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-bg shadow-sm transition-all duration-150 hover:opacity-90"
+            >
+              <span>Explore Selected Work</span>
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </a>
+
+            {profile.resumeUrl && (
+              <a
+                href={profile.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-[42px] items-center gap-2 rounded-full border border-zinc-300 bg-surface px-4 py-2 text-sm font-medium text-ink shadow-sm transition-all duration-150 hover:border-ink/40 hover:bg-bg-sunken dark:border-zinc-700"
+              >
+                <FileText className="h-4 w-4 text-muted" aria-hidden="true" />
+                <span>Download Resume (PDF)</span>
+              </a>
+            )}
+
+            <CopyEmail
+              email={profile.email}
+              label="Copy Email"
+              variant="button"
+            />
+
+            <a
+              href="#contact"
+              className="inline-flex min-h-[42px] items-center gap-1.5 rounded-full border border-zinc-200/80 bg-bg-sunken/70 px-4 py-2 text-xs sm:text-sm font-medium text-ink transition-colors hover:border-ink/40 dark:border-zinc-800"
+            >
+              <Calendar className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
+              <span>Book a Technical Call</span>
+            </a>
+
+            <div className="flex items-center gap-2">
+              <a
+                href={`https://github.com/${profile.github}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub profile"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200/80 bg-surface text-muted transition-colors hover:border-ink/40 hover:text-ink dark:border-zinc-800"
+              >
+                <Github className="h-4 w-4" aria-hidden="true" />
+              </a>
+
+              {profile.linkedin && (
+                <a
+                  href={profile.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn profile"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200/80 bg-surface text-muted transition-colors hover:border-ink/40 hover:text-ink dark:border-zinc-800"
+                >
+                  <Linkedin className="h-4 w-4" aria-hidden="true" />
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Quick Proof Bar (4 Metric Cards below Hero) */}
+      <div
+        aria-label="Engineering impact metrics"
+        className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4"
+      >
+        {profile.metrics.map((metric) => (
+          <div
+            key={metric.label}
+            className="bento-card flex flex-col justify-between p-5"
+          >
+            <div>
+              <p className="font-mono text-2xl font-bold tracking-tight text-ink tabular-nums">
+                {metric.value}
+              </p>
+              <p className="mt-1 text-sm font-semibold text-ink">
+                {metric.label}
+              </p>
+            </div>
+            <p className="mt-2 text-xs leading-relaxed text-muted">
+              {metric.detail}
+            </p>
+          </div>
+        ))}
       </div>
     </section>
   );

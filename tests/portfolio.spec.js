@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 
-test.describe('High-Density Craft Minimalism Portfolio QA (A11y & Responsive)', () => {
-  test('renders landmarks, single h1, valid heading hierarchy, [LIGHT]/[DARK] toggle, and keyboard palette', async ({
+test.describe('Linear/Vercel Product Showcase Portfolio QA (A11y, Interactive UX & Responsive)', () => {
+  test('renders landmarks, single h1, valid heading hierarchy, theme toggle, interactive architecture drawer, and command palette', async ({
     page,
   }) => {
     await page.goto('/');
@@ -32,12 +32,26 @@ test.describe('High-Density Craft Minimalism Portfolio QA (A11y & Responsive)', 
     const bodyText = await page.locator('body').innerText();
     expect(bodyText).not.toContain('TODO(niloy)');
 
-    // Monospace [DARK] / [LIGHT] theme toggle works
+    // Theme toggle works
     const themeToggle = page
       .locator('header button[aria-label*="Switch to"]')
       .first();
     await expect(themeToggle).toBeVisible();
     await expect(themeToggle).toHaveText(/\[(DARK|LIGHT)\]/);
+
+    // Interactive Case Study & Architecture Drawer opens and closes with Escape
+    const inspectBtn = page
+      .getByRole('button', { name: /Inspect Architecture & Case Study/i })
+      .first();
+    await expect(inspectBtn).toBeVisible();
+    await inspectBtn.click();
+
+    const archDialog = page.locator('[role="dialog"][aria-labelledby="case-study-drawer-title"]');
+    await expect(archDialog).toBeVisible();
+    await expect(archDialog).toContainText('System Architecture Topology');
+
+    await page.keyboard.press('Escape');
+    await expect(archDialog).toBeHidden();
 
     // Open command palette via keyboard '/'
     await page.keyboard.press('/');
