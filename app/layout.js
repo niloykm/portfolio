@@ -16,21 +16,24 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata = {
   metadataBase: new URL("https://niloykm.vercel.app"),
   title: {
-    default: "Niloy Kumar Mohonta | Frontend & Full-Stack Developer",
+    default: "Niloy Kumar Mohonta | Full-Stack Software Engineer",
     template: "%s | Niloy Kumar Mohonta",
   },
   description:
-    "Full-Stack & Frontend Software Engineer specializing in React.js, Next.js, TypeScript, Tailwind CSS, and scalable Node.js/Express architectures.",
+    "Architecting resilient web applications, modular NestJS/Node.js backend systems, and pixel-complete React/Next.js interfaces with strict performance standards.",
   keywords: [
     "Niloy Kumar Mohonta",
-    "Frontend Developer",
-    "Full Stack Developer",
+    "Full-Stack Software Engineer",
+    "Frontend Engineer",
     "React.js Developer",
     "Next.js Developer",
+    "NestJS Developer",
     "TypeScript",
+    "PostgreSQL",
+    "MongoDB",
+    "Docker",
     "Tailwind CSS",
-    "Web Developer Bangladesh",
-    "Software Engineer Portfolio",
+    "niloydiu",
   ],
   authors: [{ name: "Niloy Kumar Mohonta", url: "https://github.com/niloydiu" }],
   creator: "Niloy Kumar Mohonta",
@@ -39,15 +42,15 @@ export const metadata = {
     locale: "en_US",
     url: "https://niloykm.vercel.app",
     siteName: "Niloy Kumar Mohonta Portfolio",
-    title: "Niloy Kumar Mohonta | Frontend & Full-Stack Developer",
+    title: "Niloy Kumar Mohonta | Full-Stack Software Engineer",
     description:
-      "Crafting high-velocity web applications with React, Next.js, and TypeScript. Explore projects, architecture deep-dives, and technical competencies.",
+      "Architecting resilient web applications, modular NestJS/Node.js backend systems, and pixel-complete React/Next.js interfaces with strict performance standards.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Niloy Kumar Mohonta | Frontend & Full-Stack Developer",
+    title: "Niloy Kumar Mohonta | Full-Stack Software Engineer",
     description:
-      "Crafting high-velocity web applications with React, Next.js, and TypeScript.",
+      "Architecting resilient web applications, modular NestJS/Node.js backend systems, and pixel-complete React/Next.js interfaces.",
     creator: "@niloykmohonta",
   },
   robots: {
@@ -77,17 +80,18 @@ const jsonLd = {
   "@type": "Person",
   name: "Niloy Kumar Mohonta",
   url: "https://niloykm.vercel.app",
-  jobTitle: "Frontend & Full-Stack Developer",
+  jobTitle: "Full-Stack Software Engineer",
   knowsAbout: [
-    "React.js",
-    "Next.js",
     "TypeScript",
-    "JavaScript",
-    "Tailwind CSS",
+    "Next.js",
+    "React.js",
     "Node.js",
+    "NestJS",
     "Express.js",
-    "MongoDB",
     "PostgreSQL",
+    "MongoDB",
+    "Docker",
+    "Tailwind CSS",
     "Web Performance",
     "Accessibility",
   ],
@@ -101,7 +105,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.png" />
         <script
@@ -114,7 +118,7 @@ export default function RootLayout({ children }) {
         suppressHydrationWarning
       >
         <a
-          href="#top"
+          href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded-lg focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 text-sm font-medium"
         >
           Skip to main content

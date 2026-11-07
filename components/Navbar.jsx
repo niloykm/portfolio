@@ -4,22 +4,21 @@ import { assets } from "@/assets/assets";
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { Menu, X, Sun, Moon, Mail, ArrowRight } from "lucide-react";
+import { Menu, X, Sun, Moon, Mail, ArrowRight, Search } from "lucide-react";
 import MagneticButton from "@/components/ui/MagneticButton";
 
 const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("top");
+  const [activeSection, setActiveSection] = useState("about");
   const mobileMenuRef = useRef(null);
   const shouldReduceMotion = useReducedMotion();
 
+  // Consolidated 4 focused navigation links per Task 5 specification
   const navItems = [
-    { href: "#top", label: "Home" },
     { href: "#about", label: "About" },
-    { href: "#services", label: "Services" },
-    { href: "#work", label: "My Work" },
-    { href: "#blog", label: "Projects" },
+    { href: "#services", label: "Expertise" },
+    { href: "#projects", label: "Projects" },
     { href: "#contact", label: "Contact" },
   ];
 
@@ -30,13 +29,12 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
         requestAnimationFrame(() => {
           setIsScrolled(window.scrollY > 40);
 
-          // Update active section based on scroll position
-          const sections = navItems.map((item) => item.href.substring(1));
+          const sections = ["about", "services", "projects", "contact"];
           const currentSection = sections.find((section) => {
             const element = document.getElementById(section);
             if (element) {
               const rect = element.getBoundingClientRect();
-              return rect.top <= 140 && rect.bottom >= 140;
+              return rect.top <= 160 && rect.bottom >= 140;
             }
             return false;
           });
@@ -66,7 +64,9 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
     setIsMobileMenuOpen(false);
     const element = document.querySelector(href);
     if (element) {
-      element.scrollIntoView({ behavior: shouldReduceMotion ? "auto" : "smooth" });
+      element.scrollIntoView({
+        behavior: shouldReduceMotion ? "auto" : "smooth",
+      });
     }
   };
 
@@ -112,7 +112,7 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
         aria-label="Main Navigation"
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? "py-2.5 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/80 shadow-[0_4px_24px_rgba(0,0,0,0.04)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.4)]"
+            ? "py-2.5 bg-white/85 dark:bg-slate-950/85 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/80 shadow-[0_4px_24px_rgba(0,0,0,0.04)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.4)]"
             : "py-4 bg-transparent border-b border-transparent"
         }`}
       >
@@ -121,7 +121,7 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
             {/* Logo */}
             <motion.a
               href="#top"
-              aria-label="Niloy's Portfolio Homepage"
+              aria-label="Niloy Kumar Mohonta Portfolio Homepage"
               className="flex-shrink-0 flex items-center gap-2"
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
@@ -138,8 +138,8 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
               />
             </motion.a>
 
-            {/* Desktop Navigation Links */}
-            <div className="hidden md:flex items-center space-x-1 lg:space-x-2 bg-slate-100/70 dark:bg-slate-900/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-200/50 dark:border-slate-800/50">
+            {/* Desktop Navigation Links (4 Focused Items) */}
+            <div className="hidden md:flex items-center space-x-1 lg:space-x-2 bg-slate-100/80 dark:bg-slate-900/75 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-200/70 dark:border-slate-800/70">
               {navItems.map((item) => {
                 const isActive = activeSection === item.href.substring(1);
                 return (
@@ -150,10 +150,10 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
                       e.preventDefault();
                       handleNavClick(item.href);
                     }}
-                    className={`relative px-3.5 py-1.5 text-xs lg:text-sm font-medium rounded-full transition-colors duration-200 ${
+                    className={`relative px-4 py-1.5 text-xs lg:text-sm font-medium rounded-full transition-colors duration-200 ${
                       isActive
                         ? "text-blue-600 dark:text-blue-400 font-semibold"
-                        : "text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"
+                        : "text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400"
                     }`}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -162,7 +162,11 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
                       <motion.div
                         className="absolute inset-0 bg-white dark:bg-slate-800 rounded-full shadow-sm -z-10 border border-slate-200/60 dark:border-slate-700/60"
                         layoutId="activeNavPill"
-                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 380,
+                          damping: 30,
+                        }}
                       />
                     )}
                     <span className="relative z-10">{item.label}</span>
@@ -175,23 +179,28 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
             <div className="flex items-center space-x-2 sm:space-x-3">
               {/* Command Palette Trigger Button */}
               <motion.button
+                type="button"
                 onClick={onOpenCommandPalette}
                 aria-label="Open command palette (Cmd+K)"
-                className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-100/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:border-blue-500/50 transition-all shadow-sm"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 min-h-[40px] rounded-xl bg-slate-100/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 text-xs font-medium text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:border-blue-500/50 transition-all shadow-sm"
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
               >
-                <kbd className="font-mono text-[10px] bg-white dark:bg-slate-800 px-1 py-0.5 rounded border border-slate-200 dark:border-slate-700 font-semibold text-slate-700 dark:text-slate-300">
+                <Search className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 sm:hidden" />
+                <kbd className="font-mono text-[10px] bg-white dark:bg-slate-800 px-1.5 py-0.5 rounded border border-slate-200 dark:border-slate-700 font-semibold text-slate-700 dark:text-slate-200">
                   ⌘K
                 </kbd>
-                <span>Menu</span>
+                <span className="hidden sm:inline">Command</span>
               </motion.button>
 
               {/* Theme toggle */}
               <motion.button
+                type="button"
                 onClick={() => setIsDarkMode(!isDarkMode)}
-                aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
-                className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-blue-500"
+                aria-label={
+                  isDarkMode ? "Switch to light mode" : "Switch to dark mode"
+                }
+                className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-blue-500"
                 whileHover={{ scale: 1.08 }}
                 whileTap={{ scale: 0.92 }}
               >
@@ -212,11 +221,14 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
                       handleNavClick("#contact");
                     }}
                     className="flex items-center gap-2 px-5 py-2 min-h-[44px] bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-medium text-sm rounded-full shadow-md hover:shadow-lg transition-all duration-300"
-                    whileHover={{ scale: 1.04, boxShadow: "0 0 20px rgba(59,130,246,0.4)" }}
+                    whileHover={{
+                      scale: 1.04,
+                      boxShadow: "0 0 20px rgba(59,130,246,0.4)",
+                    }}
                     whileTap={{ scale: 0.96 }}
                   >
                     <Mail className="h-4 w-4" />
-                    <span>Contact</span>
+                    <span>Hire Me</span>
                     <ArrowRight className="h-4 w-4" />
                   </motion.a>
                 </MagneticButton>
@@ -224,8 +236,13 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
 
               {/* Mobile menu button */}
               <motion.button
+                type="button"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+                aria-label={
+                  isMobileMenuOpen
+                    ? "Close navigation menu"
+                    : "Open navigation menu"
+                }
                 aria-expanded={isMobileMenuOpen}
                 aria-controls="mobile-navigation"
                 className="md:hidden p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 transition-colors duration-200"
@@ -268,7 +285,7 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
               initial="closed"
               animate="open"
               exit="closed"
-              className="fixed top-0 right-0 h-full w-[280px] sm:w-[320px] bg-white/95 dark:bg-slate-950/95 backdrop-blur-2xl z-50 md:hidden shadow-2xl border-l border-slate-200 dark:border-slate-800"
+              className="fixed top-0 right-0 h-full w-[280px] sm:w-[320px] max-w-[85vw] bg-white/95 dark:bg-slate-950/95 backdrop-blur-2xl z-50 md:hidden shadow-2xl border-l border-slate-200 dark:border-slate-800"
             >
               <div className="flex flex-col h-full">
                 {/* Header */}
@@ -279,6 +296,7 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
                     className="h-8 w-auto filter dark:brightness-110"
                   />
                   <button
+                    type="button"
                     onClick={() => setIsMobileMenuOpen(false)}
                     aria-label="Close navigation menu"
                     className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors duration-200"
@@ -289,7 +307,7 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
 
                 {/* Navigation items */}
                 <div className="flex-1 px-5 py-6 overflow-y-auto">
-                  <nav className="space-y-2">
+                  <nav className="space-y-2" aria-label="Mobile Navigation Links">
                     {navItems.map((item, index) => {
                       const isActive = activeSection === item.href.substring(1);
                       return (
@@ -303,27 +321,45 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
                           className={`flex items-center justify-between px-4 py-3 min-h-[44px] text-base font-medium rounded-xl transition-all duration-200 ${
                             isActive
                               ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md font-semibold"
-                              : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-900"
+                              : "text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-900"
                           }`}
                           initial={{ x: 30, opacity: 0 }}
                           animate={{ x: 0, opacity: 1 }}
-                          transition={{ delay: index * 0.05 + 0.1, duration: 0.3 }}
+                          transition={{
+                            delay: index * 0.05 + 0.1,
+                            duration: 0.3,
+                          }}
                           whileTap={{ scale: 0.98 }}
                         >
                           <span>{item.label}</span>
-                          {isActive && <ArrowRight className="w-4 h-4 text-white" />}
+                          {isActive && (
+                            <ArrowRight className="w-4 h-4 text-white" />
+                          )}
                         </motion.a>
                       );
                     })}
                   </nav>
 
-                  {/* Contact button in mobile menu */}
+                  {/* Command Palette & Contact buttons in mobile menu */}
                   <motion.div
-                    className="mt-8"
+                    className="mt-8 space-y-3"
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.35 }}
+                    transition={{ delay: 0.3 }}
                   >
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        onOpenCommandPalette?.();
+                      }}
+                      aria-label="Open command palette"
+                      className="flex items-center justify-center gap-2 w-full px-5 py-3 min-h-[44px] bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 font-medium rounded-xl transition-all"
+                    >
+                      <Search className="h-4 w-4 text-blue-500" />
+                      <span>Search / Command (⌘K)</span>
+                    </button>
+
                     <a
                       href="#contact"
                       onClick={(e) => {

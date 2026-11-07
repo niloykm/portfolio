@@ -3,7 +3,14 @@
 import { assets, socialLinks } from "@/assets/assets";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import Image from "next/image";
-import { Mail, Github, Linkedin, Twitter, Facebook, ArrowUp } from "lucide-react";
+import {
+  Mail,
+  Github,
+  Linkedin,
+  Twitter,
+  Facebook,
+  ArrowUp,
+} from "lucide-react";
 import { useState, useEffect } from "react";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { fadeUp, staggerContainer } from "@/lib/motion";
@@ -43,7 +50,10 @@ const Footer = ({ isDarkMode }) => {
   };
 
   return (
-    <footer aria-label="Footer" className="relative mt-24 overflow-hidden border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-950/50 backdrop-blur-md">
+    <footer
+      aria-label="Footer"
+      className="relative mt-24 overflow-hidden border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-50/70 dark:bg-slate-950/70 backdrop-blur-md"
+    >
       {/* Subtle decorative glow elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div
@@ -57,7 +67,7 @@ const Footer = ({ isDarkMode }) => {
       </div>
 
       <motion.div
-        className="relative z-10 py-16 px-6 lg:px-12 max-w-6xl mx-auto"
+        className="relative z-10 py-16 px-4 sm:px-6 lg:px-12 max-w-6xl mx-auto"
         variants={staggerContainer(0.1, 0.1)}
         initial="hidden"
         whileInView="show"
@@ -77,8 +87,8 @@ const Footer = ({ isDarkMode }) => {
             <MagneticButton strength={0.2}>
               <a
                 href="mailto:niloykumarmohonta@gmail.com"
-                aria-label="Email Niloy directly"
-                className="inline-flex items-center gap-2.5 px-6 py-3 min-h-[44px] bg-white dark:bg-slate-900/80 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-full shadow-sm hover:border-blue-500/50 transition-colors duration-200 text-sm font-medium text-slate-700 dark:text-slate-300"
+                aria-label="Email Niloy directly at niloykumarmohonta@gmail.com"
+                className="inline-flex items-center gap-2.5 px-6 py-3 min-h-[44px] bg-white dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-full shadow-sm hover:border-blue-500/50 transition-colors duration-200 text-sm font-medium text-slate-800 dark:text-slate-200"
               >
                 <Mail className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                 <span>niloykumarmohonta@gmail.com</span>
@@ -101,7 +111,7 @@ const Footer = ({ isDarkMode }) => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`Visit Niloy's ${site.name} profile`}
-                  className="p-3.5 min-w-[44px] min-h-[44px] flex items-center justify-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500/50 transition-all duration-200 shadow-sm"
+                  className="p-3.5 min-w-[44px] min-h-[44px] flex items-center justify-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500/50 transition-all duration-200 shadow-sm"
                   whileHover={{ scale: 1.08, y: -2 }}
                   whileTap={{ scale: 0.94 }}
                 >
@@ -115,13 +125,14 @@ const Footer = ({ isDarkMode }) => {
         {/* Divider */}
         <motion.div
           variants={fadeUp}
-          className="h-px bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-800 to-transparent mb-8"
+          className="h-px bg-gradient-to-r from-transparent via-slate-300 dark:via-slate-800 to-transparent mb-8"
         />
 
         {/* Bottom copyright notice */}
         <motion.div variants={fadeUp} className="text-center">
-          <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm font-normal">
-            © {new Date().getFullYear()} Niloy Kumar Mohonta. All rights reserved.
+          <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm font-normal">
+            © {new Date().getFullYear()} Niloy Kumar Mohonta. All rights
+            reserved.
           </p>
         </motion.div>
       </motion.div>
@@ -130,6 +141,7 @@ const Footer = ({ isDarkMode }) => {
       <AnimatePresence>
         {showBackToTop && (
           <motion.button
+            type="button"
             onClick={scrollToTop}
             aria-label="Scroll back to top of page"
             className="fixed bottom-6 right-6 p-3.5 min-w-[44px] min-h-[44px] bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white rounded-full shadow-xl hover:shadow-2xl z-40 group focus-visible:ring-2 focus-visible:ring-blue-500"

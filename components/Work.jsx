@@ -4,25 +4,91 @@ import { assets, workData as defaultWorkData } from "@/assets/assets";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { useState, useMemo } from "react";
-import { ExternalLink, Github, Eye, Briefcase, ArrowUpRight, Info } from "lucide-react";
+import {
+  ExternalLink,
+  Github,
+  Eye,
+  Briefcase,
+  ArrowUpRight,
+  ChevronDown,
+  ChevronUp,
+  Database,
+  Server,
+  Code2,
+  Cpu,
+  Gauge,
+  AlertTriangle,
+  Layers,
+  X,
+} from "lucide-react";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import MagneticButton from "@/components/ui/MagneticButton";
 import ProjectModal from "@/components/ui/ProjectModal";
-import { fadeUp, scaleIn, staggerContainer } from "@/lib/motion";
+import { fadeUp, staggerContainer } from "@/lib/motion";
 
-const Work = ({ isDarkMode, workData }) => {
+const getTechChipIcon = (tech) => {
+  const lower = tech.toLowerCase();
+  if (
+    lower.includes("postgres") ||
+    lower.includes("mongo") ||
+    lower.includes("sql")
+  ) {
+    return Database;
+  }
+  if (
+    lower.includes("node") ||
+    lower.includes("nest") ||
+    lower.includes("express") ||
+    lower.includes("docker")
+  ) {
+    return Server;
+  }
+  if (
+    lower.includes("react") ||
+    lower.includes("next") ||
+    lower.includes("type") ||
+    lower.includes("tailwind")
+  ) {
+    return Code2;
+  }
+  return Cpu;
+};
+
+const Work = ({
+  isDarkMode,
+  workData,
+  activeStackTag = "",
+  onClearStackTag,
+  onSelectStackTag,
+}) => {
   const shouldReduceMotion = useReducedMotion();
-  const displayWorkData = workData || defaultWorkData;
+  const displayWorkData =
+    workData && workData.length > 0 ? workData : defaultWorkData;
 
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedProject, setSelectedProject] = useState(null);
+  const [expandedTeardownId, setExpandedTeardownId] = useState(null);
 
-  const categories = ["All", "Full-Stack", "Frontend & Tools", "AI & Utilities"];
+  const categories = [
+    "All",
+    "Full-Stack",
+    "Frontend & Tools",
+    "AI & Utilities",
+  ];
 
   const filteredProjects = useMemo(() => {
-    if (activeCategory === "All") return displayWorkData;
-    return displayWorkData.filter((project) => project.category === activeCategory);
-  }, [displayWorkData, activeCategory]);
+    return displayWorkData.filter((project) => {
+      const matchesCategory =
+        activeCategory === "All" || project.category === activeCategory;
+      const matchesTag =
+        !activeStackTag ||
+        (Array.isArray(project.techStack) &&
+          project.techStack.some((t) =>
+            t.toLowerCase().includes(activeStackTag.toLowerCase())
+          ));
+      return matchesCategory && matchesTag;
+    });
+  }, [displayWorkData, activeCategory, activeStackTag]);
 
   const handleCtaClick = () => {
     const el = document.getElementById("contact");
@@ -31,12 +97,19 @@ const Work = ({ isDarkMode, workData }) => {
     }
   };
 
+  const toggleInlineTeardown = (projectId) => {
+    setExpandedTeardownId((prev) => (prev === projectId ? null : projectId));
+  };
+
   return (
     <section
-      id="work"
-      aria-labelledby="work-heading"
-      className="py-24 px-6 lg:px-12 scroll-mt-20 relative overflow-hidden"
+      id="projects"
+      aria-labelledby="projects-heading"
+      className="py-24 px-4 sm:px-6 lg:px-12 scroll-mt-20 relative overflow-hidden"
     >
+      {/* Legacy #work anchor alias for backward-compatible links */}
+      <div id="work" className="absolute -top-20 left-0" aria-hidden="true" />
+
       {/* Background decoration */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-emerald-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 cyber-grid pointer-events-none" />
       <div
@@ -53,38 +126,47 @@ const Work = ({ isDarkMode, workData }) => {
         variants={staggerContainer(0.1, 0.1)}
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true, amount: 0.15 }}
+        viewport={{ once: true, amount: 0.1 }}
       >
         {/* Section Header */}
         <motion.div className="text-center mb-12" variants={fadeUp}>
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/60 dark:border-emerald-800/60 rounded-full text-xs font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-300 mb-3 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/80 rounded-full text-xs font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-300 mb-3 shadow-sm">
             <Briefcase className="w-3.5 h-3.5" />
-            <span>My Portfolio</span>
+            <span>Unified Engineering Showcase</span>
           </div>
-          <h2 id="work-heading" className="fluid-h2 font-extrabold gradient-text mb-4">
-            Featured Projects
+          <h2
+            id="projects-heading"
+            className="fluid-h2 font-extrabold gradient-text mb-4"
+          >
+            Featured Engineering Projects
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 mx-auto rounded-full" />
-          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mt-5 leading-relaxed font-normal">
-            Production-grade web applications built with modern frontend architecture, robust state management, and clean code.
+          <p className="text-base sm:text-lg text-slate-700 dark:text-slate-300 max-w-2xl mx-auto mt-5 leading-relaxed font-normal">
+            Production-grade web applications and open-source systems built with
+            Next.js, React, NestJS/Node.js, and resilient database architectures.
           </p>
         </motion.div>
 
         {/* Category Filter Tabs */}
         <motion.div
           variants={fadeUp}
-          className="flex justify-center items-center gap-2 mb-12 flex-wrap"
+          role="tablist"
+          aria-label="Filter projects by category"
+          className="flex justify-center items-center gap-2 mb-8 flex-wrap"
         >
           {categories.map((category) => {
             const isActive = activeCategory === category;
             return (
               <button
                 key={category}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
                 onClick={() => setActiveCategory(category)}
-                className={`relative px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 ${
+                className={`relative px-4 py-2 min-h-[40px] rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 ${
                   isActive
                     ? "text-white shadow-md"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white bg-slate-100/80 dark:bg-slate-900/80 hover:bg-slate-200/80 dark:hover:bg-slate-800/80 border border-slate-200/60 dark:border-slate-800/60"
+                    : "text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-100/90 dark:bg-slate-900/90 hover:bg-slate-200/80 dark:hover:bg-slate-800/80 border border-slate-200/80 dark:border-slate-800/80"
                 }`}
               >
                 {isActive && (
@@ -100,6 +182,23 @@ const Work = ({ isDarkMode, workData }) => {
           })}
         </motion.div>
 
+        {/* Active Stack Tag Filter Pill (when filtered via Command Palette or chip click) */}
+        {activeStackTag && (
+          <div className="flex justify-center mb-8">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/15 border border-blue-500/30 text-blue-700 dark:text-blue-300 text-xs font-mono font-semibold">
+              <span>Filtered by Stack: {activeStackTag}</span>
+              <button
+                type="button"
+                onClick={() => onClearStackTag?.()}
+                aria-label={`Clear ${activeStackTag} stack filter`}
+                className="p-0.5 rounded-full hover:bg-blue-500/20 transition-colors"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Projects Grid */}
         <motion.div
           layout
@@ -107,91 +206,203 @@ const Work = ({ isDarkMode, workData }) => {
         >
           <AnimatePresence>
             {filteredProjects.map((project, index) => {
+              const projectId = project.id || project.title || String(index);
+              const isExpanded = expandedTeardownId === projectId;
               const projectImg =
                 project.bgImage ||
                 (project.bgImageName && assets[project.bgImageName]) ||
                 assets.handsOn;
 
+              const matchedStatic = defaultWorkData.find(
+                (s) => s.id === project.id || s.title === project.title
+              );
+              const teardown = project.teardown ||
+                matchedStatic?.teardown || {
+                  problemSolved:
+                    project.longDescription ||
+                    "Solved workflow bottlenecks with a modern full-stack web architecture.",
+                  architecture:
+                    "RESTful Node.js/NestJS backend services paired with indexed MongoDB/PostgreSQL schemas and JWT RBAC.",
+                  performanceChallenges:
+                    "Optimized Core Web Vitals, state synchronization, and sub-second query response times.",
+                };
+
+              const techList =
+                project.techStack && project.techStack.length > 0
+                  ? project.techStack
+                  : matchedStatic?.techStack || [
+                      "React.js",
+                      "Next.js",
+                      "Node.js",
+                      "MongoDB",
+                    ];
+
               return (
-                <motion.div
-                  key={project.id || project.title || index}
+                <motion.article
+                  key={projectId}
                   layout
-                  initial={{ opacity: 0, scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.25 }}
                   className="rounded-2xl flex"
                 >
                   <SpotlightCard
-                    spotlightColor="rgba(16, 185, 129, 0.25)"
-                    className="group relative rounded-2xl overflow-hidden aspect-[4/3] shadow-lg hover:shadow-2xl border border-slate-200/70 dark:border-slate-800/80 transition-all duration-300 bg-slate-900 w-full flex flex-col justify-end"
+                    spotlightColor="rgba(16, 185, 129, 0.2)"
+                    className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl border border-slate-200/80 dark:border-slate-800/90 transition-all duration-300 bg-white dark:bg-slate-900/90 w-full flex flex-col justify-between"
                   >
-                    {/* Background Image */}
-                    <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105">
-                      <Image
-                        src={projectImg}
-                        alt={project.title}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover object-top opacity-90 group-hover:opacity-100 transition-opacity duration-300"
-                      />
-                    </div>
+                    <div>
+                      {/* Preview Image Header */}
+                      <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-950 border-b border-slate-200/60 dark:border-slate-800/80">
+                        <Image
+                          src={projectImg}
+                          alt={project.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/25 to-transparent pointer-events-none" />
 
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent transition-opacity duration-300 pointer-events-none" />
+                        <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
+                          <span className="text-[11px] font-mono font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md bg-slate-950/80 backdrop-blur-md text-emerald-300 border border-emerald-500/30">
+                            {project.category || "Full-Stack"}
+                          </span>
 
-                    {/* Card Content */}
-                    <div className="absolute inset-0 p-5 sm:p-6 flex flex-col justify-end">
-                      <div className="flex items-center justify-between gap-2 mb-2">
-                        <span className="text-[10px] font-mono font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-white/20 backdrop-blur-md text-white border border-white/20">
-                          {project.category || project.description || "Web App"}
-                        </span>
-
-                        <button
-                          onClick={() => setSelectedProject(project)}
-                          aria-label={`View architectural deep-dive for ${project.title}`}
-                          className="inline-flex items-center gap-1 text-[11px] font-mono text-emerald-300 hover:text-white bg-slate-900/60 hover:bg-slate-900 px-2 py-0.5 rounded-md backdrop-blur-md border border-emerald-500/30 transition-all"
-                        >
-                          <Info className="w-3 h-3 text-emerald-400" />
-                          <span>Deep Dive</span>
-                        </button>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setSelectedProject({
+                                ...matchedStatic,
+                                ...project,
+                                teardown,
+                                techStack: techList,
+                              })
+                            }
+                            aria-label={`Open full technical teardown modal for ${project.title}`}
+                            className="inline-flex items-center gap-1 text-[11px] font-mono font-semibold text-white bg-slate-950/80 hover:bg-emerald-600 px-2.5 py-1 rounded-md backdrop-blur-md border border-white/20 transition-colors"
+                          >
+                            <Layers className="w-3 h-3 text-emerald-400" />
+                            <span>Modal View</span>
+                          </button>
+                        </div>
                       </div>
 
-                      <h3
-                        onClick={() => setSelectedProject(project)}
-                        className="text-lg sm:text-xl font-bold text-white mb-2 group-hover:text-emerald-300 transition-colors duration-200 cursor-pointer"
-                      >
-                        {project.title}
-                      </h3>
+                      {/* Card Body */}
+                      <div className="p-5 sm:p-6">
+                        <h3
+                          onClick={() =>
+                            setSelectedProject({
+                              ...matchedStatic,
+                              ...project,
+                              teardown,
+                              techStack: techList,
+                            })
+                          }
+                          className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-1.5 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors cursor-pointer"
+                        >
+                          {project.title}
+                        </h3>
 
-                      {/* Tech Pills preview */}
-                      {project.techStack && (
-                        <div className="flex flex-wrap gap-1.5 mb-3.5">
-                          {project.techStack.slice(0, 3).map((tech, tIdx) => (
-                            <span
-                              key={tIdx}
-                              className="text-[10px] font-mono px-2 py-0.5 bg-slate-900/75 backdrop-blur-md text-slate-300 rounded border border-white/10"
-                            >
-                              {tech}
-                            </span>
-                          ))}
-                          {project.techStack.length > 3 && (
-                            <span className="text-[10px] font-mono px-1.5 py-0.5 bg-slate-900/75 backdrop-blur-md text-emerald-400 rounded border border-white/10">
-                              +{project.techStack.length - 3}
-                            </span>
-                          )}
+                        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                          {project.longDescription || project.description}
+                        </p>
+
+                        {/* Core Tech Stack Chips with Iconography */}
+                        <div className="flex flex-wrap gap-1.5 mb-4">
+                          {techList.map((tech, tIdx) => {
+                            const ChipIcon = getTechChipIcon(tech);
+                            return (
+                              <button
+                                key={tIdx}
+                                type="button"
+                                onClick={() => onSelectStackTag?.(tech)}
+                                aria-label={`Filter projects by ${tech}`}
+                                className="inline-flex items-center gap-1 text-[11px] font-mono font-medium px-2.5 py-1 bg-slate-100 dark:bg-slate-800/90 hover:bg-emerald-500/15 dark:hover:bg-emerald-500/20 text-slate-700 dark:text-slate-200 rounded-md border border-slate-200 dark:border-slate-700/80 transition-colors"
+                              >
+                                <ChipIcon className="w-3 h-3 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+                                <span>{tech}</span>
+                              </button>
+                            );
+                          })}
                         </div>
-                      )}
 
-                      {/* Action buttons */}
-                      <div className="flex gap-2 items-center flex-wrap">
+                        {/* Expandable Inline Technical Teardown Section */}
+                        <div className="mb-4">
+                          <button
+                            type="button"
+                            onClick={() => toggleInlineTeardown(projectId)}
+                            aria-expanded={isExpanded}
+                            aria-label={`Toggle technical teardown for ${project.title}`}
+                            className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-slate-100/80 dark:bg-slate-950/70 hover:bg-slate-200/70 dark:hover:bg-slate-950 border border-slate-200/80 dark:border-slate-800 text-xs font-mono font-semibold text-emerald-700 dark:text-emerald-300 transition-colors"
+                          >
+                            <span className="flex items-center gap-1.5">
+                              <Database className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                              <span>Technical Teardown</span>
+                            </span>
+                            {isExpanded ? (
+                              <ChevronUp className="w-4 h-4" />
+                            ) : (
+                              <ChevronDown className="w-4 h-4" />
+                            )}
+                          </button>
+
+                          <AnimatePresence initial={false}>
+                            {isExpanded && (
+                              <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: "auto" }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.25 }}
+                                className="overflow-hidden"
+                              >
+                                <div className="mt-2.5 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/90 border border-slate-200 dark:border-slate-800 space-y-2.5 text-xs">
+                                  <div>
+                                    <span className="font-mono font-bold text-amber-700 dark:text-amber-400 flex items-center gap-1 mb-0.5">
+                                      <AlertTriangle className="w-3 h-3" />
+                                      <span>Problem Solved:</span>
+                                    </span>
+                                    <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
+                                      {teardown.problemSolved}
+                                    </p>
+                                  </div>
+
+                                  <div>
+                                    <span className="font-mono font-bold text-blue-700 dark:text-blue-400 flex items-center gap-1 mb-0.5">
+                                      <Database className="w-3 h-3" />
+                                      <span>Database / Backend Architecture:</span>
+                                    </span>
+                                    <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
+                                      {teardown.architecture}
+                                    </p>
+                                  </div>
+
+                                  <div>
+                                    <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400 flex items-center gap-1 mb-0.5">
+                                      <Gauge className="w-3 h-3" />
+                                      <span>Key Performance Challenges:</span>
+                                    </span>
+                                    <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
+                                      {teardown.performanceChallenges}
+                                    </p>
+                                  </div>
+                                </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card Footer Action Buttons */}
+                    <div className="px-5 sm:px-6 pb-5 pt-3 border-t border-slate-200/70 dark:border-slate-800/80 flex items-center justify-between gap-2 flex-wrap">
+                      <div className="flex items-center gap-2 flex-wrap">
                         {project.url && (
                           <a
                             href={project.url}
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label={`Open live demo for ${project.title}`}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 min-h-[38px] bg-white text-slate-900 hover:bg-emerald-500 hover:text-white rounded-lg text-xs font-semibold shadow-md transition-all duration-200"
+                            className="inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[38px] bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold shadow-sm transition-all duration-200"
                           >
                             <Eye className="w-3.5 h-3.5" />
                             <span>Live Demo</span>
@@ -204,39 +415,73 @@ const Work = ({ isDarkMode, workData }) => {
                             href={project.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            aria-label={`View ${project.title} repository on GitHub`}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 min-h-[38px] bg-slate-900/80 hover:bg-slate-900 backdrop-blur-md text-white border border-white/20 hover:border-white/40 rounded-lg text-xs font-medium transition-all duration-200"
+                            aria-label={`View ${project.title} repository on GitHub (niloydiu)`}
+                            className="inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[38px] bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-semibold transition-all duration-200"
                           >
                             <Github className="w-3.5 h-3.5" />
-                            <span>Code</span>
+                            <span>GitHub</span>
                           </a>
                         )}
                       </div>
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setSelectedProject({
+                            ...matchedStatic,
+                            ...project,
+                            teardown,
+                            techStack: techList,
+                          })
+                        }
+                        aria-label={`View full technical teardown modal for ${project.title}`}
+                        className="text-xs font-mono font-semibold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                      >
+                        Full Specs →
+                      </button>
                     </div>
                   </SpotlightCard>
-                </motion.div>
+                </motion.article>
               );
             })}
           </AnimatePresence>
         </motion.div>
 
-        {/* Bottom CTA */}
-        <motion.div className="text-center mt-16" variants={fadeUp}>
+        {/* Bottom CTA & GitHub Profile Link */}
+        <motion.div
+          className="text-center mt-16 flex flex-col sm:flex-row items-center justify-center gap-4"
+          variants={fadeUp}
+        >
           <MagneticButton strength={0.25}>
             <motion.button
+              type="button"
               onClick={handleCtaClick}
-              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-[0_0_25px_rgba(16,185,129,0.4)] transition-all duration-300 text-base"
+              className="inline-flex items-center gap-3 px-8 py-4 min-h-[48px] bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-[0_0_25px_rgba(16,185,129,0.4)] transition-all duration-300 text-sm sm:text-base"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
             >
-              <span>Let's build something amazing</span>
-              <ExternalLink className="w-5 h-5" />
+              <span>Discuss an Engineering Project</span>
+              <ExternalLink className="w-4 h-4" />
             </motion.button>
+          </MagneticButton>
+
+          <MagneticButton strength={0.2}>
+            <a
+              href="https://github.com/niloydiu"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Explore all public repositories on GitHub (@niloydiu)"
+              className="inline-flex items-center gap-2 px-6 py-4 min-h-[48px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-emerald-500/60 text-slate-800 dark:text-slate-200 font-semibold rounded-xl shadow-sm transition-all text-sm sm:text-base"
+            >
+              <Github className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <span>All Repositories (@niloydiu)</span>
+              <ArrowUpRight className="w-4 h-4" />
+            </a>
           </MagneticButton>
         </motion.div>
       </motion.div>
 
-      {/* Deep Dive Architecture Modal */}
+      {/* Deep Dive Technical Teardown Modal */}
       <ProjectModal
         project={selectedProject}
         isOpen={Boolean(selectedProject)}

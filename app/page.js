@@ -1,7 +1,6 @@
 "use client";
 
 import About from "@/components/About";
-import Blog from "@/components/Blog";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -13,26 +12,34 @@ import ScrollProgressBar from "@/components/ui/ScrollProgressBar";
 import CommandPalette from "@/components/ui/CommandPalette";
 import { ToastProvider } from "@/components/ui/Toast";
 import { useEffect, useState } from "react";
-import { assets, workData as staticWork, serviceData as staticService, infoList as staticInfo } from "@/assets/assets";
+import {
+  assets,
+  workData as staticWork,
+  serviceData as staticService,
+  infoList as staticInfo,
+} from "@/assets/assets";
 
 export default function Page() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [activeStackTag, setActiveStackTag] = useState("");
   const [workData, setWorkData] = useState(staticWork);
   const [serviceData, setServiceData] = useState(staticService);
   const [infoList, setInfoList] = useState(staticInfo);
 
   useEffect(() => {
-    // Check for saved theme preference or default to system preference
+    // Check for saved theme preference or default to system/dark preference
     const savedTheme = localStorage.getItem("theme");
-    const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const systemPrefersLight = window.matchMedia(
+      "(prefers-color-scheme: light)"
+    ).matches;
 
-    if (savedTheme === "dark" || (!savedTheme && systemPrefersDark)) {
-      setIsDarkMode(true);
-      document.documentElement.classList.add("dark");
-    } else {
+    if (savedTheme === "light" || (!savedTheme && systemPrefersLight)) {
       setIsDarkMode(false);
       document.documentElement.classList.remove("dark");
+    } else {
+      setIsDarkMode(true);
+      document.documentElement.classList.add("dark");
     }
 
     // Hydrate portfolio data dynamically from DB with fallback merge
@@ -43,7 +50,6 @@ export default function Page() {
       })
       .then((data) => {
         if (data.workData && Array.isArray(data.workData)) {
-          // Merge with static data to preserve imported asset objects and rich categories
           const mergedWork = data.workData.map((item) => {
             const matchedStatic = staticWork.find(
               (s) => s.id === item.id || s.title === item.title
@@ -51,18 +57,34 @@ export default function Page() {
             return {
               ...matchedStatic,
               ...item,
-              bgImage: matchedStatic?.bgImage || (item.bgImageName && assets[item.bgImageName]) || assets.handsOn,
-              category: item.category || matchedStatic?.category || "Full-Stack",
-              techStack: item.techStack || matchedStatic?.techStack || [],
-              highlights: item.highlights || matchedStatic?.highlights || [],
+              title: matchedStatic?.title || item.title,
+              github: (matchedStatic?.github || item.github || "").replace(
+                /\.git$/,
+                ""
+              ),
+              bgImage:
+                matchedStatic?.bgImage ||
+                (item.bgImageName && assets[item.bgImageName]) ||
+                assets.handsOn,
+              category:
+                item.category || matchedStatic?.category || "Full-Stack",
+              techStack:
+                matchedStatic?.techStack || item.techStack || [],
+              teardown: matchedStatic?.teardown || item.teardown,
+              highlights:
+                matchedStatic?.highlights || item.highlights || [],
             };
           });
           setWorkData(mergedWork);
         }
-        if (data.serviceData && Array.isArray(data.serviceData)) setServiceData(data.serviceData);
-        if (data.infoList && Array.isArray(data.infoList)) setInfoList(data.infoList);
+        if (data.serviceData && Array.isArray(data.serviceData))
+          setServiceData(data.serviceData);
+        if (data.infoList && Array.isArray(data.infoList))
+          setInfoList(data.infoList);
       })
-      .catch((err) => console.log("Hydration fallback: using static data", err));
+      .catch(() => {
+        // Retain static fallback data on offline/error
+      });
   }, []);
 
   useEffect(() => {
@@ -77,7 +99,7 @@ export default function Page() {
 
   return (
     <ToastProvider>
-      <div className="min-h-screen bg-background relative">
+      <div className="min-h-screen bg-background relative overflow-x-hidden">
         <ScrollProgressBar />
         <CyberParticles />
         <CommandPalette
@@ -86,6 +108,7 @@ export default function Page() {
           isOpen={isCommandPaletteOpen}
           setIsOpen={setIsCommandPaletteOpen}
           workData={workData}
+          onFilterByStack={(tag) => setActiveStackTag(tag)}
         />
         <Navbar
           isDarkMode={isDarkMode}
@@ -96,8 +119,13 @@ export default function Page() {
           <Header isDarkMode={isDarkMode} />
           <About isDarkMode={isDarkMode} infoList={infoList} />
           <Services isDarkMode={isDarkMode} serviceData={serviceData} />
-          <Work isDarkMode={isDarkMode} workData={workData} />
-          <Blog />
+          <Work
+            isDarkMode={isDarkMode}
+            workData={workData}
+            activeStackTag={activeStackTag}
+            onClearStackTag={() => setActiveStackTag("")}
+            onSelectStackTag={(tag) => setActiveStackTag(tag)}
+          />
           <Contact isDarkMode={isDarkMode} />
         </main>
         <Footer isDarkMode={isDarkMode} />

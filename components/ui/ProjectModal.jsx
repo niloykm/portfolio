@@ -3,18 +3,50 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { X, ExternalLink, Github, Layers, Cpu, CheckCircle2, ArrowUpRight } from "lucide-react";
+import {
+  X,
+  ExternalLink,
+  Github,
+  Layers,
+  Cpu,
+  CheckCircle2,
+  ArrowUpRight,
+  Database,
+  Gauge,
+  AlertTriangle,
+  Code2,
+  Server,
+} from "lucide-react";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { assets } from "@/assets/assets";
 
+const getTechBadgeMeta = (tech) => {
+  const lower = tech.toLowerCase();
+  if (lower.includes("postgres") || lower.includes("mongo") || lower.includes("sql")) {
+    return {
+      icon: Database,
+      color: "text-emerald-600 dark:text-emerald-400 border-emerald-500/30 bg-emerald-500/10",
+    };
+  }
+  if (lower.includes("node") || lower.includes("nest") || lower.includes("express") || lower.includes("docker")) {
+    return {
+      icon: Server,
+      color: "text-purple-600 dark:text-purple-300 border-purple-500/30 bg-purple-500/10",
+    };
+  }
+  if (lower.includes("react") || lower.includes("next") || lower.includes("type") || lower.includes("tailwind")) {
+    return {
+      icon: Code2,
+      color: "text-blue-600 dark:text-blue-300 border-blue-500/30 bg-blue-500/10",
+    };
+  }
+  return {
+    icon: Cpu,
+    color: "text-cyan-700 dark:text-cyan-300 border-cyan-500/30 bg-cyan-500/10",
+  };
+};
+
 const ProjectModal = ({ project, isOpen, onClose }) => {
-  if (!project) return null;
-
-  const projectImg =
-    project.bgImage ||
-    (project.bgImageName && assets[project.bgImageName]) ||
-    null;
-
   React.useEffect(() => {
     if (!isOpen) return;
     const handleKeyDown = (e) => {
@@ -23,6 +55,23 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
+
+  if (!project) return null;
+
+  const projectImg =
+    project.bgImage ||
+    (project.bgImageName && assets[project.bgImageName]) ||
+    null;
+
+  const teardown = project.teardown || {
+    problemSolved:
+      project.longDescription ||
+      "Addressed workflow bottlenecks with a unified full-stack web architecture.",
+    architecture:
+      "Modular RESTful Node.js/NestJS backend services paired with indexed MongoDB/PostgreSQL schemas and JWT RBAC.",
+    performanceChallenges:
+      "Optimized Core Web Vitals, state synchronization, and sub-second query response times.",
+  };
 
   return (
     <AnimatePresence>
@@ -34,7 +83,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-slate-950/75 backdrop-blur-md"
+            className="fixed inset-0 bg-slate-950/80 backdrop-blur-md"
             onClick={onClose}
             aria-hidden="true"
           />
@@ -51,7 +100,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
             className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden text-slate-900 dark:text-slate-100 my-8 max-h-[90vh] flex flex-col"
           >
             {/* Header / Preview Image */}
-            <div className="relative w-full h-48 sm:h-56 bg-slate-950 flex-shrink-0">
+            <div className="relative w-full h-44 sm:h-56 bg-slate-950 flex-shrink-0">
               {projectImg ? (
                 <Image
                   src={projectImg}
@@ -66,68 +115,115 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                 </div>
               )}
 
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent" />
 
               {/* Close Button */}
               <button
+                type="button"
                 onClick={onClose}
-                aria-label="Close project details"
-                className="absolute top-4 right-4 p-2 rounded-full bg-slate-900/70 hover:bg-slate-900 text-white backdrop-blur-md border border-white/20 transition-all z-10"
+                aria-label="Close technical teardown modal"
+                className="absolute top-4 right-4 p-2 min-w-[40px] min-h-[40px] flex items-center justify-center rounded-full bg-slate-900/80 hover:bg-slate-900 text-white backdrop-blur-md border border-white/20 transition-all z-10"
               >
                 <X className="w-4 h-4" />
               </button>
 
               {/* Title Overlay */}
               <div className="absolute bottom-4 left-6 right-6">
-                <span className="text-[11px] font-mono font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md bg-blue-500/30 backdrop-blur-md text-blue-200 border border-blue-400/30">
-                  {project.category || project.description || "Web Application"}
-                </span>
-                <h3 id="project-modal-title" className="text-xl sm:text-2xl font-bold text-white mt-1.5">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-[11px] font-mono font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-emerald-500/30 backdrop-blur-md text-emerald-200 border border-emerald-400/40">
+                    Technical Teardown
+                  </span>
+                  <span className="text-[11px] font-mono font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-blue-500/30 backdrop-blur-md text-blue-200 border border-blue-400/30">
+                    {project.category || project.description || "Web Application"}
+                  </span>
+                </div>
+                <h3
+                  id="project-modal-title"
+                  className="text-xl sm:text-2xl font-bold text-white mt-1.5"
+                >
                   {project.title}
                 </h3>
               </div>
             </div>
 
             {/* Modal Body */}
-            <div className="p-6 overflow-y-auto space-y-6 flex-1">
-              {/* Overview */}
-              <div>
-                <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-2">
-                  Architectural Overview
-                </h4>
-                <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
-                  {project.longDescription || project.description || "A scalable web application crafted with modern frontend architecture, robust state management, and high-performance user interface components."}
-                </p>
-              </div>
+            <div className="p-5 sm:p-6 overflow-y-auto space-y-5 flex-1">
+              {/* Structured Technical Teardown Cards */}
+              <div className="grid grid-cols-1 gap-4">
+                <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200/80 dark:border-slate-800/80">
+                  <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400 mb-1.5 flex items-center gap-1.5">
+                    <AlertTriangle className="w-3.5 h-3.5" />
+                    <span>1. Problem Solved</span>
+                  </h4>
+                  <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
+                    {teardown.problemSolved}
+                  </p>
+                </div>
 
-              {/* Tech Stack Pills */}
-              <div>
-                <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-2.5 flex items-center gap-1.5">
-                  <Cpu className="w-3.5 h-3.5" />
-                  <span>Technologies & Tools</span>
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {(project.techStack || ["React", "JavaScript", "Tailwind CSS", "REST APIs"]).map((tech, idx) => (
-                    <span
-                      key={idx}
-                      className="px-2.5 py-1 text-xs font-mono font-medium rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700"
-                    >
-                      {tech}
-                    </span>
-                  ))}
+                <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200/80 dark:border-slate-800/80">
+                  <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400 mb-1.5 flex items-center gap-1.5">
+                    <Database className="w-3.5 h-3.5" />
+                    <span>2. Database &amp; Backend Architecture</span>
+                  </h4>
+                  <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
+                    {teardown.architecture}
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200/80 dark:border-slate-800/80">
+                  <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 mb-1.5 flex items-center gap-1.5">
+                    <Gauge className="w-3.5 h-3.5" />
+                    <span>3. Key Performance Challenges</span>
+                  </h4>
+                  <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
+                    {teardown.performanceChallenges}
+                  </p>
                 </div>
               </div>
 
-              {/* Key Engineering Features / Highlights */}
+              {/* Tech Stack Pills with Iconography */}
+              <div>
+                <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400 mb-2.5 flex items-center gap-1.5">
+                  <Cpu className="w-3.5 h-3.5" />
+                  <span>Core Tech Stack</span>
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {(
+                    project.techStack || [
+                      "React.js",
+                      "TypeScript",
+                      "Tailwind CSS",
+                      "REST API",
+                    ]
+                  ).map((tech, idx) => {
+                    const meta = getTechBadgeMeta(tech);
+                    const Icon = meta.icon;
+                    return (
+                      <span
+                        key={idx}
+                        className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono font-medium rounded-lg border ${meta.color}`}
+                      >
+                        <Icon className="w-3 h-3 flex-shrink-0" />
+                        <span>{tech}</span>
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Key Engineering Highlights */}
               {project.highlights && project.highlights.length > 0 && (
                 <div>
-                  <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-2.5 flex items-center gap-1.5">
+                  <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400 mb-2.5 flex items-center gap-1.5">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                    <span>Key Engineering Highlights</span>
+                    <span>Engineering Deliverables</span>
                   </h4>
                   <ul className="space-y-2">
                     {project.highlights.map((highlight, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+                      <li
+                        key={idx}
+                        className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-200"
+                      >
                         <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5 flex-shrink-0" />
                         <span>{highlight}</span>
                       </li>
@@ -138,15 +234,16 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
             </div>
 
             {/* Modal Footer Actions */}
-            <div className="p-4 sm:p-5 bg-slate-50 dark:bg-slate-950/80 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3 flex-wrap">
-              <div className="flex items-center gap-3">
+            <div className="p-4 sm:p-5 bg-slate-50 dark:bg-slate-950/90 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3 flex-wrap">
+              <div className="flex items-center gap-3 flex-wrap">
                 {project.url && (
                   <MagneticButton strength={0.2}>
                     <a
                       href={project.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-md transition-all duration-200"
+                      aria-label={`Open live demo for ${project.title}`}
+                      className="inline-flex items-center gap-2 px-4 py-2 min-h-[40px] bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-md transition-all duration-200"
                     >
                       <ExternalLink className="w-3.5 h-3.5" />
                       <span>Live Demo</span>
@@ -161,18 +258,21 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-900 dark:text-white text-xs sm:text-sm font-medium rounded-xl transition-all duration-200"
+                      aria-label={`View ${project.title} source code on GitHub (niloydiu)`}
+                      className="inline-flex items-center gap-2 px-4 py-2 min-h-[40px] bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-900 dark:text-white text-xs sm:text-sm font-medium rounded-xl transition-all duration-200"
                     >
                       <Github className="w-3.5 h-3.5" />
-                      <span>Source Code</span>
+                      <span>GitHub (@niloydiu)</span>
                     </a>
                   </MagneticButton>
                 )}
               </div>
 
               <button
+                type="button"
                 onClick={onClose}
-                className="text-xs font-mono text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 px-3 py-1.5"
+                aria-label="Close modal"
+                className="text-xs font-mono text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-3 py-1.5 rounded-lg hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition-colors"
               >
                 Close (ESC)
               </button>

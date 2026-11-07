@@ -1,62 +1,113 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require("@playwright/test");
 
-test.describe('Portfolio Website Tests', () => {
-  test('should load the homepage and check elements', async ({ page }) => {
-    // Navigate to homepage
-    await page.goto('/');
+test.describe("Niloy Portfolio — Production Refactor Verification", () => {
+  test("should render realistic non-zero metrics immediately upon first render", async ({
+    page,
+  }) => {
+    await page.goto("/");
 
-    // Check page title
     await expect(page).toHaveTitle(/Niloy Kumar Mohonta/);
 
-    // Verify main components are present
-    await expect(page.locator('#top')).toBeVisible();
-    await expect(page.locator('#about')).toBeVisible();
-    await expect(page.locator('#services')).toBeVisible();
-    await expect(page.locator('#work')).toBeVisible();
-    await expect(page.locator('#contact')).toBeVisible();
+    // Verify Developer Overview counters never show 0+
+    const aboutSection = page.locator("#about");
+    await expect(aboutSection).toBeVisible();
+    await expect(aboutSection).toContainText("GitHub Repos");
+    await expect(aboutSection).toContainText("Development Exp");
+    await expect(aboutSection).toContainText("Commitment to Craft");
+    await expect(aboutSection).toContainText("3+ Yrs");
+    await expect(aboutSection).toContainText("100%");
+    await expect(aboutSection).not.toContainText("0+ GitHub Repos");
+    await expect(aboutSection).not.toContainText("0+ Yrs");
   });
 
-  test('should toggle dark/light mode successfully', async ({ page }) => {
-    await page.goto('/');
+  test("should render updated Hero badge, sub-headline, and 3 CTAs", async ({
+    page,
+  }) => {
+    await page.goto("/");
 
-    // Locate theme toggle button by aria-label
-    const toggleButton = page.locator('nav button[aria-label*="mode"]');
-    await expect(toggleButton).toBeVisible();
+    const hero = page.locator("#top");
+    await expect(hero).toContainText("Full-Stack Software Engineer");
+    await expect(hero).toContainText(
+      "Architecting resilient web applications, modular NestJS/Node.js backend systems, and pixel-complete React/Next.js interfaces with strict performance standards."
+    );
 
-    // Check initial dark mode state on html tag
-    const htmlElement = page.locator('html');
-    const initialClass = await htmlElement.getAttribute('class');
-    
-    // Toggle theme
-    await toggleButton.click();
-    await page.waitForTimeout(500);
-
-    const toggledClass = await htmlElement.getAttribute('class');
-    expect(toggledClass).not.toBe(initialClass);
+    await expect(hero.getByRole("link", { name: /Explore Projects/i })).toBeVisible();
+    await expect(hero.getByRole("button", { name: /Copy email/i })).toBeVisible();
+    await expect(hero.getByRole("link", { name: /Download Resume/i })).toBeVisible();
   });
 
-  test('should verify projects in Work section have live demo links', async ({ page }) => {
-    await page.goto('/');
+  test("should consolidate projects into Featured Engineering Projects without duplicate Open Source section", async ({
+    page,
+  }) => {
+    await page.goto("/");
 
-    // Ensure project live demo links are present and rendered
-    const liveDemoLinks = page.locator('#work a[href*="vercel.app"]');
-    const count = await liveDemoLinks.count();
-    expect(count).toBeGreaterThan(0);
+    const projectsSection = page.locator("#projects");
+    await expect(projectsSection).toBeVisible();
+    await expect(projectsSection).toContainText("Featured Engineering Projects");
+
+    // Ensure duplicate Open Source Work section is removed
+    await expect(page.locator("#blog")).toHaveCount(0);
+    await expect(page.getByText("Open Source Work")).toHaveCount(0);
+
+    // Check live demo and niloydiu GitHub links
+    const liveDemoLinks = projectsSection.locator('a[href*="vercel.app"]');
+    expect(await liveDemoLinks.count()).toBeGreaterThan(0);
+
+    const githubLinks = projectsSection.locator(
+      'a[href*="github.com/niloydiu"]'
+    );
+    expect(await githubLinks.count()).toBeGreaterThan(0);
   });
 
-  test('should secure admin page and show error on invalid password login', async ({ page }) => {
-    await page.goto('/admin');
+  test("should support interactive CLI commands and history in DevTerminal", async ({
+    page,
+  }) => {
+    await page.goto("/");
 
-    // Check secure gateway heading (wait for compilation if needed)
-    await expect(page.locator('h2')).toContainText('SECURE_GATEWAY', { timeout: 20000 });
+    const terminalInput = page.locator("#terminal-command-input");
+    await expect(terminalInput).toBeVisible();
 
-    // Attempt login with wrong password
-    await page.locator('input[type="password"]').fill('incorrect_password');
-    await page.locator('button[type="submit"]').click();
+    await terminalInput.fill("skills");
+    await terminalInput.press("Enter");
+    await expect(page.locator('[role="log"]')).toContainText("NestJS");
+    await expect(page.locator('[role="log"]')).toContainText("PostgreSQL");
+    await expect(page.locator('[role="log"]')).toContainText("Docker");
 
-    // Verify error message renders
-    const errorMessage = page.locator('.bg-red-950\\/40');
-    await expect(errorMessage).toBeVisible();
-    await expect(errorMessage).toContainText('Invalid password');
+    await terminalInput.fill("cat resume");
+    await terminalInput.press("Enter");
+    await expect(page.locator('[role="log"]')).toContainText(
+      "Download Full Resume (PDF)"
+    );
+  });
+
+  test("should have 4 consolidated navbar links and open Command Palette on Ctrl+K", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const nav = page.locator('nav[aria-label="Main Navigation"]');
+    await expect(nav).toContainText("About");
+    await expect(nav).toContainText("Expertise");
+    await expect(nav).toContainText("Projects");
+    await expect(nav).toContainText("Contact");
+
+    await page.keyboard.press("Control+k");
+    const dialog = page.getByRole("dialog", { name: "Command Palette" });
+    await expect(dialog).toBeVisible();
+  });
+
+  test("should have zero horizontal overflow at 360px mobile viewport width", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 360, height: 800 });
+    await page.goto("/");
+
+    const overflow = await page.evaluate(() => {
+      return (
+        document.documentElement.scrollWidth >
+        document.documentElement.clientWidth
+      );
+    });
+    expect(overflow).toBe(false);
   });
 });

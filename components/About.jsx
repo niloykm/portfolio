@@ -1,34 +1,33 @@
 "use client";
 
-import { assets, infoList, toolsData } from "@/assets/assets";
+import { assets } from "@/assets/assets";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import {
   Code,
-  Palette,
-  Sparkles,
-  Laptop,
   Terminal,
-  UserCheck,
   Clock,
   Globe2,
   Cpu,
   Layers,
   ShieldCheck,
   Zap,
-  CheckCircle2,
-  ExternalLink,
 } from "lucide-react";
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
 import DevTerminal from "@/components/ui/DevTerminal";
 import SpotlightCard from "@/components/ui/SpotlightCard";
+import { useGitHubStats } from "@/lib/useGitHubStats";
+import { FALLBACK_METRICS } from "@/lib/github";
 import { fadeUp, scaleIn, staggerContainer } from "@/lib/motion";
 
 const About = ({ isDarkMode, infoList: propInfoList }) => {
   const [timeString, setTimeString] = useState("");
   const [mounted, setMounted] = useState(false);
-  const [activeConsole, setActiveConsole] = useState(false);
+  const [activeConsole, setActiveConsole] = useState(true);
+  const [userToggledConsole, setUserToggledConsole] = useState(false);
+
+  const githubStats = useGitHubStats(FALLBACK_METRICS);
 
   // Live Dhaka Time (GMT+6)
   useEffect(() => {
@@ -42,7 +41,9 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
           second: "2-digit",
           hour12: true,
         };
-        setTimeString(new Intl.DateTimeFormat("en-US", options).format(new Date()));
+        setTimeString(
+          new Intl.DateTimeFormat("en-US", options).format(new Date())
+        );
       } catch {
         setTimeString(new Date().toLocaleTimeString());
       }
@@ -54,24 +55,66 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
   }, []);
 
   const coreSkills = [
-    { name: "React.js / Next.js", level: "Senior", pct: 95, color: "from-blue-500 to-cyan-500" },
-    { name: "TypeScript / JavaScript", level: "Advanced", pct: 92, color: "from-blue-600 to-indigo-500" },
-    { name: "Tailwind CSS / Motion", level: "Expert", pct: 96, color: "from-teal-400 to-emerald-500" },
-    { name: "Node.js / Express.js", level: "Proficient", pct: 85, color: "from-emerald-500 to-teal-600" },
-    { name: "MongoDB / PostgreSQL", level: "Proficient", pct: 82, color: "from-purple-500 to-pink-500" },
+    {
+      name: "React.js / Next.js",
+      level: "Senior",
+      pct: 95,
+      color: "from-blue-500 to-cyan-500",
+    },
+    {
+      name: "TypeScript / JavaScript",
+      level: "Advanced",
+      pct: 92,
+      color: "from-blue-600 to-indigo-500",
+    },
+    {
+      name: "Node.js / NestJS / Express",
+      level: "Advanced",
+      pct: 88,
+      color: "from-emerald-500 to-teal-600",
+    },
+    {
+      name: "PostgreSQL / MongoDB",
+      level: "Proficient",
+      pct: 86,
+      color: "from-purple-500 to-pink-500",
+    },
+    {
+      name: "Tailwind CSS / Docker",
+      level: "Expert",
+      pct: 94,
+      color: "from-teal-400 to-emerald-500",
+    },
   ];
 
   const engineeringPrinciples = [
-    { icon: Zap, title: "Sub-Second Latency", desc: "Optimized Core Web Vitals, tree-shaking, and zero layout shift." },
-    { icon: ShieldCheck, title: "Clean Architecture", desc: "Modular, maintainable code with strict typing and unit reliability." },
-    { icon: Layers, title: "Accessible by Default", desc: "Keyboard navigable, WCAG AA contrast compliant, and screen-reader ready." },
+    {
+      icon: Zap,
+      title: "Sub-Second Latency",
+      desc: "Optimized Core Web Vitals, tree-shaking, and zero layout shift.",
+    },
+    {
+      icon: ShieldCheck,
+      title: "Clean Architecture",
+      desc: "Modular, maintainable code with strict typing and unit reliability.",
+    },
+    {
+      icon: Layers,
+      title: "Accessible by Default",
+      desc: "Keyboard navigable, WCAG AA contrast compliant, and screen-reader ready.",
+    },
   ];
+
+  const handleToggleTerminal = () => {
+    setUserToggledConsole(true);
+    setActiveConsole((prev) => !prev);
+  };
 
   return (
     <section
       id="about"
       aria-labelledby="about-heading"
-      className="py-24 px-6 lg:px-12 scroll-mt-20 relative overflow-hidden"
+      className="py-24 px-4 sm:px-6 lg:px-12 scroll-mt-20 relative overflow-hidden"
     >
       {/* Ambient background decoration */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 cyber-grid pointer-events-none" />
@@ -93,16 +136,20 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
       >
         {/* Section Header */}
         <motion.div className="text-center mb-16" variants={fadeUp}>
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-50 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-800/60 rounded-full text-xs font-semibold uppercase tracking-wider text-blue-700 dark:text-blue-300 mb-3 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-50 dark:bg-blue-950/60 border border-blue-200/80 dark:border-blue-800/80 rounded-full text-xs font-semibold uppercase tracking-wider text-blue-700 dark:text-blue-300 mb-3 shadow-sm">
             <Code className="w-3.5 h-3.5" />
             <span>Developer Overview</span>
           </div>
-          <h2 id="about-heading" className="fluid-h2 font-extrabold gradient-text mb-4">
+          <h2
+            id="about-heading"
+            className="fluid-h2 font-extrabold gradient-text mb-4"
+          >
             Engineered for Impact
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 mx-auto rounded-full" />
-          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mt-5 leading-relaxed font-normal">
-            A look into my engineering philosophy, technical stack, live metrics, and interactive console.
+          <p className="text-base sm:text-lg text-slate-700 dark:text-slate-300 max-w-2xl mx-auto mt-5 leading-relaxed font-normal">
+            A look into my engineering philosophy, technical stack, live metrics,
+            and interactive console.
           </p>
         </motion.div>
 
@@ -127,48 +174,59 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
                 </div>
 
                 <div>
-                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-mono font-semibold rounded-full mb-2">
-                    <span>Full-Stack & Frontend Engineer</span>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 border border-blue-500/30 text-blue-700 dark:text-blue-300 text-xs font-mono font-semibold rounded-full mb-2">
+                    <span>Full-Stack Software Engineer</span>
                   </div>
                   <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
                     Niloy Kumar Mohonta
                   </h3>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                    Building scalable, responsive, and delightful web systems.
+                  <p className="text-sm text-slate-600 dark:text-slate-300 mt-1">
+                    Building scalable, resilient, and high-performance web systems.
                   </p>
                 </div>
               </div>
 
-              <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed mb-6 font-normal">
-                I specialize in crafting high-velocity web applications using the modern React & Next.js ecosystem.
-                Whether designing frictionless user interfaces, optimizing Core Web Vitals, or architecting secure REST APIs with Node.js and MongoDB, I build software that makes a real commercial impact.
+              <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-6 font-normal">
+                I specialize in architecting resilient full-stack applications using TypeScript, Next.js, React, NestJS, and Node.js. Whether designing pixel-complete user interfaces, optimizing Core Web Vitals, or engineering transactional backends with PostgreSQL and MongoDB, I deliver software built to production standards.
               </p>
 
-              {/* Quick Key Metrics */}
+              {/* Quick Key Metrics — Zero CLS & Dynamic GitHub API with Resilient Fallbacks */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5 pt-4 border-t border-slate-200/80 dark:border-slate-800/80">
-                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/60 dark:border-slate-800/60">
-                  <div className="text-2xl sm:text-3xl font-extrabold text-blue-600 dark:text-blue-400">
-                    <AnimatedCounter value={36} suffix="+" />
+                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200/70 dark:border-slate-800/80 min-h-[84px] flex flex-col justify-center">
+                  <div className="text-2xl sm:text-3xl font-extrabold text-blue-600 dark:text-blue-400 tabular-nums leading-tight">
+                    <AnimatedCounter
+                      value={githubStats.publicRepos}
+                      fallbackValue={50}
+                      suffix="+"
+                    />
                   </div>
-                  <div className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
+                  <div className="text-xs text-slate-600 dark:text-slate-300 font-medium mt-0.5">
                     GitHub Repos
                   </div>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/60 dark:border-slate-800/60">
-                  <div className="text-2xl sm:text-3xl font-extrabold text-purple-600 dark:text-purple-400">
-                    <AnimatedCounter value={2} suffix="+ Yrs" />
+                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200/70 dark:border-slate-800/80 min-h-[84px] flex flex-col justify-center">
+                  <div className="text-2xl sm:text-3xl font-extrabold text-purple-600 dark:text-purple-400 tabular-nums leading-tight">
+                    <AnimatedCounter
+                      value={githubStats.experienceYears}
+                      fallbackValue={3}
+                      suffix="+ Yrs"
+                    />
                   </div>
-                  <div className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
+                  <div className="text-xs text-slate-600 dark:text-slate-300 font-medium mt-0.5">
                     Development Exp
                   </div>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/60 dark:border-slate-800/60 col-span-2 sm:col-span-1">
-                  <div className="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400">
-                    100%
+                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200/70 dark:border-slate-800/80 col-span-2 sm:col-span-1 min-h-[84px] flex flex-col justify-center">
+                  <div className="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 tabular-nums leading-tight">
+                    <AnimatedCounter
+                      value={githubStats.commitmentPct}
+                      fallbackValue={100}
+                      suffix="%"
+                    />
                   </div>
-                  <div className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
+                  <div className="text-xs text-slate-600 dark:text-slate-300 font-medium mt-0.5">
                     Commitment to Craft
                   </div>
                 </div>
@@ -184,38 +242,45 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-4">
-                  <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                  <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
                     <Globe2 className="w-4 h-4" />
-                    <span>Location & Time</span>
+                    <span>Location &amp; Time</span>
                   </div>
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span
+                    className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"
+                    aria-hidden="true"
+                  />
                 </div>
 
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
                   Dhaka, Bangladesh
                 </h3>
 
-                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mb-6">
-                  Available for global remote contracts and full-time engineering roles.
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mb-6">
+                  Available for global remote contracts and full-time engineering
+                  roles.
                 </p>
 
                 {/* Digital Clock Widget */}
                 <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-center font-mono shadow-inner mb-6">
-                  <div className="text-xs text-slate-400 mb-1 flex items-center justify-center gap-1.5">
+                  <div className="text-xs text-slate-300 mb-1 flex items-center justify-center gap-1.5">
                     <Clock className="w-3.5 h-3.5 text-blue-400" />
                     <span>Local Time (GMT+6)</span>
                   </div>
                   <div
                     suppressHydrationWarning
-                    className="text-2xl sm:text-3xl font-extrabold text-white tracking-widest"
+                    className="text-2xl sm:text-3xl font-extrabold text-white tracking-widest tabular-nums"
                   >
                     {mounted && timeString ? timeString : "06:00:00 PM"}
                   </div>
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center gap-3">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 flex-shrink-0" />
+              <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-3">
+                <span
+                  className="w-2.5 h-2.5 rounded-full bg-emerald-500 flex-shrink-0"
+                  aria-hidden="true"
+                />
                 <span className="text-xs font-semibold text-emerald-800 dark:text-emerald-300">
                   Ready to start immediately
                 </span>
@@ -230,7 +295,7 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
               className="bento-card p-6 sm:p-8 h-full flex flex-col justify-between"
             >
               <div>
-                <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 mb-4">
+                <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-400 mb-4">
                   <Cpu className="w-4 h-4" />
                   <span>Technical Proficiency</span>
                 </div>
@@ -242,16 +307,18 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
                 <div className="space-y-3.5">
                   {coreSkills.map((skill) => (
                     <div key={skill.name}>
-                      <div className="flex justify-between text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+                      <div className="flex justify-between text-xs font-medium text-slate-700 dark:text-slate-200 mb-1">
                         <span>{skill.name}</span>
-                        <span className="font-mono text-slate-500">{skill.level}</span>
+                        <span className="font-mono text-slate-600 dark:text-slate-300">
+                          {skill.level}
+                        </span>
                       </div>
-                      <div className="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                      <div className="w-full h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
                         <motion.div
-                          initial={{ width: 0 }}
+                          initial={{ width: `${skill.pct}%` }}
                           whileInView={{ width: `${skill.pct}%` }}
                           viewport={{ once: true }}
-                          transition={{ duration: 1, ease: "easeOut" }}
+                          transition={{ duration: 0.8, ease: "easeOut" }}
                           className={`h-full rounded-full bg-gradient-to-r ${skill.color}`}
                         />
                       </div>
@@ -260,9 +327,11 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
                 </div>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs font-mono text-slate-500">
-                <span>Learning: Nest.js • Docker</span>
-                <span className="text-blue-500 font-semibold">2026 Focus</span>
+              <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs font-mono text-slate-600 dark:text-slate-300">
+                <span>NestJS • PostgreSQL • Docker</span>
+                <span className="text-blue-600 dark:text-blue-400 font-semibold">
+                  Production Ready
+                </span>
               </div>
             </SpotlightCard>
           </motion.div>
@@ -274,7 +343,7 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
               className="bento-card p-6 sm:p-8 h-full flex flex-col justify-between"
             >
               <div>
-                <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400 mb-4">
+                <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-purple-700 dark:text-purple-400 mb-4">
                   <ShieldCheck className="w-4 h-4" />
                   <span>Engineering Standard</span>
                 </div>
@@ -288,14 +357,14 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
                     const Icon = item.icon;
                     return (
                       <div key={idx} className="flex items-start gap-3">
-                        <div className="p-2 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400 flex-shrink-0 mt-0.5">
+                        <div className="p-2 rounded-lg bg-purple-500/10 text-purple-700 dark:text-purple-300 flex-shrink-0 mt-0.5">
                           <Icon className="w-4 h-4" />
                         </div>
                         <div>
                           <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
                             {item.title}
                           </h4>
-                          <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mt-0.5">
+                          <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mt-0.5">
                             {item.desc}
                           </p>
                         </div>
@@ -306,7 +375,9 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
               </div>
 
               <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
-                <span className="text-xs font-mono text-slate-500">Zero Shortcuts • High Standards</span>
+                <span className="text-xs font-mono text-slate-600 dark:text-slate-300">
+                  Zero Shortcuts • Strict Performance Standards
+                </span>
               </div>
             </SpotlightCard>
           </motion.div>
@@ -319,34 +390,50 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-4">
-                  <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+                  <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400">
                     <Terminal className="w-4 h-4" />
                     <span>Developer CLI</span>
                   </div>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-500/10 text-blue-500 border border-blue-500/20">
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-500/10 text-blue-600 dark:text-blue-300 border border-blue-500/30 font-semibold">
                     Interactive
                   </span>
                 </div>
 
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                  Try Niloy's Console
+                  Try Niloy&apos;s Console
                 </h3>
 
-                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mb-6">
-                  Test live commands, query skills, or inspect contact channels right inside an emulated terminal.
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mb-5">
+                  Run live CLI commands (<code className="text-blue-600 dark:text-blue-400 font-mono">help</code>,{" "}
+                  <code className="text-blue-600 dark:text-blue-400 font-mono">skills</code>,{" "}
+                  <code className="text-blue-600 dark:text-blue-400 font-mono">projects</code>,{" "}
+                  <code className="text-blue-600 dark:text-blue-400 font-mono">cat resume</code>,{" "}
+                  <code className="text-blue-600 dark:text-blue-400 font-mono">contact</code>) below.
                 </p>
 
-                <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-left font-mono text-xs text-slate-300 space-y-1.5 mb-6">
+                <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-left font-mono text-xs text-slate-200 space-y-1.5 mb-6 break-words">
                   <p className="text-emerald-400">❯ niloy --version</p>
-                  <p className="text-slate-400 pl-3">v2.4.0 (Full-Stack Engineer)</p>
-                  <p className="text-emerald-400">❯ sudo hire --now</p>
-                  <p className="text-blue-400 pl-3">✨ Priority pipeline ready...</p>
+                  <p className="text-slate-300 pl-3">
+                    v3.0.0 (Full-Stack Software Engineer)
+                  </p>
+                  <p className="text-emerald-400">❯ cat resume</p>
+                  <p className="text-cyan-300 pl-3">
+                    📄 Work history &amp; PDF link ready...
+                  </p>
                 </div>
               </div>
 
               <button
-                onClick={() => setActiveConsole(!activeConsole)}
-                className="w-full py-2.5 px-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold text-xs sm:text-sm rounded-xl transition-all shadow-md flex items-center justify-center gap-2"
+                type="button"
+                onClick={handleToggleTerminal}
+                aria-label={
+                  activeConsole
+                    ? "Hide interactive developer terminal"
+                    : "Launch interactive developer terminal"
+                }
+                aria-expanded={activeConsole}
+                aria-controls="interactive-dev-terminal"
+                className="w-full py-2.5 px-4 min-h-[44px] bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold text-xs sm:text-sm rounded-xl transition-all shadow-md flex items-center justify-center gap-2"
               >
                 <Terminal className="w-4 h-4" />
                 <span>{activeConsole ? "Hide Terminal" : "Launch Terminal"}</span>
@@ -356,17 +443,18 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
         </div>
 
         {/* Expandable Live Developer Console View */}
-        <AnimatePresence>
+        <AnimatePresence initial={false}>
           {activeConsole && (
             <motion.div
-              initial={{ opacity: 0, height: 0, y: 20 }}
+              id="interactive-dev-terminal"
+              initial={{ opacity: 0, height: 0, y: 12 }}
               animate={{ opacity: 1, height: "auto", y: 0 }}
-              exit={{ opacity: 0, height: 0, y: 20 }}
-              transition={{ duration: 0.35 }}
+              exit={{ opacity: 0, height: 0, y: 12 }}
+              transition={{ duration: 0.3 }}
               className="mt-8 overflow-hidden"
             >
               <div className="max-w-4xl mx-auto">
-                <DevTerminal />
+                <DevTerminal autoFocusOnMount={userToggledConsole} />
               </div>
             </motion.div>
           )}
