@@ -1,0 +1,447 @@
+export interface Project {
+  id: string;
+  slug: string;
+  title: string;
+  tagline: string;
+  category: string;
+  filterCategory: 'Systems & DevOps' | 'Enterprise & Operations' | 'Consumer & Utilities' | 'EdTech & Health';
+  liveUrl: string;
+  githubUrl: string | null;
+  techStack: string[];
+  architectureHighlights: string[];
+  image: string;
+  featured: boolean;
+  // Legacy / teardown compatibility fields
+  description?: string;
+  longDescription?: string;
+  url?: string;
+  github?: string;
+  bgImageName?: string;
+  bgImage?: any;
+  highlights?: string[];
+  teardown?: {
+    problemSolved: string;
+    architecture: string;
+    performanceChallenges: string;
+  };
+}
+
+export const filterCategories = [
+  'All',
+  'Systems & DevOps',
+  'Enterprise & Operations',
+  'EdTech & Health',
+  'Consumer & Utilities',
+] as const;
+
+export type FilterCategory = (typeof filterCategories)[number];
+
+export const projects: Project[] = [
+  {
+    id: 'nexusops',
+    slug: 'nexusops',
+    title: 'NexusOps',
+    tagline: 'Autonomous multi-cloud Kubernetes telemetry plane and real-time pgvector RAG workflow control surface.',
+    category: 'Cloud & DevOps',
+    filterCategory: 'Systems & DevOps',
+    liveUrl: 'https://nexusops-six.vercel.app/',
+    url: 'https://nexusops-six.vercel.app/',
+    githubUrl: null,
+    github: 'https://github.com/niloykm/NexusOps',
+    techStack: ['Next.js 15', 'TypeScript', 'Tailwind CSS v4', 'Zustand', 'Prometheus OTel', 'Lucide'],
+    architectureHighlights: [
+      'Continuous multi-cluster telemetry streaming with zero-jank 60fps SVG saturation gauges',
+      'Sub-50ms pgvector RAG semantic pipeline orchestration with live execution tracing',
+      'Client-side node topology graph layout with responsive auto-scaling and failover monitors',
+    ],
+    highlights: [
+      'Continuous multi-cluster telemetry streaming with zero-jank 60fps SVG saturation gauges',
+      'Sub-50ms pgvector RAG semantic pipeline orchestration with live execution tracing',
+      'Client-side node topology graph layout with responsive auto-scaling and failover monitors',
+    ],
+    image: '/projects/nexusops.webp',
+    bgImageName: 'nexusops',
+    featured: true,
+    description: 'Autonomous Kubernetes Telemetry & RAG Platform',
+    longDescription:
+      'High-performance cloud telemetry and autonomous AI orchestration platform enabling real-time cluster health monitoring, live vector index exploration, and container pipeline telemetry.',
+    teardown: {
+      problemSolved:
+        'DevOps and AI platform engineers struggled to reconcile distributed container telemetry with autonomous agent execution pipelines in a single unified, low-latency control surface.',
+      architecture:
+        'Next.js 15 App Router architecture with client-side Zustand state stores, Prometheus/OTel metric ingestion parsers, and pgvector similarity search interfaces.',
+      performanceChallenges:
+        'Eliminated UI thread latency by batching high-frequency telemetry updates with requestAnimationFrame and virtualizing cluster node status lists.',
+    },
+  },
+  {
+    id: 'synapflow',
+    slug: 'synapflow',
+    title: 'SynapFlow',
+    tagline: 'Visual DAG workflow orchestration and automated webhook dispatch engine with Kahn’s algorithm cycle detection.',
+    category: 'Cloud & DevOps',
+    filterCategory: 'Systems & DevOps',
+    liveUrl: 'https://synapflow-three.vercel.app/',
+    url: 'https://synapflow-three.vercel.app/',
+    githubUrl: null,
+    github: 'https://github.com/niloykm/synapflow',
+    techStack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'DAG Kahn Engine', 'Gemini 2.5 Flash', 'Lucide'],
+    architectureHighlights: [
+      'Implements Kahn’s Algorithm O(V + E) for strict topological order execution and cycle validation',
+      'Dual-engine reasoning orchestrator bridging Google Gemini and OpenAI structured JSON payloads',
+      'Asynchronous webhook dispatch queue with deterministic retry backoffs and execution trace inspector',
+    ],
+    highlights: [
+      'Implements Kahn’s Algorithm O(V + E) for strict topological order execution and cycle validation',
+      'Dual-engine reasoning orchestrator bridging Google Gemini and OpenAI structured JSON payloads',
+      'Asynchronous webhook dispatch queue with deterministic retry backoffs and execution trace inspector',
+    ],
+    image: '/projects/synapflow.webp',
+    bgImageName: 'synapflow',
+    featured: true,
+    description: 'Visual DAG Workflow & Webhook SaaS',
+    longDescription:
+      'Multi-tenant visual workflow composer allowing engineering teams to design, simulate, and deploy automated pipelines combining HTTP webhooks, LLM agents, and conditional routers.',
+    teardown: {
+      problemSolved:
+        'Building complex multi-step automation workflows typically requires brittle custom backend glue code without visual verification, cycle detection, or real-time simulation capabilities.',
+      architecture:
+        'Topological DAG parser based on Kahn’s Algorithm paired with dual LLM provider clients (Gemini 2.5 Flash & GPT-4o-mini) and deterministic simulation fallback states.',
+      performanceChallenges:
+        'Guaranteed zero infinite-loop deadlocks during visual edge manipulation via proactive graph validation and sub-10ms canvas state updates.',
+    },
+  },
+  {
+    id: 'nobot',
+    slug: 'nobot',
+    title: 'NoBot',
+    tagline: 'Invisible bot mitigation and edge rate-limiting engine utilizing sub-10ms browser fingerprinting and JA4 TLS inspection.',
+    category: 'Security / Bot Defense',
+    filterCategory: 'Systems & DevOps',
+    liveUrl: 'https://nobot.vercel.app/',
+    url: 'https://nobot.vercel.app/',
+    githubUrl: 'https://github.com/niloykm/Nobot',
+    github: 'https://github.com/niloykm/Nobot',
+    techStack: ['React', 'TypeScript', 'Vite', 'Tailwind CSS v4', 'Canvas Fingerprint', 'JA4 TLS Engine'],
+    architectureHighlights: [
+      'Sub-10ms passive client fingerprinting combining canvas entropy, audio buffer latency, and WebGL telemetry',
+      'Silent cryptographic proof-of-work challenges eliminating invasive visual CAPTCHA hurdles',
+      'Real-time threat classification matrix evaluating automated scrapers and credential-stuffing signatures',
+    ],
+    highlights: [
+      'Sub-10ms passive client fingerprinting combining canvas entropy, audio buffer latency, and WebGL telemetry',
+      'Silent cryptographic proof-of-work challenges eliminating invasive visual CAPTCHA hurdles',
+      'Real-time threat classification matrix evaluating automated scrapers and credential-stuffing signatures',
+    ],
+    image: '/projects/nobot.webp',
+    bgImageName: 'nobot',
+    featured: false,
+    description: 'Invisible Bot Detection & Threat Mitigation',
+    longDescription:
+      'Zero-friction bot defense system that inspects incoming connection signatures, client-side entropy, and behavioral heuristics to protect web apps without visual puzzle friction.',
+    teardown: {
+      problemSolved:
+        'Legacy CAPTCHA challenges degrade user conversion rates by up to 15%, while basic IP rate-limiting fails against modern distributed scraping bots.',
+      architecture:
+        'Multi-vector client telemetry collector (Canvas, WebGL, AudioContext) coupled with JA4 TLS fingerprint verification and client-side proof-of-work verification.',
+      performanceChallenges:
+        'Maintained sub-10ms total execution time for the full entropy collection suite without causing UI freezes or dropped frames.',
+    },
+  },
+  {
+    id: 'inventory',
+    slug: 'inventory',
+    title: 'Niloy Inventory',
+    tagline: 'Enterprise SKU telemetry and warehouse inventory control platform with atomic decrement locks.',
+    category: 'FinTech / Operations',
+    filterCategory: 'Enterprise & Operations',
+    liveUrl: 'https://niloyinventory.vercel.app/dashboard',
+    url: 'https://niloyinventory.vercel.app/dashboard',
+    githubUrl: 'https://github.com/niloykm/inventory',
+    github: 'https://github.com/niloykm/inventory',
+    techStack: ['Next.js 15', 'React 19', 'Node.js', 'Express', 'MongoDB Atlas', 'Tailwind CSS', 'Radix UI'],
+    architectureHighlights: [
+      'Transactional inventory adjustments with atomic database decrement operations preventing negative stock races',
+      'Comprehensive warehouse telemetry featuring purchase order lifecycles, stock movements, and employee assignments',
+      'Real-time inventory replenishment threshold alerts and supplier ledger balance tracking',
+    ],
+    highlights: [
+      'Transactional inventory adjustments with atomic database decrement operations preventing negative stock races',
+      'Comprehensive warehouse telemetry featuring purchase order lifecycles, stock movements, and employee assignments',
+      'Real-time inventory replenishment threshold alerts and supplier ledger balance tracking',
+    ],
+    image: '/projects/inventory.webp',
+    bgImageName: 'niloyinventory',
+    featured: true,
+    description: 'Enterprise Inventory & Stock System',
+    longDescription:
+      'Comprehensive warehouse and stock control platform engineered to track inventory items, product assignments, purchase orders, transfers, and automated audit logs across multi-location hubs.',
+    teardown: {
+      problemSolved:
+        'Warehouse operations suffered from inventory discrepancies, unrecorded internal transfers, and concurrency errors during simultaneous order dispatches.',
+      architecture:
+        'Full-stack Next.js 15 client paired with Express/MongoDB Atlas backend featuring indexed SKU ledgers, transaction-guarded mutations, and role-based access control.',
+      performanceChallenges:
+        'Optimized aggregation pipelines for high-throughput SKU telemetry cards, rendering thousands of stock movement records with zero UI lag.',
+    },
+  },
+  {
+    id: 'ecwearable',
+    slug: 'ecwearable',
+    title: 'ECWearable (Aurelia Studio)',
+    tagline: 'Editorial engineered technical apparel and wearable e-commerce studio built with warm sartorial minimalism.',
+    category: 'E-Commerce',
+    filterCategory: 'Enterprise & Operations',
+    liveUrl: 'https://ecwearable.vercel.app/',
+    url: 'https://ecwearable.vercel.app/',
+    githubUrl: 'https://github.com/niloykm/ecwearable',
+    github: 'https://github.com/niloykm/ecwearable',
+    techStack: ['Next.js 15', 'React 19', 'Tailwind CSS', 'Framer Motion', 'Lucide React', 'Zustand'],
+    architectureHighlights: [
+      'Zero-shift editorial product grid with responsive high-resolution gallery zoom and tactile swatch interactions',
+      'Optimistic client-side cart synchronization with local storage persistence and sub-100ms item mutations',
+      'Strict high-contrast sartorial aesthetic adhering to warm alabaster and unbleached linen palettes',
+    ],
+    highlights: [
+      'Zero-shift editorial product grid with responsive high-resolution gallery zoom and tactile swatch interactions',
+      'Optimistic client-side cart synchronization with local storage persistence and sub-100ms item mutations',
+      'Strict high-contrast sartorial aesthetic adhering to warm alabaster and unbleached linen palettes',
+    ],
+    image: '/projects/ecwearable.webp',
+    bgImageName: 'ecwearable',
+    featured: false,
+    description: 'Editorial Apparel & Technical Wearables',
+    longDescription:
+      'Engineered e-commerce flagship application delivering a luxury editorial shopping experience for technical garments and mechanical timepieces with high visual precision.',
+    teardown: {
+      problemSolved:
+        'Traditional fashion e-commerce storefronts frequently suffer from layout shifts, bloated asset bundles, and disconnected cart states across devices.',
+      architecture:
+        'Modern Next.js 15 App Router architecture utilizing lightweight client state slices, hardware-accelerated Framer Motion transitions, and responsive picture elements.',
+      performanceChallenges:
+        'Maintained 100/100 Core Web Vitals performance with instantaneous slide-over basket updates and zero Cumulative Layout Shift (CLS).',
+    },
+  },
+  {
+    id: 'newcare',
+    slug: 'newcare',
+    title: 'NewCare',
+    tagline: 'Verified clinical care coordination portal with multi-role RBAC and concurrency-safe consultation scheduling.',
+    category: 'Healthcare',
+    filterCategory: 'EdTech & Health',
+    liveUrl: 'https://newcare.vercel.app/',
+    url: 'https://newcare.vercel.app/',
+    githubUrl: 'https://github.com/niloykm/newcare',
+    github: 'https://github.com/niloykm/newcare',
+    techStack: ['Next.js', 'TypeScript', 'NestJS', 'PostgreSQL', 'Tailwind CSS', 'JWT RBAC', 'Playwright'],
+    architectureHighlights: [
+      'Conflict-free doctor appointment slot reservations backed by database-level transactional locks',
+      'Strict three-tier role-based access control isolating Patient, Doctor, and Administrative clinical dashboards',
+      'Longitudinal patient medical history ledger with verified digital prescription indexing',
+    ],
+    highlights: [
+      'Conflict-free doctor appointment slot reservations backed by database-level transactional locks',
+      'Strict three-tier role-based access control isolating Patient, Doctor, and Administrative clinical dashboards',
+      'Longitudinal patient medical history ledger with verified digital prescription indexing',
+    ],
+    image: '/projects/newcare.webp',
+    bgImageName: 'newcare',
+    featured: true,
+    description: 'Healthcare Appointment & Clinical Portal',
+    longDescription:
+      'Role-based healthcare appointment booking and patient record portal featuring doctor schedule discovery, concurrency-safe slot booking, and longitudinal medical history tracking.',
+    teardown: {
+      problemSolved:
+        'Clinics and patients faced fragmented consultation scheduling, double-booked doctor time slots, and disconnected medical histories across workflows.',
+      architecture:
+        'Modular NestJS backend with multi-role JWT RBAC guards (Admin, Doctor, Patient) and transactional PostgreSQL slot constraints preventing concurrent double-bookings.',
+      performanceChallenges:
+        'Engineered conflict-free slot locking and zero-jank multi-step appointment wizards with sub-100ms specialty and availability filtering.',
+    },
+  },
+  {
+    id: 'ndemy',
+    slug: 'ndemy',
+    title: 'Ndemy',
+    tagline: 'Interactive engineering education and cohort learning platform with video completion telemetry and instructor studios.',
+    category: 'EdTech',
+    filterCategory: 'EdTech & Health',
+    liveUrl: 'https://ndemy-frontend.vercel.app/',
+    url: 'https://ndemy-frontend.vercel.app/',
+    githubUrl: 'https://github.com/niloykm/edemy',
+    github: 'https://github.com/niloykm/edemy',
+    techStack: ['React.js', 'Next.js', 'Node.js', 'Express.js', 'MongoDB Atlas', 'Tailwind CSS', 'JWT RBAC'],
+    architectureHighlights: [
+      'Granular video lesson progression tracking with timestamp heartbeat telemetry and offline sync',
+      'Multi-tier course authoring studio with curriculum reordering and asset pipeline publishing',
+      'Sub-100ms course catalog search and multi-facet filtering powered by covered MongoDB compound indexes',
+    ],
+    highlights: [
+      'Granular video lesson progression tracking with timestamp heartbeat telemetry and offline sync',
+      'Multi-tier course authoring studio with curriculum reordering and asset pipeline publishing',
+      'Sub-100ms course catalog search and multi-facet filtering powered by covered MongoDB compound indexes',
+    ],
+    image: '/projects/ndemy.webp',
+    bgImageName: 'ndemy1',
+    featured: true,
+    description: 'Full-Stack EdTech & LMS Workstation',
+    longDescription:
+      'Feature-rich Learning Management System with structured course catalogs, video lesson progression telemetry, student enrollment pipelines, and instructor publishing studios.',
+    teardown: {
+      problemSolved:
+        'Educators and learners needed a scalable LMS supporting structured video curricula, real-time lesson completion tracking, and role-separated instructor publishing workflows.',
+      architecture:
+        'Full-stack Node.js/Express and MongoDB architecture utilizing compound-indexed collections for courses, student enrollments, and lecture progress telemetry with JWT RBAC.',
+      performanceChallenges:
+        'Cut catalog search and curriculum query latency by 30% via covered MongoDB aggregation pipelines, debounced client filtering, and lazy-loaded video lecture modules.',
+    },
+  },
+  {
+    id: 'handson',
+    slug: 'handson',
+    title: 'HandsOn',
+    tagline: 'Interactive developer sandboxing, polyglot runtime practice, and technical workshop platform.',
+    category: 'EdTech',
+    filterCategory: 'EdTech & Health',
+    liveUrl: 'https://handsoncom.vercel.app/',
+    url: 'https://handsoncom.vercel.app/',
+    githubUrl: 'https://github.com/niloykm/handson',
+    github: 'https://github.com/niloydiu/roBenDevHandsOn',
+    techStack: ['React.js', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Node.js', 'Express.js', 'MongoDB'],
+    architectureHighlights: [
+      'Real-time workshop seat reservations with atomic capacity counter constraints and waitlist queues',
+      'Modular developer challenge runner supporting interactive code validation and instant test execution',
+      'Responsive multi-track scheduling timeline with zero layout shift on mobile viewports',
+    ],
+    highlights: [
+      'Real-time workshop seat reservations with atomic capacity counter constraints and waitlist queues',
+      'Modular developer challenge runner supporting interactive code validation and instant test execution',
+      'Responsive multi-track scheduling timeline with zero layout shift on mobile viewports',
+    ],
+    image: '/projects/handson.webp',
+    bgImageName: 'handsOn',
+    featured: false,
+    description: 'Developer Sandbox & Workshop Platform',
+    longDescription:
+      'Comprehensive event management and hands-on learning platform enabling organizers to coordinate community workshops, track real-time attendance capacity, and manage multi-track schedules.',
+    teardown: {
+      problemSolved:
+        'Community organizers lacked a unified system to coordinate volunteer-driven workshops, enforce real-time seat capacity, and synchronize multi-track event schedules.',
+      architecture:
+        'Modular Node.js & Express.js REST API backed by normalized MongoDB collections for event registrations, organizer RBAC guards, and atomic capacity counters.',
+      performanceChallenges:
+        'Eliminated redundant client re-renders across filterable event feeds using memoized state selectors, optimistic registration mutations, and Next/Image asset delivery.',
+    },
+  },
+  {
+    id: 'nrl',
+    slug: 'nrl',
+    title: 'NRL (Railway Intelligence)',
+    tagline: 'High-density railway journey intelligence, route timetable visualizer, and live station tracker.',
+    category: 'Transit & Utilities',
+    filterCategory: 'Consumer & Utilities',
+    liveUrl: 'https://nrl-zeta.vercel.app/',
+    url: 'https://nrl-zeta.vercel.app/',
+    githubUrl: 'https://github.com/niloykm/url',
+    github: 'https://github.com/niloykm/url',
+    techStack: ['React.js', 'TypeScript', 'Tailwind CSS v4', 'Bilingual Typography', 'Lucide'],
+    architectureHighlights: [
+      'Monospace numerical hierarchy (font-mono tabular-nums) displaying live gateway latency, train schedules, and platform markers',
+      'Continuous vertical route timeline stepper with real-time status indicators and cumulative milestone calculations',
+      '1-click station swap with smooth state transition preserving travel date, seat class, and fare matrices',
+    ],
+    highlights: [
+      'Monospace numerical hierarchy (font-mono tabular-nums) displaying live gateway latency, train schedules, and platform markers',
+      'Continuous vertical route timeline stepper with real-time status indicators and cumulative milestone calculations',
+      '1-click station swap with smooth state transition preserving travel date, seat class, and fare matrices',
+    ],
+    image: '/projects/nrl.webp',
+    bgImageName: 'nrl',
+    featured: false,
+    description: 'Bangladesh Railway Journey Intelligence & Timetable Workstation',
+    longDescription:
+      'Engineered transit workstation for Bangladesh Railway passengers providing 5-second journey lookup, live station stop progression steppers, and fare matrix calculations.',
+    teardown: {
+      problemSolved:
+        'Commuters and travelers struggled with confusing official train schedule portals with high latency and lack of clear station stoppage visualizers.',
+      architecture:
+        'Lightweight React interface optimized for low network latency with covered timetable data, corridor quick-filters, and bilingual font loading.',
+      performanceChallenges:
+        'Guaranteed instant timetable rendering (<16ms) without external API blocking using pre-compiled corridor routes and indexed seat class pricing.',
+    },
+  },
+  {
+    id: 'nqr',
+    slug: 'nqr',
+    title: 'NQR (Vector QR Studio)',
+    tagline: 'Zero-latency client-side vector QR code generator with Reed-Solomon error tuning and lossless SVG export.',
+    category: 'Consumer Web',
+    filterCategory: 'Consumer & Utilities',
+    liveUrl: 'https://nqr.vercel.app/',
+    url: 'https://nqr.vercel.app/',
+    githubUrl: 'https://github.com/niloykm/nqr',
+    github: 'https://github.com/niloykm/nqr',
+    techStack: ['React.js', 'TypeScript', 'Tailwind CSS', 'HTML5 Canvas', 'SVG Engine', 'JSZip'],
+    architectureHighlights: [
+      '100% client-side encoding with zero external network requests ensuring total user data privacy',
+      'Sub-16ms 60fps real-time vector re-rendering across color matrix changes and payload variations',
+      'Multi-format asset serialization supporting lossless high-DPI SVG, PNG, and PDF batch downloads',
+    ],
+    highlights: [
+      '100% client-side encoding with zero external network requests ensuring total user data privacy',
+      'Sub-16ms 60fps real-time vector re-rendering across color matrix changes and payload variations',
+      'Multi-format asset serialization supporting lossless high-DPI SVG, PNG, and PDF batch downloads',
+    ],
+    image: '/projects/nqr.webp',
+    bgImageName: 'nqr',
+    featured: false,
+    description: 'Zero-Latency Client-Side QR Vector Studio',
+    longDescription:
+      'High-speed client-side QR code studio with instant payload encoding, custom foreground/background color matrices, error-correction tuning, and lossless SVG/PNG export.',
+    teardown: {
+      problemSolved:
+        'Most web QR generators route sensitive URLs through third-party tracking servers, add redirect latency, or lock high-DPI vector exports behind commercial paywalls.',
+      architecture:
+        '100% client-side zero-network encoding pipeline utilizing HTML5 Canvas and SVG path matrices with configurable Reed-Solomon error correction levels (L, M, Q, H).',
+      performanceChallenges:
+        'Achieved sub-16ms 60fps real-time vector re-rendering during continuous color-picker and payload mutations with high-DPI Blob serialization.',
+    },
+  },
+  {
+    id: 'whattocook',
+    slug: 'whattocook',
+    title: 'What To Cook',
+    tagline: 'Real-time culinary pantry-matching decision engine and step-by-step interactive recipe workstation.',
+    category: 'Consumer Web',
+    filterCategory: 'Consumer & Utilities',
+    liveUrl: 'https://whattocook-niloy.vercel.app/',
+    url: 'https://whattocook-niloy.vercel.app/',
+    githubUrl: 'https://github.com/niloykm/whattocook',
+    github: 'https://github.com/niloykm/whattocook',
+    techStack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Prisma', 'Supabase', 'Fuse.js', 'Framer Motion'],
+    architectureHighlights: [
+      'Fuzzy pantry-matching engine calculating ingredient intersection ratios with weighted staple priority',
+      'Interactive cooking mode with step-by-step progress tracking, serving multipliers, and monospace numerical timers',
+      'Zero-jank dietary filter pills with instant client-side state updates and zero layout shift',
+    ],
+    highlights: [
+      'Fuzzy pantry-matching engine calculating ingredient intersection ratios with weighted staple priority',
+      'Interactive cooking mode with step-by-step progress tracking, serving multipliers, and monospace numerical timers',
+      'Zero-jank dietary filter pills with instant client-side state updates and zero layout shift',
+    ],
+    image: '/projects/whattocook.webp',
+    bgImageName: 'whattocook',
+    featured: false,
+    description: 'Pantry-Matching Culinary Decision Engine',
+    longDescription:
+      'Culinary utility application that resolves cooking decision fatigue through real-time pantry inventory matching, calorie and duration sorting, and guided cooking workflows.',
+    teardown: {
+      problemSolved:
+        'Home cooks face decision paralysis and food waste due to recipes demanding missing specialized ingredients rather than utilizing available pantry stock.',
+      architecture:
+        'Next.js application leveraging Fuse.js fuzzy matching algorithms against structured ingredient dictionaries, integrated with Supabase and Prisma.',
+      performanceChallenges:
+        'Eliminated query latency using client-side in-memory recipe indexes, computing ingredient match percentages in under 5ms.',
+    },
+  },
+];

@@ -46,9 +46,13 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
   if (!project) return null;
 
   const projectImg =
+    project.image ||
     project.bgImage ||
     (project.bgImageName && assets[project.bgImageName]) ||
     null;
+
+  const liveLink = project.liveUrl || project.url;
+  const repoLink = project.githubUrl !== undefined ? project.githubUrl : project.github;
 
   const teardown = project.teardown || {
     problemSolved:
@@ -221,31 +225,36 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
             {/* Modal Footer Actions */}
             <div className="p-4 sm:p-5 bg-zinc-50 dark:bg-zinc-900/90 border-t border-neutral-200 dark:border-neutral-800 flex items-center justify-between gap-3 flex-wrap">
               <div className="flex items-center gap-2.5 flex-wrap">
-                {project.url && (
+                {liveLink && (
                   <a
-                    href={project.url}
+                    href={liveLink}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`Open live demo for ${project.title}`}
                     className="inline-flex items-center gap-1.5 px-4 py-2 min-h-[38px] bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-950 font-mono text-xs font-semibold rounded-md transition-all duration-150 active:scale-[0.98]"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
-                    <span>Live Demo</span>
+                    <span>Live Production App</span>
                     <ArrowUpRight className="w-3.5 h-3.5" />
                   </a>
                 )}
 
-                {project.github && (
+                {repoLink ? (
                   <a
-                    href={project.github}
+                    href={repoLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`View ${project.title} source code on GitHub (niloydiu)`}
+                    aria-label={`View ${project.title} source code on GitHub`}
                     className="inline-flex items-center gap-1.5 px-4 py-2 min-h-[38px] bg-white dark:bg-zinc-950 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-100 border border-neutral-200 dark:border-neutral-800 font-mono text-xs font-medium rounded-md transition-all duration-150 active:scale-[0.98]"
                   >
                     <Github className="w-3.5 h-3.5" />
-                    <span>GitHub (@niloydiu)</span>
+                    <span>Verified GitHub Source</span>
                   </a>
+                ) : (
+                  <span className="inline-flex items-center gap-1.5 px-3 py-2 min-h-[38px] text-zinc-500 font-mono text-xs border border-dashed border-neutral-300 dark:border-neutral-800 rounded-md">
+                    <Server className="w-3.5 h-3.5" />
+                    <span>Internal Enterprise Fleet</span>
+                  </span>
                 )}
               </div>
 

@@ -62,9 +62,15 @@ export default function Page() {
                 ""
               ),
               bgImage:
+                item.image ||
                 matchedStatic?.bgImage ||
                 (item.bgImageName && assets[item.bgImageName]) ||
                 assets.handsOn,
+              image: item.image || matchedStatic?.image,
+              featured: item.featured ?? matchedStatic?.featured ?? false,
+              filterCategory: item.filterCategory || matchedStatic?.filterCategory || "Systems & DevOps",
+              tagline: item.tagline || matchedStatic?.tagline || item.description,
+              architectureHighlights: item.architectureHighlights || item.highlights || matchedStatic?.architectureHighlights || [],
               category:
                 item.category || matchedStatic?.category || "Full-Stack",
               techStack:

@@ -209,7 +209,14 @@ const CommandPalette = ({
       action: () => handleSelectStackFilter(tag),
     }));
 
-    const projectItems = workData.map((project, idx) => {
+    const projectItems = workData
+      .filter(
+        (project) =>
+          project.id !== "tithyniloy" &&
+          project.slug !== "tithyniloy" &&
+          !(project.url && project.url.includes("tithyniloy"))
+      )
+      .map((project, idx) => {
       const stackStr = (project.techStack || []).join(" • ");
       return {
         id: `proj-${project.id || idx}`,
