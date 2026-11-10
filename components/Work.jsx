@@ -1,14 +1,12 @@
 "use client";
 
 import { assets, workData as defaultWorkData } from "@/assets/assets";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { useState, useMemo } from "react";
 import {
   ExternalLink,
   Github,
-  Eye,
-  Briefcase,
   ArrowUpRight,
   ChevronDown,
   ChevronUp,
@@ -21,10 +19,7 @@ import {
   Layers,
   X,
 } from "lucide-react";
-import SpotlightCard from "@/components/ui/SpotlightCard";
-import MagneticButton from "@/components/ui/MagneticButton";
 import ProjectModal from "@/components/ui/ProjectModal";
-import { fadeUp, staggerContainer } from "@/lib/motion";
 
 const getTechChipIcon = (tech) => {
   const lower = tech.toLowerCase();
@@ -55,7 +50,6 @@ const getTechChipIcon = (tech) => {
 };
 
 const Work = ({
-  isDarkMode,
   workData,
   activeStackTag = "",
   onClearStackTag,
@@ -105,190 +99,186 @@ const Work = ({
     <section
       id="projects"
       aria-labelledby="projects-heading"
-      className="py-24 px-4 sm:px-6 lg:px-12 scroll-mt-20 relative overflow-hidden"
+      className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 scroll-mt-16 border-b border-neutral-200 dark:border-neutral-800 relative"
     >
-      {/* Legacy #work anchor alias for backward-compatible links */}
+      {/* Legacy #work anchor alias */}
       <div id="work" className="absolute -top-20 left-0" aria-hidden="true" />
 
-      {/* Background decoration */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-emerald-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 cyber-grid pointer-events-none" />
-      <div
-        aria-hidden="true"
-        className="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-500/10 dark:bg-emerald-600/10 rounded-full blur-3xl pointer-events-none"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-teal-500/10 dark:bg-cyan-600/10 rounded-full blur-3xl pointer-events-none"
-      />
-
-      <motion.div
-        className="max-w-7xl mx-auto relative z-10"
-        variants={staggerContainer(0.1, 0.1)}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.1 }}
-      >
-        {/* Section Header */}
-        <motion.div className="text-center mb-12" variants={fadeUp}>
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/80 rounded-full text-xs font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-300 mb-3 shadow-sm">
-            <Briefcase className="w-3.5 h-3.5" />
-            <span>Unified Engineering Showcase</span>
-          </div>
-          <h2
-            id="projects-heading"
-            className="fluid-h2 font-extrabold gradient-text mb-4"
-          >
-            Featured Engineering Projects
-          </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 mx-auto rounded-full" />
-          <p className="text-base sm:text-lg text-slate-700 dark:text-slate-300 max-w-2xl mx-auto mt-5 leading-relaxed font-normal">
-            Production-grade web applications and open-source systems built with
-            Next.js, React, NestJS/Node.js, and resilient database architectures.
-          </p>
-        </motion.div>
-
-        {/* Category Filter Tabs */}
-        <motion.div
-          variants={fadeUp}
-          role="tablist"
-          aria-label="Filter projects by category"
-          className="flex justify-center items-center gap-2 mb-8 flex-wrap"
-        >
-          {categories.map((category) => {
-            const isActive = activeCategory === category;
-            return (
-              <button
-                key={category}
-                type="button"
-                role="tab"
-                aria-selected={isActive}
-                onClick={() => setActiveCategory(category)}
-                className={`relative px-4 py-2 min-h-[40px] rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 ${
-                  isActive
-                    ? "text-white shadow-md"
-                    : "text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-100/90 dark:bg-slate-900/90 hover:bg-slate-200/80 dark:hover:bg-slate-800/80 border border-slate-200/80 dark:border-slate-800/80"
-                }`}
-              >
-                {isActive && (
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 rounded-xl -z-10"
-                    layoutId="activeCategoryPill"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  />
-                )}
-                <span className="relative z-10">{category}</span>
-              </button>
-            );
-          })}
-        </motion.div>
-
-        {/* Active Stack Tag Filter Pill (when filtered via Command Palette or chip click) */}
-        {activeStackTag && (
-          <div className="flex justify-center mb-8">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/15 border border-blue-500/30 text-blue-700 dark:text-blue-300 text-xs font-mono font-semibold">
-              <span>Filtered by Stack: {activeStackTag}</span>
-              <button
-                type="button"
-                onClick={() => onClearStackTag?.()}
-                aria-label={`Clear ${activeStackTag} stack filter`}
-                className="p-0.5 rounded-full hover:bg-blue-500/20 transition-colors"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
+      <div className="max-w-7xl mx-auto">
+        {/* Section Header + Category Filter Controls */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-8 mb-10 border-b border-neutral-200 dark:border-neutral-800">
+          <div>
+            <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-emerald-700 dark:text-emerald-400 font-semibold mb-2">
+              <span>03 // PRODUCTION SYSTEMS &amp; CASE STUDIES</span>
             </div>
+            <h2
+              id="projects-heading"
+              className="fluid-h2 font-extrabold tracking-tight text-zinc-950 dark:text-white"
+            >
+              Featured Engineering Projects
+            </h2>
+            <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-2xl mt-2 leading-relaxed">
+              Full-stack SaaS platforms, multi-role RBAC portals, and zero-latency developer utilities with complete architectural breakdowns.
+            </p>
+          </div>
+
+          {/* Crisp Monospace Category Filter Bar */}
+          <div
+            role="tablist"
+            aria-label="Filter projects by category"
+            className="flex flex-wrap items-center gap-1.5"
+          >
+            {categories.map((category) => {
+              const isActive = activeCategory === category;
+              return (
+                <button
+                  key={category}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => setActiveCategory(category)}
+                  className={`px-3.5 py-2 min-h-[36px] rounded-md font-mono text-xs font-medium transition-all duration-150 ease-out active:scale-[0.98] border ${
+                    isActive
+                      ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 border-zinc-900 dark:border-zinc-100 font-semibold"
+                      : "bg-zinc-50 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 border-neutral-200 dark:border-neutral-800 hover:border-zinc-400 dark:hover:border-zinc-700"
+                  }`}
+                >
+                  {category}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Active Stack Tag Filter Pill */}
+        {activeStackTag && (
+          <div className="flex items-center justify-between px-4 py-2.5 mb-8 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-800 dark:text-emerald-300 text-xs font-mono">
+            <span>
+              FILTERED BY STACK TAG: <strong>{activeStackTag}</strong> (
+              {filteredProjects.length} matching)
+            </span>
+            <button
+              type="button"
+              onClick={() => onClearStackTag?.()}
+              aria-label={`Clear ${activeStackTag} stack filter`}
+              className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/20 hover:bg-emerald-500/30 transition-colors duration-150"
+            >
+              <span>Clear</span>
+              <X className="w-3.5 h-3.5" />
+            </button>
           </div>
         )}
 
-        {/* Projects Grid */}
-        <motion.div
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
-        >
-          <AnimatePresence>
-            {filteredProjects.map((project, index) => {
-              const projectId = project.id || project.title || String(index);
-              const isExpanded = expandedTeardownId === projectId;
-              const projectImg =
-                project.bgImage ||
-                (project.bgImageName && assets[project.bgImageName]) ||
-                assets.handsOn;
+        {/* Asymmetric Editorial Projects Grid (Flagship Span + 2-Column Technical Ledger) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {filteredProjects.map((project, index) => {
+            const projectId = project.id || project.title || String(index);
+            const isExpanded = expandedTeardownId === projectId;
+            const isFlagship = index === 0 && activeCategory === "All" && !activeStackTag;
 
-              const matchedStatic = defaultWorkData.find(
-                (s) => s.id === project.id || s.title === project.title
-              );
-              const teardown = project.teardown ||
-                matchedStatic?.teardown || {
-                  problemSolved:
-                    project.longDescription ||
-                    "Solved workflow bottlenecks with a modern full-stack web architecture.",
-                  architecture:
-                    "RESTful Node.js/NestJS backend services paired with indexed MongoDB/PostgreSQL schemas and JWT RBAC.",
-                  performanceChallenges:
-                    "Optimized Core Web Vitals, state synchronization, and sub-second query response times.",
-                };
+            const projectImg =
+              project.bgImage ||
+              (project.bgImageName && assets[project.bgImageName]) ||
+              assets.handsOn;
 
-              const techList =
-                project.techStack && project.techStack.length > 0
-                  ? project.techStack
-                  : matchedStatic?.techStack || [
-                      "React.js",
-                      "Next.js",
-                      "Node.js",
-                      "MongoDB",
-                    ];
+            const matchedStatic = defaultWorkData.find(
+              (s) => s.id === project.id || s.title === project.title
+            );
+            const teardown = project.teardown ||
+              matchedStatic?.teardown || {
+                problemSolved:
+                  project.longDescription ||
+                  "Solved workflow bottlenecks with a modern full-stack web architecture.",
+                architecture:
+                  "RESTful Node.js/NestJS backend services paired with indexed MongoDB/PostgreSQL schemas and JWT RBAC.",
+                performanceChallenges:
+                  "Optimized Core Web Vitals, state synchronization, and sub-second query response times.",
+              };
 
-              return (
-                <motion.article
-                  key={projectId}
-                  layout
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.25 }}
-                  className="rounded-2xl flex"
+            const techList =
+              project.techStack && project.techStack.length > 0
+                ? project.techStack
+                : matchedStatic?.techStack || [
+                    "React.js",
+                    "Next.js",
+                    "Node.js",
+                    "MongoDB",
+                  ];
+
+            const indexLabel = String(index + 1).padStart(2, "0");
+
+            return (
+              <article
+                key={projectId}
+                className={`${
+                  isFlagship ? "lg:col-span-12" : "lg:col-span-6"
+                } rounded-lg bg-white dark:bg-zinc-900/40 border border-neutral-200 dark:border-neutral-800 hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors duration-150 ease-out overflow-hidden flex flex-col justify-between`}
+              >
+                <div
+                  className={
+                    isFlagship
+                      ? "grid grid-cols-1 lg:grid-cols-12"
+                      : "flex flex-col flex-1"
+                  }
                 >
-                  <SpotlightCard
-                    spotlightColor="rgba(16, 185, 129, 0.2)"
-                    className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl border border-slate-200/80 dark:border-slate-800/90 transition-all duration-300 bg-white dark:bg-slate-900/90 w-full flex flex-col justify-between"
+                  {/* Visual Preview Header */}
+                  <div
+                    className={`relative overflow-hidden bg-zinc-950 border-b ${
+                      isFlagship
+                        ? "lg:col-span-5 h-56 sm:h-72 lg:h-full lg:border-b-0 lg:border-r"
+                        : "h-48 sm:h-52 w-full"
+                    } border-neutral-200 dark:border-neutral-800`}
                   >
-                    <div>
-                      {/* Preview Image Header */}
-                      <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-950 border-b border-slate-200/60 dark:border-slate-800/80">
-                        <Image
-                          src={projectImg}
-                          alt={project.title}
-                          fill
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/25 to-transparent pointer-events-none" />
+                    <Image
+                      src={projectImg}
+                      alt={project.title}
+                      fill
+                      sizes={
+                        isFlagship
+                          ? "(max-width: 1024px) 100vw, 45vw"
+                          : "(max-width: 1024px) 100vw, 50vw"
+                      }
+                      className="object-cover object-top"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-zinc-950/20 to-transparent pointer-events-none" />
 
-                        <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
-                          <span className="text-[11px] font-mono font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md bg-slate-950/80 backdrop-blur-md text-emerald-300 border border-emerald-500/30">
-                            {project.category || "Full-Stack"}
-                          </span>
-
-                          <button
-                            type="button"
-                            onClick={() =>
-                              setSelectedProject({
-                                ...matchedStatic,
-                                ...project,
-                                teardown,
-                                techStack: techList,
-                              })
-                            }
-                            aria-label={`Open full technical teardown modal for ${project.title}`}
-                            className="inline-flex items-center gap-1 text-[11px] font-mono font-semibold text-white bg-slate-950/80 hover:bg-emerald-600 px-2.5 py-1 rounded-md backdrop-blur-md border border-white/20 transition-colors"
-                          >
-                            <Layers className="w-3 h-3 text-emerald-400" />
-                            <span>Modal View</span>
-                          </button>
-                        </div>
+                    <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-mono tabular-nums text-[11px] font-bold px-2 py-0.5 rounded bg-zinc-950/90 text-zinc-200 border border-neutral-700">
+                          {indexLabel}
+                        </span>
+                        <span className="font-mono text-[11px] font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded bg-zinc-950/90 text-emerald-400 border border-emerald-500/40">
+                          {project.category || "Full-Stack"}
+                        </span>
                       </div>
 
-                      {/* Card Body */}
-                      <div className="p-5 sm:p-6">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setSelectedProject({
+                            ...matchedStatic,
+                            ...project,
+                            teardown,
+                            techStack: techList,
+                          })
+                        }
+                        aria-label={`Open full technical teardown modal for ${project.title}`}
+                        className="inline-flex items-center gap-1 text-[11px] font-mono font-semibold text-zinc-100 bg-zinc-950/90 hover:bg-zinc-800 px-2.5 py-1 rounded border border-neutral-700 transition-colors duration-150 active:scale-[0.98]"
+                      >
+                        <Layers className="w-3 h-3 text-emerald-400" />
+                        <span>Specs Modal</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Architectural Summary Body */}
+                  <div
+                    className={`${
+                      isFlagship ? "lg:col-span-7 p-6 sm:p-7" : "p-5 sm:p-6"
+                    } flex flex-col justify-between flex-1`}
+                  >
+                    <div>
+                      <div className="flex items-start justify-between gap-3 mb-2">
                         <h3
                           onClick={() =>
                             setSelectedProject({
@@ -298,103 +288,118 @@ const Work = ({
                               techStack: techList,
                             })
                           }
-                          className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-1.5 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors cursor-pointer"
+                          className="text-lg sm:text-xl font-bold text-zinc-950 dark:text-white tracking-tight hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors duration-150 cursor-pointer"
                         >
                           {project.title}
                         </h3>
+                      </div>
 
-                        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
-                          {project.longDescription || project.description}
-                        </p>
+                      <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed mb-4">
+                        {project.longDescription || project.description}
+                      </p>
 
-                        {/* Core Tech Stack Chips with Iconography */}
-                        <div className="flex flex-wrap gap-1.5 mb-4">
-                          {techList.map((tech, tIdx) => {
-                            const ChipIcon = getTechChipIcon(tech);
-                            return (
-                              <button
-                                key={tIdx}
-                                type="button"
-                                onClick={() => onSelectStackTag?.(tech)}
-                                aria-label={`Filter projects by ${tech}`}
-                                className="inline-flex items-center gap-1 text-[11px] font-mono font-medium px-2.5 py-1 bg-slate-100 dark:bg-slate-800/90 hover:bg-emerald-500/15 dark:hover:bg-emerald-500/20 text-slate-700 dark:text-slate-200 rounded-md border border-slate-200 dark:border-slate-700/80 transition-colors"
-                              >
-                                <ChipIcon className="w-3 h-3 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
-                                <span>{tech}</span>
-                              </button>
-                            );
-                          })}
+                      {/* Always-Visible System Architecture Preview */}
+                      <div className="p-3.5 rounded-md bg-zinc-50 dark:bg-zinc-950/90 border border-neutral-200 dark:border-neutral-800 mb-4 space-y-2 text-xs">
+                        <div>
+                          <span className="font-mono font-semibold text-zinc-900 dark:text-zinc-200">
+                            ARCHITECTURE:{" "}
+                          </span>
+                          <span className="text-zinc-600 dark:text-zinc-400">
+                            {teardown.architecture}
+                          </span>
                         </div>
+                        <div>
+                          <span className="font-mono font-semibold text-emerald-700 dark:text-emerald-400">
+                            SCALE &amp; PERF:{" "}
+                          </span>
+                          <span className="text-zinc-600 dark:text-zinc-400">
+                            {teardown.performanceChallenges}
+                          </span>
+                        </div>
+                      </div>
 
-                        {/* Expandable Inline Technical Teardown Section */}
-                        <div className="mb-4">
-                          <button
-                            type="button"
-                            onClick={() => toggleInlineTeardown(projectId)}
-                            aria-expanded={isExpanded}
-                            aria-label={`Toggle technical teardown for ${project.title}`}
-                            className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-slate-100/80 dark:bg-slate-950/70 hover:bg-slate-200/70 dark:hover:bg-slate-950 border border-slate-200/80 dark:border-slate-800 text-xs font-mono font-semibold text-emerald-700 dark:text-emerald-300 transition-colors"
-                          >
-                            <span className="flex items-center gap-1.5">
-                              <Database className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                              <span>Technical Teardown</span>
-                            </span>
-                            {isExpanded ? (
-                              <ChevronUp className="w-4 h-4" />
-                            ) : (
-                              <ChevronDown className="w-4 h-4" />
-                            )}
-                          </button>
+                      {/* Real Tech Stack Badges */}
+                      <div className="flex flex-wrap gap-1.5 mb-4">
+                        {techList.map((tech, tIdx) => {
+                          const ChipIcon = getTechChipIcon(tech);
+                          return (
+                            <button
+                              key={tIdx}
+                              type="button"
+                              onClick={() => onSelectStackTag?.(tech)}
+                              aria-label={`Filter projects by ${tech}`}
+                              className="inline-flex items-center gap-1 text-[11px] font-mono font-medium px-2.5 py-1 bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 rounded border border-neutral-200 dark:border-neutral-800 transition-colors duration-150 active:scale-[0.98]"
+                            >
+                              <ChipIcon className="w-3 h-3 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+                              <span>{tech}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
 
-                          <AnimatePresence initial={false}>
-                            {isExpanded && (
-                              <motion.div
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: "auto" }}
-                                exit={{ opacity: 0, height: 0 }}
-                                transition={{ duration: 0.25 }}
-                                className="overflow-hidden"
-                              >
-                                <div className="mt-2.5 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/90 border border-slate-200 dark:border-slate-800 space-y-2.5 text-xs">
-                                  <div>
-                                    <span className="font-mono font-bold text-amber-700 dark:text-amber-400 flex items-center gap-1 mb-0.5">
-                                      <AlertTriangle className="w-3 h-3" />
-                                      <span>Problem Solved:</span>
-                                    </span>
-                                    <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                                      {teardown.problemSolved}
-                                    </p>
-                                  </div>
+                      {/* Expandable Full Problem & Deliverables Teardown */}
+                      <div className="mb-2">
+                        <button
+                          type="button"
+                          onClick={() => toggleInlineTeardown(projectId)}
+                          aria-expanded={isExpanded}
+                          aria-label={`Toggle technical teardown for ${project.title}`}
+                          className="w-full flex items-center justify-between px-3 py-2 rounded-md bg-zinc-100/80 dark:bg-zinc-900 hover:bg-zinc-200/70 dark:hover:bg-zinc-800 border border-neutral-200 dark:border-neutral-800 text-xs font-mono font-semibold text-zinc-800 dark:text-zinc-200 transition-colors duration-150"
+                        >
+                          <span className="flex items-center gap-1.5">
+                            <Database className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                            <span>Problem Statement &amp; Deliverables</span>
+                          </span>
+                          {isExpanded ? (
+                            <ChevronUp className="w-4 h-4" />
+                          ) : (
+                            <ChevronDown className="w-4 h-4" />
+                          )}
+                        </button>
 
-                                  <div>
-                                    <span className="font-mono font-bold text-blue-700 dark:text-blue-400 flex items-center gap-1 mb-0.5">
-                                      <Database className="w-3 h-3" />
-                                      <span>Database / Backend Architecture:</span>
-                                    </span>
-                                    <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                                      {teardown.architecture}
-                                    </p>
-                                  </div>
-
-                                  <div>
-                                    <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400 flex items-center gap-1 mb-0.5">
-                                      <Gauge className="w-3 h-3" />
-                                      <span>Key Performance Challenges:</span>
-                                    </span>
-                                    <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                                      {teardown.performanceChallenges}
-                                    </p>
-                                  </div>
+                        <AnimatePresence initial={false}>
+                          {isExpanded && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.15, ease: "easeOut" }}
+                              className="overflow-hidden"
+                            >
+                              <div className="mt-2 p-3.5 rounded-md bg-zinc-50 dark:bg-zinc-950 border border-neutral-200 dark:border-neutral-800 space-y-2.5 text-xs">
+                                <div>
+                                  <span className="font-mono font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-1 mb-0.5">
+                                    <AlertTriangle className="w-3 h-3 text-amber-500" />
+                                    <span>Problem Solved:</span>
+                                  </span>
+                                  <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                                    {teardown.problemSolved}
+                                  </p>
                                 </div>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </div>
+
+                                {project.highlights &&
+                                  project.highlights.length > 0 && (
+                                    <div>
+                                      <span className="font-mono font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-1 mb-1">
+                                        <Gauge className="w-3 h-3 text-emerald-500" />
+                                        <span>Key Engineering Deliverables:</span>
+                                      </span>
+                                      <ul className="space-y-1 pl-4 list-disc text-zinc-600 dark:text-zinc-400">
+                                        {project.highlights.map((h, hIdx) => (
+                                          <li key={hIdx}>{h}</li>
+                                        ))}
+                                      </ul>
+                                    </div>
+                                  )}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                       </div>
                     </div>
 
-                    {/* Card Footer Action Buttons */}
-                    <div className="px-5 sm:px-6 pb-5 pt-3 border-t border-slate-200/70 dark:border-slate-800/80 flex items-center justify-between gap-2 flex-wrap">
+                    {/* Card Footer Action Bar */}
+                    <div className="pt-4 mt-2 border-t border-neutral-200 dark:border-neutral-800 flex items-center justify-between gap-2 flex-wrap">
                       <div className="flex items-center gap-2 flex-wrap">
                         {project.url && (
                           <a
@@ -402,9 +407,8 @@ const Work = ({
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label={`Open live demo for ${project.title}`}
-                            className="inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[38px] bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold shadow-sm transition-all duration-200"
+                            className="inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[36px] bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-950 rounded-md font-mono text-xs font-semibold transition-all duration-150 ease-out active:scale-[0.98]"
                           >
-                            <Eye className="w-3.5 h-3.5" />
                             <span>Live Demo</span>
                             <ArrowUpRight className="w-3.5 h-3.5" />
                           </a>
@@ -416,10 +420,10 @@ const Work = ({
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label={`View ${project.title} repository on GitHub (niloydiu)`}
-                            className="inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[38px] bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-semibold transition-all duration-200"
+                            className="inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[36px] bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-neutral-200 dark:border-neutral-800 rounded-md font-mono text-xs font-semibold transition-all duration-150 ease-out active:scale-[0.98]"
                           >
                             <Github className="w-3.5 h-3.5" />
-                            <span>GitHub</span>
+                            <span>Source Code</span>
                           </a>
                         )}
                       </div>
@@ -435,51 +439,47 @@ const Work = ({
                           })
                         }
                         aria-label={`View full technical teardown modal for ${project.title}`}
-                        className="text-xs font-mono font-semibold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                        className="text-xs font-mono font-semibold text-zinc-600 dark:text-zinc-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors duration-150"
                       >
                         Full Specs →
                       </button>
                     </div>
-                  </SpotlightCard>
-                </motion.article>
-              );
-            })}
-          </AnimatePresence>
-        </motion.div>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
 
-        {/* Bottom CTA & GitHub Profile Link */}
-        <motion.div
-          className="text-center mt-16 flex flex-col sm:flex-row items-center justify-center gap-4"
-          variants={fadeUp}
-        >
-          <MagneticButton strength={0.25}>
-            <motion.button
-              type="button"
-              onClick={handleCtaClick}
-              className="inline-flex items-center gap-3 px-8 py-4 min-h-[48px] bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-[0_0_25px_rgba(16,185,129,0.4)] transition-all duration-300 text-sm sm:text-base"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              <span>Discuss an Engineering Project</span>
-              <ExternalLink className="w-4 h-4" />
-            </motion.button>
-          </MagneticButton>
-
-          <MagneticButton strength={0.2}>
+        {/* Bottom Repository Archive & CTA */}
+        <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 border border-neutral-200 dark:border-neutral-800">
+          <div className="font-mono text-xs text-zinc-600 dark:text-zinc-400">
+            Showing <strong className="text-zinc-900 dark:text-zinc-100">{filteredProjects.length}</strong> production case studies • 50+ additional open-source repositories on GitHub.
+          </div>
+          <div className="flex flex-wrap items-center gap-3">
             <a
               href="https://github.com/niloydiu"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Explore all public repositories on GitHub (@niloydiu)"
-              className="inline-flex items-center gap-2 px-6 py-4 min-h-[48px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-emerald-500/60 text-slate-800 dark:text-slate-200 font-semibold rounded-xl shadow-sm transition-all text-sm sm:text-base"
+              className="inline-flex items-center gap-2 px-4 py-2 min-h-[38px] bg-white dark:bg-zinc-950 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-neutral-200 dark:border-neutral-800 text-zinc-800 dark:text-zinc-200 font-mono font-semibold rounded-md text-xs transition-all duration-150 ease-out active:scale-[0.98]"
             >
-              <Github className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <Github className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
               <span>All Repositories (@niloydiu)</span>
-              <ArrowUpRight className="w-4 h-4" />
+              <ArrowUpRight className="w-3.5 h-3.5" />
             </a>
-          </MagneticButton>
-        </motion.div>
-      </motion.div>
+
+            <button
+              type="button"
+              onClick={handleCtaClick}
+              className="inline-flex items-center gap-2 px-4 py-2 min-h-[38px] bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-950 font-mono font-semibold rounded-md text-xs transition-all duration-150 ease-out active:scale-[0.98]"
+            >
+              <span>Discuss an Engineering Project</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+      </div>
 
       {/* Deep Dive Technical Teardown Modal */}
       <ProjectModal

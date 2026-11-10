@@ -7,7 +7,6 @@ import Header from "@/components/Header";
 import Navbar from "@/components/Navbar";
 import Services from "@/components/Services";
 import Work from "@/components/Work";
-import CyberParticles from "@/components/CyberParticles";
 import ScrollProgressBar from "@/components/ui/ScrollProgressBar";
 import CommandPalette from "@/components/ui/CommandPalette";
 import { ToastProvider } from "@/components/ui/Toast";
@@ -99,9 +98,8 @@ export default function Page() {
 
   return (
     <ToastProvider>
-      <div className="min-h-screen bg-background relative overflow-x-hidden">
+      <div className="min-h-screen bg-[#ffffff] dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 relative overflow-x-hidden">
         <ScrollProgressBar />
-        <CyberParticles />
         <CommandPalette
           isDarkMode={isDarkMode}
           setIsDarkMode={setIsDarkMode}

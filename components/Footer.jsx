@@ -1,7 +1,7 @@
 "use client";
 
 import { assets, socialLinks } from "@/assets/assets";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import {
   Mail,
@@ -12,10 +12,8 @@ import {
   ArrowUp,
 } from "lucide-react";
 import { useState, useEffect } from "react";
-import MagneticButton from "@/components/ui/MagneticButton";
-import { fadeUp, staggerContainer } from "@/lib/motion";
 
-const Footer = ({ isDarkMode }) => {
+const Footer = () => {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const shouldReduceMotion = useReducedMotion();
 
@@ -52,106 +50,74 @@ const Footer = ({ isDarkMode }) => {
   return (
     <footer
       aria-label="Footer"
-      className="relative mt-24 overflow-hidden border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-50/70 dark:bg-slate-950/70 backdrop-blur-md"
+      className="border-t border-neutral-200 dark:border-neutral-800 bg-zinc-50/60 dark:bg-[#09090b]"
     >
-      {/* Subtle decorative glow elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-          aria-hidden="true"
-          className="absolute top-0 left-1/4 w-72 h-72 bg-blue-500/5 dark:bg-blue-600/5 rounded-full blur-3xl"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute bottom-0 right-1/4 w-72 h-72 bg-purple-500/5 dark:bg-purple-600/5 rounded-full blur-3xl"
-        />
-      </div>
-
-      <motion.div
-        className="relative z-10 py-16 px-4 sm:px-6 lg:px-12 max-w-6xl mx-auto"
-        variants={staggerContainer(0.1, 0.1)}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.2 }}
-      >
-        {/* Main footer content */}
-        <div className="text-center mb-12">
-          <motion.div variants={fadeUp} className="mb-6 flex justify-center">
+      <div className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-neutral-200 dark:border-neutral-800">
+          <div className="flex items-center gap-3">
             <Image
               src={assets.logoNiloy}
               alt="Niloy's Logo"
-              className="h-10 w-auto filter dark:brightness-110"
+              className="h-7 w-auto filter dark:brightness-110"
             />
-          </motion.div>
+            <div>
+              <div className="font-mono text-xs font-bold text-zinc-900 dark:text-zinc-100">
+                Niloy Kumar Mohonta
+              </div>
+              <div className="font-mono text-[11px] text-zinc-500 dark:text-zinc-400">
+                Full-Stack Software Engineer &amp; Co-Founder @ Gen Stella IT
+              </div>
+            </div>
+          </div>
 
-          <motion.div variants={fadeUp}>
-            <MagneticButton strength={0.2}>
-              <a
-                href="mailto:niloykumarmohonta@gmail.com"
-                aria-label="Email Niloy directly at niloykumarmohonta@gmail.com"
-                className="inline-flex items-center gap-2.5 px-6 py-3 min-h-[44px] bg-white dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-full shadow-sm hover:border-blue-500/50 transition-colors duration-200 text-sm font-medium text-slate-800 dark:text-slate-200"
-              >
-                <Mail className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                <span>niloykumarmohonta@gmail.com</span>
-              </a>
-            </MagneticButton>
-          </motion.div>
+          <div className="flex flex-wrap items-center gap-3">
+            <a
+              href="mailto:niloykumarmohonta@gmail.com"
+              aria-label="Email Niloy directly at niloykumarmohonta@gmail.com"
+              className="inline-flex items-center gap-2 px-3.5 py-2 min-h-[36px] bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-neutral-800 rounded-md hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors duration-150 font-mono text-xs text-zinc-800 dark:text-zinc-200 active:scale-[0.98]"
+            >
+              <Mail className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+              <span>niloykumarmohonta@gmail.com</span>
+            </a>
+
+            <div className="flex items-center gap-1.5">
+              {socialLinks.map((site, index) => {
+                const Icon = socialIcons[site.name.toLowerCase()] || Mail;
+                return (
+                  <a
+                    key={index}
+                    href={site.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Visit Niloy's ${site.name} profile`}
+                    className="p-2 min-w-[36px] min-h-[36px] flex items-center justify-center bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-neutral-800 rounded-md text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors duration-150 active:scale-[0.98]"
+                  >
+                    <Icon className="w-4 h-4" />
+                  </a>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
-        {/* Social links */}
-        <motion.div
-          variants={fadeUp}
-          className="flex justify-center items-center gap-4 mb-12 flex-wrap"
-        >
-          {socialLinks.map((site, index) => {
-            const Icon = socialIcons[site.name.toLowerCase()] || Mail;
-            return (
-              <MagneticButton key={index} strength={0.25}>
-                <motion.a
-                  href={site.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Visit Niloy's ${site.name} profile`}
-                  className="p-3.5 min-w-[44px] min-h-[44px] flex items-center justify-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500/50 transition-all duration-200 shadow-sm"
-                  whileHover={{ scale: 1.08, y: -2 }}
-                  whileTap={{ scale: 0.94 }}
-                >
-                  <Icon className="w-5 h-5" />
-                </motion.a>
-              </MagneticButton>
-            );
-          })}
-        </motion.div>
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 font-mono text-xs text-zinc-500 dark:text-zinc-400 tabular-nums">
+          <p>© {new Date().getFullYear()} Niloy Kumar Mohonta. All rights reserved.</p>
+          <p>NEXT.JS 15 • REACT 19 • STRICT MONOCHROMATIC SYSTEM</p>
+        </div>
+      </div>
 
-        {/* Divider */}
-        <motion.div
-          variants={fadeUp}
-          className="h-px bg-gradient-to-r from-transparent via-slate-300 dark:via-slate-800 to-transparent mb-8"
-        />
-
-        {/* Bottom copyright notice */}
-        <motion.div variants={fadeUp} className="text-center">
-          <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm font-normal">
-            © {new Date().getFullYear()} Niloy Kumar Mohonta. All rights
-            reserved.
-          </p>
-        </motion.div>
-      </motion.div>
-
-      {/* Floating Back to top button */}
       <AnimatePresence>
         {showBackToTop && (
           <motion.button
             type="button"
             onClick={scrollToTop}
             aria-label="Scroll back to top of page"
-            className="fixed bottom-6 right-6 p-3.5 min-w-[44px] min-h-[44px] bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white rounded-full shadow-xl hover:shadow-2xl z-40 group focus-visible:ring-2 focus-visible:ring-blue-500"
-            initial={{ opacity: 0, scale: 0.8, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 10 }}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.92 }}
+            className="fixed bottom-6 right-6 p-2.5 min-w-[40px] min-h-[40px] bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 rounded-md border border-neutral-700 dark:border-neutral-300 z-40 flex items-center justify-center transition-transform duration-150 active:scale-[0.98]"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
           >
-            <ArrowUp className="w-5 h-5 group-hover:-translate-y-0.5 transition-transform duration-200" />
+            <ArrowUp className="w-4 h-4" />
           </motion.button>
         )}
       </AnimatePresence>

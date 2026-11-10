@@ -1,7 +1,7 @@
 "use client";
 
 import { assets } from "@/assets/assets";
-import { motion, useReducedMotion } from "framer-motion";
+import { useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import {
   Mail,
@@ -13,17 +13,12 @@ import {
   Twitter,
   Download,
   Terminal,
+  ArrowUpRight,
 } from "lucide-react";
 import { useState } from "react";
-import MagneticButton from "@/components/ui/MagneticButton";
 import { useToast } from "@/components/ui/Toast";
-import {
-  fadeUp,
-  staggerContainer,
-  floatingAnimation,
-} from "@/lib/motion";
 
-const Header = ({ isDarkMode }) => {
+const Header = () => {
   const shouldReduceMotion = useReducedMotion();
   const { showToast } = useToast();
   const [copied, setCopied] = useState(false);
@@ -69,217 +64,234 @@ const Header = ({ isDarkMode }) => {
     <section
       id="top"
       aria-label="Hero Section"
-      className="relative min-h-[90vh] sm:min-h-screen flex items-center justify-center overflow-hidden pt-28 pb-16 px-4 sm:px-6"
+      className="relative pt-24 pb-16 sm:pt-32 sm:pb-24 px-4 sm:px-6 lg:px-8 border-b border-neutral-200 dark:border-neutral-800 structural-grid"
     >
-      {/* Background decoration with cyber-grid */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/40 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 cyber-grid pointer-events-none" />
+      <div className="max-w-7xl mx-auto">
+        {/* Top Architectural Status Strip */}
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-6 mb-8 border-b border-neutral-200 dark:border-neutral-800">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-zinc-100 dark:bg-zinc-900 border border-neutral-200 dark:border-neutral-800 text-xs font-mono font-semibold text-zinc-900 dark:text-zinc-100">
+              <Terminal className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+              <span>Full-Stack Software Engineer &amp; Co-Founder at Gen Stella IT</span>
+            </span>
 
-      {/* Ambient glowing blobs */}
-      <div
-        aria-hidden="true"
-        className="absolute top-1/4 left-1/4 w-72 h-72 sm:w-96 sm:h-96 bg-blue-500/10 dark:bg-blue-600/15 rounded-full blur-[100px] pointer-events-none"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute bottom-1/4 right-1/4 w-80 h-80 sm:w-96 sm:h-96 bg-purple-500/10 dark:bg-purple-600/15 rounded-full blur-[120px] pointer-events-none"
-      />
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-xs font-mono font-medium text-emerald-800 dark:text-emerald-300">
+              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+              <span>Available for select engineering roles</span>
+            </span>
+          </div>
 
-      <motion.div
-        className="relative z-10 w-full max-w-5xl mx-auto text-center"
-        variants={staggerContainer(0.08, 0.08)}
-        initial="hidden"
-        animate="show"
-      >
-        {/* Profile Image with Gentle Floating Loop */}
-        <motion.div variants={fadeUp} className="mb-5 relative inline-block">
-          <motion.div
-            animate={shouldReduceMotion ? {} : floatingAnimation}
-            className="relative"
-          >
-            <div
-              aria-hidden="true"
-              className="absolute -inset-1.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full blur-md opacity-50 dark:opacity-70 animate-pulse"
-            />
-            <Image
-              src={assets.profileNiloyTP}
-              alt="Portrait of Niloy Kumar Mohonta"
-              width={128}
-              height={128}
-              sizes="(max-width: 640px) 112px, 128px"
-              className="relative rounded-full w-28 h-28 sm:w-32 sm:h-32 object-cover border-2 border-white/80 dark:border-slate-800/80 shadow-2xl bg-white dark:bg-slate-900"
-              priority
-            />
-            {/* Status indicator dot */}
-            <div
-              className="absolute bottom-1.5 right-1.5 w-4 h-4 bg-emerald-500 border-2 border-white dark:border-slate-900 rounded-full shadow-md"
-              title="Available for full-time engineering roles & contracts"
-            >
-              <span className="sr-only">Available for work</span>
+          <div className="font-mono tabular-nums text-xs text-zinc-600 dark:text-zinc-400">
+            <span>LOC: DHAKA, BD (UTC+6)</span>
+          </div>
+        </div>
+
+        {/* Asymmetric 12-Column Engineering Hero */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          {/* Primary Column (8 Cols): Direct Hook, Proof, Stack & CTAs */}
+          <div className="lg:col-span-8 space-y-6">
+            <div>
+              <h1 className="fluid-h1 font-extrabold tracking-tight text-zinc-950 dark:text-white">
+                Niloy Kumar Mohonta
+              </h1>
+              <p className="mt-2 font-mono text-xs sm:text-sm text-emerald-700 dark:text-emerald-400 font-semibold">
+                NEXT.JS • NESTJS • POSTGRESQL • DISTRIBUTED WEB SYSTEMS
+              </p>
             </div>
-          </motion.div>
-        </motion.div>
 
-        {/* Styled Role & Availability Badges */}
-        <motion.div
-          variants={fadeUp}
-          className="mb-5 flex flex-wrap items-center justify-center gap-2.5"
-        >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50/95 dark:bg-blue-950/60 border border-blue-200/80 dark:border-blue-800/80 text-xs sm:text-sm font-mono font-semibold text-blue-700 dark:text-blue-300 shadow-sm">
-            <Terminal className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-            <span>Full-Stack Software Engineer</span>
-          </span>
+            {/* Direct, Punchy Engineering Proof + Sub-Headline */}
+            <div className="space-y-3 max-w-3xl">
+              <p className="text-base sm:text-lg text-zinc-900 dark:text-zinc-100 font-medium leading-relaxed">
+                Engineered full-stack SaaS platforms, custom LMS RBAC auth engines, and cloud infrastructures handling high-concurrency workloads.
+              </p>
+              <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                Architecting resilient web applications, modular NestJS/Node.js backend systems, and pixel-complete React/Next.js interfaces with strict performance standards.
+              </p>
+            </div>
 
-          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50/95 dark:bg-emerald-950/50 border border-emerald-300/70 dark:border-emerald-700/70 shadow-sm">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-            <span className="text-xs font-semibold text-emerald-800 dark:text-emerald-300">
-              Available for Full-Time & Remote Engineering
-            </span>
-          </span>
-        </motion.div>
-
-        {/* Main Hero Headline */}
-        <motion.h1
-          variants={fadeUp}
-          className="fluid-h1 font-extrabold mb-5 tracking-tight text-slate-900 dark:text-white leading-[1.1]"
-        >
-          <span>Niloy Kumar </span>
-          <span className="gradient-text drop-shadow-[0_2px_12px_rgba(59,130,246,0.2)] dark:drop-shadow-[0_2px_15px_rgba(168,85,247,0.35)]">
-            Mohonta
-          </span>
-        </motion.h1>
-
-        {/* Refined Sub-Headline & Value Proposition */}
-        <motion.p
-          variants={fadeUp}
-          className="text-base sm:text-lg lg:text-xl text-slate-700 dark:text-slate-200 max-w-3xl mx-auto mb-8 leading-relaxed font-normal"
-        >
-          Architecting resilient web applications, modular NestJS/Node.js backend systems, and pixel-complete React/Next.js interfaces with strict performance standards.
-        </motion.p>
-
-        {/* Tech Stack Badges */}
-        <motion.div
-          variants={fadeUp}
-          className="flex justify-center items-center gap-2 flex-wrap max-w-2xl mx-auto mb-9"
-        >
-          {techBadges.map((tech) => (
-            <span
-              key={tech}
-              className="text-[11px] sm:text-xs font-mono font-medium px-2.5 py-1 bg-slate-100 dark:bg-slate-900/90 text-slate-700 dark:text-slate-200 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm"
-            >
-              {tech}
-            </span>
-          ))}
-        </motion.div>
-
-        {/* Interactive CTA Buttons: Explore Projects, Copy Email, Download Resume */}
-        <motion.div
-          variants={fadeUp}
-          className="flex flex-col sm:flex-row flex-wrap gap-3.5 justify-center items-center mb-8"
-        >
-          <MagneticButton strength={0.25}>
-            <motion.a
-              href="#projects"
-              onClick={handleExploreProjects}
-              aria-label="Explore Projects"
-              className="group w-full sm:w-auto px-7 py-3.5 min-h-[44px] bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] transition-all duration-300 flex items-center justify-center gap-2.5 text-sm sm:text-base"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              <span>Explore Projects</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-            </motion.a>
-          </MagneticButton>
-
-          <MagneticButton strength={0.25}>
-            <button
-              type="button"
-              onClick={handleCopyEmail}
-              aria-label="Copy email address niloykumarmohonta@gmail.com to clipboard"
-              className="group w-full sm:w-auto px-6 py-3.5 min-h-[44px] bg-white/90 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 font-semibold rounded-xl hover:border-blue-500/60 hover:bg-slate-50 dark:hover:bg-slate-800/90 transition-all duration-300 flex items-center justify-center gap-2 text-sm sm:text-base shadow-sm"
-            >
-              {copied ? (
-                <>
-                  <Check className="w-4 h-4 text-emerald-500" />
-                  <span className="text-emerald-600 dark:text-emerald-400">
-                    Email Copied!
+            {/* Core Tech Stack Chips */}
+            <div className="pt-1">
+              <div className="text-[11px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-2.5">
+                Core Production Stack
+              </div>
+              <div className="flex flex-wrap items-center gap-1.5">
+                {techBadges.map((tech) => (
+                  <span
+                    key={tech}
+                    className="text-xs font-mono font-medium px-2.5 py-1 bg-zinc-50 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 rounded-md border border-neutral-200 dark:border-neutral-800"
+                  >
+                    {tech}
                   </span>
-                </>
-              ) : (
-                <>
-                  <Copy className="w-4 h-4 text-slate-600 dark:text-slate-300 group-hover:text-blue-500 transition-colors" />
-                  <span>Copy Email</span>
-                </>
-              )}
-            </button>
-          </MagneticButton>
+                ))}
+              </div>
+            </div>
 
-          <MagneticButton strength={0.25}>
-            <a
-              href="/niloy.pdf"
-              download="Niloy_Kumar_Mohonta_Resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Download Resume (PDF)"
-              className="group w-full sm:w-auto px-6 py-3.5 min-h-[44px] bg-slate-100/90 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 font-semibold rounded-xl hover:border-purple-500/60 hover:bg-slate-200/70 dark:hover:bg-slate-800/90 transition-all duration-300 flex items-center justify-center gap-2 text-sm sm:text-base shadow-sm"
-            >
-              <Download className="w-4 h-4 text-blue-600 dark:text-blue-400 group-hover:translate-y-0.5 transition-transform" />
-              <span>Download Resume</span>
-            </a>
-          </MagneticButton>
-        </motion.div>
+            {/* Dual Primary CTAs + Secondary Utility Actions */}
+            <div className="pt-2 flex flex-wrap items-center gap-3">
+              <a
+                href="#projects"
+                onClick={handleExploreProjects}
+                aria-label="Explore Projects"
+                className="group inline-flex items-center justify-center gap-2 px-5 py-2.5 min-h-[42px] bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-950 font-mono font-semibold text-xs sm:text-sm rounded-md transition-all duration-150 ease-out active:scale-[0.98]"
+              >
+                <span>Explore Projects</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-150 ease-out" />
+              </a>
 
-        {/* Hero Quick Socials */}
-        <motion.div
-          variants={fadeUp}
-          className="flex justify-center items-center gap-3"
-        >
-          <MagneticButton strength={0.2}>
-            <a
-              href="https://github.com/niloydiu"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Visit Niloy's GitHub profile (niloydiu)"
-              className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-slate-100/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors shadow-sm"
-            >
-              <Github className="w-4 h-4" />
-            </a>
-          </MagneticButton>
+              <a
+                href="/niloy.pdf"
+                download="Niloy_Kumar_Mohonta_Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Download Resume (PDF)"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[42px] bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-100 border border-neutral-300 dark:border-neutral-700 font-mono font-semibold text-xs sm:text-sm rounded-md transition-all duration-150 ease-out active:scale-[0.98]"
+              >
+                <Download className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <span>Download Resume</span>
+              </a>
 
-          <MagneticButton strength={0.2}>
-            <a
-              href="https://www.linkedin.com/in/niloykumarmohonta000/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Visit Niloy's LinkedIn profile"
-              className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-slate-100/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors shadow-sm"
-            >
-              <Linkedin className="w-4 h-4" />
-            </a>
-          </MagneticButton>
+              <a
+                href="https://github.com/niloydiu"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="View Resume/GitHub profile (niloydiu)"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[42px] bg-zinc-50 dark:bg-zinc-900/80 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-neutral-200 dark:border-neutral-800 font-mono font-medium text-xs sm:text-sm rounded-md transition-all duration-150 ease-out active:scale-[0.98]"
+              >
+                <Github className="w-4 h-4" />
+                <span>View GitHub</span>
+                <ArrowUpRight className="w-3.5 h-3.5 opacity-70" />
+              </a>
 
-          <MagneticButton strength={0.2}>
-            <a
-              href="https://x.com/niloykmohonta"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Visit Niloy's X (Twitter) profile"
-              className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-slate-100/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors shadow-sm"
-            >
-              <Twitter className="w-4 h-4" />
-            </a>
-          </MagneticButton>
+              <button
+                type="button"
+                onClick={handleCopyEmail}
+                aria-label="Copy email address niloykumarmohonta@gmail.com to clipboard"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[42px] bg-zinc-50 dark:bg-zinc-900/80 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-neutral-200 dark:border-neutral-800 font-mono font-medium text-xs sm:text-sm rounded-md transition-all duration-150 ease-out active:scale-[0.98]"
+              >
+                {copied ? (
+                  <>
+                    <Check className="w-4 h-4 text-emerald-500" />
+                    <span className="text-emerald-700 dark:text-emerald-400">
+                      Email Copied
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-4 h-4 text-zinc-500 dark:text-zinc-400" />
+                    <span>Copy Email</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
 
-          <MagneticButton strength={0.2}>
-            <a
-              href="mailto:niloykumarmohonta@gmail.com"
-              aria-label="Send direct email to niloykumarmohonta@gmail.com"
-              className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-slate-100/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors shadow-sm"
-            >
-              <Mail className="w-4 h-4" />
-            </a>
-          </MagneticButton>
-        </motion.div>
-      </motion.div>
+          {/* Right Column (4 Cols): Structured Engineering Dossier & Telemetry */}
+          <div className="lg:col-span-4 w-full">
+            <div className="rounded-lg bg-white dark:bg-zinc-900/60 border border-neutral-200 dark:border-neutral-800 p-5 space-y-5">
+              {/* Engineer Identity Header */}
+              <div className="flex items-center gap-4 pb-4 border-b border-neutral-200 dark:border-neutral-800">
+                <div className="relative flex-shrink-0">
+                  <Image
+                    src={assets.profileNiloyTP}
+                    alt="Portrait of Niloy Kumar Mohonta"
+                    width={64}
+                    height={64}
+                    sizes="64px"
+                    className="rounded-md w-16 h-16 object-cover border border-neutral-200 dark:border-neutral-800 bg-zinc-100 dark:bg-zinc-950"
+                    priority
+                  />
+                  <span
+                    className="absolute -bottom-1 -right-1 w-3 h-3 bg-emerald-500 border-2 border-white dark:border-[#09090b] rounded-full"
+                    title="Available for engineering roles"
+                  />
+                </div>
+                <div className="min-w-0">
+                  <div className="font-mono text-[11px] uppercase tracking-wider text-emerald-700 dark:text-emerald-400 font-semibold">
+                    SYS::ENGINEER_SPEC
+                  </div>
+                  <div className="text-base font-bold text-zinc-900 dark:text-zinc-100 truncate">
+                    Niloy K. Mohonta
+                  </div>
+                  <div className="font-mono text-xs text-zinc-600 dark:text-zinc-400 truncate">
+                    B.Sc. CSE @ DIU • Co-Founder
+                  </div>
+                </div>
+              </div>
+
+              {/* Tabular Specification Rows */}
+              <dl className="space-y-2.5 font-mono text-xs">
+                <div className="flex items-center justify-between py-1 border-b border-neutral-100 dark:border-neutral-800/70">
+                  <dt className="text-zinc-500 dark:text-zinc-400">LEADERSHIP</dt>
+                  <dd className="text-zinc-900 dark:text-zinc-100 font-semibold tabular-nums">
+                    Gen Stella IT
+                  </dd>
+                </div>
+                <div className="flex items-center justify-between py-1 border-b border-neutral-100 dark:border-neutral-800/70">
+                  <dt className="text-zinc-500 dark:text-zinc-400">EXPERIENCE</dt>
+                  <dd className="text-zinc-900 dark:text-zinc-100 font-semibold tabular-nums">
+                    3+ Yrs Production
+                  </dd>
+                </div>
+                <div className="flex items-center justify-between py-1 border-b border-neutral-100 dark:border-neutral-800/70">
+                  <dt className="text-zinc-500 dark:text-zinc-400">REPOSITORIES</dt>
+                  <dd className="text-zinc-900 dark:text-zinc-100 font-semibold tabular-nums">
+                    50+ Public Systems
+                  </dd>
+                </div>
+                <div className="flex items-center justify-between py-1">
+                  <dt className="text-zinc-500 dark:text-zinc-400">ARCHITECTURE</dt>
+                  <dd className="text-emerald-700 dark:text-emerald-400 font-semibold tabular-nums">
+                    RBAC • SSR • ACID
+                  </dd>
+                </div>
+              </dl>
+
+              {/* Quick Social Links */}
+              <div className="pt-3 border-t border-neutral-200 dark:border-neutral-800 flex items-center justify-between">
+                <span className="font-mono text-[11px] text-zinc-500 dark:text-zinc-400">
+                  DIRECT CHANNELS
+                </span>
+                <div className="flex items-center gap-1.5">
+                  <a
+                    href="https://github.com/niloydiu"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Visit Niloy's GitHub profile (niloydiu)"
+                    className="p-2 rounded-md bg-zinc-50 dark:bg-zinc-950 border border-neutral-200 dark:border-neutral-800 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors duration-150 ease-out active:scale-[0.98]"
+                  >
+                    <Github className="w-3.5 h-3.5" />
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/niloykumarmohonta000/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Visit Niloy's LinkedIn profile"
+                    className="p-2 rounded-md bg-zinc-50 dark:bg-zinc-950 border border-neutral-200 dark:border-neutral-800 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors duration-150 ease-out active:scale-[0.98]"
+                  >
+                    <Linkedin className="w-3.5 h-3.5" />
+                  </a>
+                  <a
+                    href="https://x.com/niloykmohonta"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Visit Niloy's X (Twitter) profile"
+                    className="p-2 rounded-md bg-zinc-50 dark:bg-zinc-950 border border-neutral-200 dark:border-neutral-800 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors duration-150 ease-out active:scale-[0.98]"
+                  >
+                    <Twitter className="w-3.5 h-3.5" />
+                  </a>
+                  <a
+                    href="mailto:niloykumarmohonta@gmail.com"
+                    aria-label="Send direct email to niloykumarmohonta@gmail.com"
+                    className="p-2 rounded-md bg-zinc-50 dark:bg-zinc-950 border border-neutral-200 dark:border-neutral-800 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors duration-150 ease-out active:scale-[0.98]"
+                  >
+                    <Mail className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };

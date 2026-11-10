@@ -1,27 +1,90 @@
 "use client";
 
-import { assets } from "@/assets/assets";
-import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import {
-  Code,
   Terminal,
   Clock,
   Globe2,
-  Cpu,
-  Layers,
-  ShieldCheck,
-  Zap,
+  Briefcase,
+  GraduationCap,
+  CheckCircle2,
+  Download,
 } from "lucide-react";
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
 import DevTerminal from "@/components/ui/DevTerminal";
-import SpotlightCard from "@/components/ui/SpotlightCard";
 import { useGitHubStats } from "@/lib/useGitHubStats";
 import { FALLBACK_METRICS } from "@/lib/github";
-import { fadeUp, scaleIn, staggerContainer } from "@/lib/motion";
 
-const About = ({ isDarkMode, infoList: propInfoList }) => {
+const EXPERIENCE_TIMELINE = [
+  {
+    period: "2026 — PRESENT",
+    role: "Co-Founder & Technical Lead",
+    organization: "Gen Stella IT",
+    type: "Leadership & Architecture",
+    stack: ["Next.js", "NestJS", "PostgreSQL", "Docker", "n8n"],
+    summary:
+      "Directing full-stack SaaS architecture, multi-tenant database design, and automated deployment pipelines.",
+    metrics: [
+      "Architected modular Next.js & NestJS/PostgreSQL production systems with strict multi-role RBAC",
+      "Engineered n8n webhook automation pipelines reducing manual operational triage by 40%",
+    ],
+  },
+  {
+    period: "2025 — PRESENT",
+    role: "Full-Stack Software Engineer",
+    organization: "ScholarPASS",
+    type: "EdTech Platform",
+    stack: ["Next.js", "TypeScript", "Node.js", "MongoDB", "OAuth / JWT"],
+    summary:
+      "Engineered multi-tenant LMS portals, custom RBAC authentication engines, and scholarship workflow pipelines.",
+    metrics: [
+      "Built compound-indexed MongoDB aggregation pipelines cutting curriculum & catalog query latency by 30%",
+      "Implemented role-isolated student, instructor, and administrator portals with JWT session guards",
+    ],
+  },
+  {
+    period: "2025 — 2026",
+    role: "Frontend Engineer",
+    organization: "TripBooking.ai",
+    type: "Travel & AI SaaS",
+    stack: ["React.js", "Next.js", "TypeScript", "Tailwind CSS", "REST APIs"],
+    summary:
+      "Architected high-concurrency travel search, itinerary filtering, and multi-step booking interfaces.",
+    metrics: [
+      "Optimized Core Web Vitals across dynamic search feeds, reducing Largest Contentful Paint (LCP) from 3.2s to 1.5s",
+      "Eliminated redundant client re-renders using memoized state selectors and deterministic caching",
+    ],
+  },
+  {
+    period: "2025",
+    role: "Frontend Engineer",
+    organization: "TutorsPlan",
+    type: "EdTech SaaS",
+    stack: ["React.js", "Next.js", "TypeScript", "Tailwind CSS"],
+    summary:
+      "Developed interactive tutor scheduling matrices, real-time analytics dashboards, and accessible UI components.",
+    metrics: [
+      "Delivered WCAG AA compliant, zero-CLS dashboard layouts across mobile (360px+) and desktop viewports",
+      "Standardized reusable form validation and asynchronous data-fetching patterns",
+    ],
+  },
+  {
+    period: "2022 — 2026",
+    role: "B.Sc. in Computer Science & Engineering (CSE)",
+    organization: "Daffodil International University (DIU)",
+    type: "Academic Foundation",
+    stack: ["C++", "Data Structures", "Algorithms", "OS", "DBMS"],
+    summary:
+      "Rigorous computer science foundation in algorithmic complexity, relational database systems, and software engineering.",
+    metrics: [
+      "Solved 200+ algorithmic and data-structure problems in C++ across competitive programming judges",
+      "Led full-stack capstone systems integrating relational schemas, REST APIs, and modern web clients",
+    ],
+  },
+];
+
+const About = () => {
   const [timeString, setTimeString] = useState("");
   const [mounted, setMounted] = useState(false);
   const [activeConsole, setActiveConsole] = useState(true);
@@ -29,7 +92,6 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
 
   const githubStats = useGitHubStats(FALLBACK_METRICS);
 
-  // Live Dhaka Time (GMT+6)
   useEffect(() => {
     setMounted(true);
     const updateTime = () => {
@@ -54,57 +116,6 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
     return () => clearInterval(interval);
   }, []);
 
-  const coreSkills = [
-    {
-      name: "React.js / Next.js",
-      level: "Senior",
-      pct: 95,
-      color: "from-blue-500 to-cyan-500",
-    },
-    {
-      name: "TypeScript / JavaScript",
-      level: "Advanced",
-      pct: 92,
-      color: "from-blue-600 to-indigo-500",
-    },
-    {
-      name: "Node.js / NestJS / Express",
-      level: "Advanced",
-      pct: 88,
-      color: "from-emerald-500 to-teal-600",
-    },
-    {
-      name: "PostgreSQL / MongoDB",
-      level: "Proficient",
-      pct: 86,
-      color: "from-purple-500 to-pink-500",
-    },
-    {
-      name: "Tailwind CSS / Docker",
-      level: "Expert",
-      pct: 94,
-      color: "from-teal-400 to-emerald-500",
-    },
-  ];
-
-  const engineeringPrinciples = [
-    {
-      icon: Zap,
-      title: "Sub-Second Latency",
-      desc: "Optimized Core Web Vitals, tree-shaking, and zero layout shift.",
-    },
-    {
-      icon: ShieldCheck,
-      title: "Clean Architecture",
-      desc: "Modular, maintainable code with strict typing and unit reliability.",
-    },
-    {
-      icon: Layers,
-      title: "Accessible by Default",
-      desc: "Keyboard navigable, WCAG AA contrast compliant, and screen-reader ready.",
-    },
-  ];
-
   const handleToggleTerminal = () => {
     setUserToggledConsole(true);
     setActiveConsole((prev) => !prev);
@@ -114,314 +125,209 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
     <section
       id="about"
       aria-labelledby="about-heading"
-      className="py-24 px-4 sm:px-6 lg:px-12 scroll-mt-20 relative overflow-hidden"
+      className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 scroll-mt-16 border-b border-neutral-200 dark:border-neutral-800"
     >
-      {/* Ambient background decoration */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 cyber-grid pointer-events-none" />
-      <div
-        aria-hidden="true"
-        className="absolute -top-40 -right-40 w-96 h-96 bg-blue-500/10 dark:bg-purple-500/10 rounded-full blur-3xl pointer-events-none"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute -bottom-40 -left-40 w-96 h-96 bg-purple-500/10 dark:bg-blue-500/10 rounded-full blur-3xl pointer-events-none"
-      />
-
-      <motion.div
-        className="max-w-7xl mx-auto relative z-10"
-        variants={staggerContainer(0.1, 0.08)}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.1 }}
-      >
-        {/* Section Header */}
-        <motion.div className="text-center mb-16" variants={fadeUp}>
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-50 dark:bg-blue-950/60 border border-blue-200/80 dark:border-blue-800/80 rounded-full text-xs font-semibold uppercase tracking-wider text-blue-700 dark:text-blue-300 mb-3 shadow-sm">
-            <Code className="w-3.5 h-3.5" />
-            <span>Developer Overview</span>
-          </div>
-          <h2
-            id="about-heading"
-            className="fluid-h2 font-extrabold gradient-text mb-4"
-          >
-            Engineered for Impact
-          </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 mx-auto rounded-full" />
-          <p className="text-base sm:text-lg text-slate-700 dark:text-slate-300 max-w-2xl mx-auto mt-5 leading-relaxed font-normal">
-            A look into my engineering philosophy, technical stack, live metrics,
-            and interactive console.
-          </p>
-        </motion.div>
-
-        {/* Master Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Bento 1: Profile & Bio Card (Spans 2 columns on lg) */}
-          <motion.div variants={scaleIn} className="lg:col-span-2">
-            <SpotlightCard
-              spotlightColor="rgba(59, 130, 246, 0.15)"
-              className="bento-card p-6 sm:p-8 h-full flex flex-col justify-between"
+      <div className="max-w-7xl mx-auto">
+        {/* Section Header — Editorial Left-Aligned */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-8 mb-12 border-b border-neutral-200 dark:border-neutral-800">
+          <div>
+            <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-emerald-700 dark:text-emerald-400 font-semibold mb-2">
+              <span>01 // EXPERIENCE &amp; TELEMETRY</span>
+            </div>
+            <h2
+              id="about-heading"
+              className="fluid-h2 font-extrabold tracking-tight text-zinc-950 dark:text-white"
             >
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 mb-6">
-                <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border-2 border-slate-200 dark:border-slate-800 shadow-xl flex-shrink-0 bg-slate-900">
-                  <Image
-                    src={assets.userImageNiloySM}
-                    alt="Niloy Kumar Mohonta"
-                    fill
-                    sizes="112px"
-                    className="object-cover"
-                    priority
-                  />
-                </div>
+              Engineering Track Record
+            </h2>
+          </div>
+          <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-xl leading-relaxed">
+            Production leadership across SaaS platforms, multi-tenant EdTech architectures, and high-concurrency web applications.
+          </p>
+        </div>
 
-                <div>
-                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 border border-blue-500/30 text-blue-700 dark:text-blue-300 text-xs font-mono font-semibold rounded-full mb-2">
-                    <span>Full-Stack Software Engineer</span>
+        {/* Asymmetric 12-Column Layout: 7-Col Experience Timeline + 5-Col Telemetry & CLI */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+          {/* Left Column (7 Cols): Structured Tabular Experience Timeline */}
+          <div className="lg:col-span-7 space-y-4">
+            <div className="flex items-center justify-between px-1 mb-2">
+              <span className="font-mono text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold flex items-center gap-2">
+                <Briefcase className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                <span>Chronological Career &amp; Academic Ledger</span>
+              </span>
+              <a
+                href="/niloy.pdf"
+                download="Niloy_Kumar_Mohonta_Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-zinc-700 dark:text-zinc-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors duration-150"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span>Full CV (PDF)</span>
+              </a>
+            </div>
+
+            <div className="divide-y divide-neutral-200 dark:divide-neutral-800 border border-neutral-200 dark:border-neutral-800 rounded-lg bg-white dark:bg-zinc-900/40 overflow-hidden">
+              {EXPERIENCE_TIMELINE.map((item, idx) => {
+                const isAcademic = item.organization.includes("University");
+                return (
+                  <div
+                    key={idx}
+                    className="p-5 sm:p-6 hover:bg-zinc-50/80 dark:hover:bg-zinc-900/80 transition-colors duration-150 ease-out"
+                  >
+                    <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4 mb-2">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        {isAcademic ? (
+                          <GraduationCap className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+                        ) : (
+                          <span className="w-2 h-2 rounded-full bg-emerald-500 flex-shrink-0" />
+                        )}
+                        <h3 className="text-base sm:text-lg font-bold text-zinc-950 dark:text-white tracking-tight">
+                          {item.role}
+                        </h3>
+                        <span className="font-mono text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+                          @ {item.organization}
+                        </span>
+                      </div>
+                      <span className="font-mono tabular-nums text-xs text-zinc-500 dark:text-zinc-400 flex-shrink-0">
+                        {item.period}
+                      </span>
+                    </div>
+
+                    <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed mb-3">
+                      {item.summary}
+                    </p>
+
+                    <ul className="space-y-1.5 mb-3.5">
+                      {item.metrics.map((metric, mIdx) => (
+                        <li
+                          key={mIdx}
+                          className="flex items-start gap-2 text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed"
+                        >
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" />
+                          <span>{metric}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div className="flex flex-wrap gap-1.5">
+                      {item.stack.map((tech) => (
+                        <span
+                          key={tech}
+                          className="font-mono text-[11px] px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-950 text-zinc-700 dark:text-zinc-300 border border-neutral-200 dark:border-neutral-800"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
-                    Niloy Kumar Mohonta
-                  </h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-300 mt-1">
-                    Building scalable, resilient, and high-performance web systems.
-                  </p>
-                </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Right Column (5 Cols): Telemetry Counters, Workstation Clock & CLI Trigger */}
+          <div className="lg:col-span-5 space-y-6">
+            {/* High-Density Engineering Telemetry Card */}
+            <div className="rounded-lg bg-white dark:bg-zinc-900/40 border border-neutral-200 dark:border-neutral-800 p-5 sm:p-6">
+              <div className="flex items-center justify-between pb-3 mb-4 border-b border-neutral-200 dark:border-neutral-800">
+                <span className="font-mono text-xs uppercase tracking-wider font-semibold text-zinc-700 dark:text-zinc-300">
+                  LIVE TELEMETRY &amp; METRICS
+                </span>
+                <span className="font-mono text-[11px] text-emerald-700 dark:text-emerald-400 font-medium">
+                  VERIFIED
+                </span>
               </div>
 
-              <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-6 font-normal">
-                I specialize in architecting resilient full-stack applications using TypeScript, Next.js, React, NestJS, and Node.js. Whether designing pixel-complete user interfaces, optimizing Core Web Vitals, or engineering transactional backends with PostgreSQL and MongoDB, I deliver software built to production standards.
-              </p>
-
-              {/* Quick Key Metrics — Zero CLS & Dynamic GitHub API with Resilient Fallbacks */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5 pt-4 border-t border-slate-200/80 dark:border-slate-800/80">
-                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200/70 dark:border-slate-800/80 min-h-[84px] flex flex-col justify-center">
-                  <div className="text-2xl sm:text-3xl font-extrabold text-blue-600 dark:text-blue-400 tabular-nums leading-tight">
+              {/* 3 Key Metrics Grid — Zero CLS */}
+              <div className="grid grid-cols-3 gap-3 mb-6">
+                <div className="p-3 rounded-md bg-zinc-50 dark:bg-zinc-950 border border-neutral-200 dark:border-neutral-800">
+                  <div className="font-mono text-xl sm:text-2xl font-bold text-zinc-950 dark:text-white tabular-nums">
                     <AnimatedCounter
                       value={githubStats.publicRepos}
                       fallbackValue={50}
                       suffix="+"
                     />
                   </div>
-                  <div className="text-xs text-slate-600 dark:text-slate-300 font-medium mt-0.5">
+                  <div className="font-mono text-[11px] text-zinc-600 dark:text-zinc-400 mt-1">
                     GitHub Repos
                   </div>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200/70 dark:border-slate-800/80 min-h-[84px] flex flex-col justify-center">
-                  <div className="text-2xl sm:text-3xl font-extrabold text-purple-600 dark:text-purple-400 tabular-nums leading-tight">
+                <div className="p-3 rounded-md bg-zinc-50 dark:bg-zinc-950 border border-neutral-200 dark:border-neutral-800">
+                  <div className="font-mono text-xl sm:text-2xl font-bold text-zinc-950 dark:text-white tabular-nums">
                     <AnimatedCounter
                       value={githubStats.experienceYears}
                       fallbackValue={3}
                       suffix="+ Yrs"
                     />
                   </div>
-                  <div className="text-xs text-slate-600 dark:text-slate-300 font-medium mt-0.5">
+                  <div className="font-mono text-[11px] text-zinc-600 dark:text-zinc-400 mt-1">
                     Development Exp
                   </div>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200/70 dark:border-slate-800/80 col-span-2 sm:col-span-1 min-h-[84px] flex flex-col justify-center">
-                  <div className="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 tabular-nums leading-tight">
+                <div className="p-3 rounded-md bg-zinc-50 dark:bg-zinc-950 border border-neutral-200 dark:border-neutral-800">
+                  <div className="font-mono text-xl sm:text-2xl font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
                     <AnimatedCounter
                       value={githubStats.commitmentPct}
                       fallbackValue={100}
                       suffix="%"
                     />
                   </div>
-                  <div className="text-xs text-slate-600 dark:text-slate-300 font-medium mt-0.5">
+                  <div className="font-mono text-[11px] text-zinc-600 dark:text-zinc-400 mt-1">
                     Commitment to Craft
                   </div>
                 </div>
               </div>
-            </SpotlightCard>
-          </motion.div>
 
-          {/* Bento 2: Live Location & Availability Widget */}
-          <motion.div variants={scaleIn}>
-            <SpotlightCard
-              spotlightColor="rgba(16, 185, 129, 0.15)"
-              className="bento-card p-6 sm:p-8 h-full flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-4">
-                  <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
-                    <Globe2 className="w-4 h-4" />
-                    <span>Location &amp; Time</span>
-                  </div>
-                  <span
-                    className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"
-                    aria-hidden="true"
-                  />
-                </div>
-
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                  Dhaka, Bangladesh
-                </h3>
-
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mb-6">
-                  Available for global remote contracts and full-time engineering
-                  roles.
-                </p>
-
-                {/* Digital Clock Widget */}
-                <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-center font-mono shadow-inner mb-6">
-                  <div className="text-xs text-slate-300 mb-1 flex items-center justify-center gap-1.5">
-                    <Clock className="w-3.5 h-3.5 text-blue-400" />
-                    <span>Local Time (GMT+6)</span>
-                  </div>
-                  <div
-                    suppressHydrationWarning
-                    className="text-2xl sm:text-3xl font-extrabold text-white tracking-widest tabular-nums"
-                  >
-                    {mounted && timeString ? timeString : "06:00:00 PM"}
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-3">
-                <span
-                  className="w-2.5 h-2.5 rounded-full bg-emerald-500 flex-shrink-0"
-                  aria-hidden="true"
-                />
-                <span className="text-xs font-semibold text-emerald-800 dark:text-emerald-300">
-                  Ready to start immediately
-                </span>
-              </div>
-            </SpotlightCard>
-          </motion.div>
-
-          {/* Bento 3: Tech Radar & Competencies */}
-          <motion.div variants={scaleIn}>
-            <SpotlightCard
-              spotlightColor="rgba(99, 102, 241, 0.15)"
-              className="bento-card p-6 sm:p-8 h-full flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-400 mb-4">
-                  <Cpu className="w-4 h-4" />
-                  <span>Technical Proficiency</span>
-                </div>
-
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">
-                  Core Stack Radar
-                </h3>
-
-                <div className="space-y-3.5">
-                  {coreSkills.map((skill) => (
-                    <div key={skill.name}>
-                      <div className="flex justify-between text-xs font-medium text-slate-700 dark:text-slate-200 mb-1">
-                        <span>{skill.name}</span>
-                        <span className="font-mono text-slate-600 dark:text-slate-300">
-                          {skill.level}
-                        </span>
-                      </div>
-                      <div className="w-full h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
-                        <motion.div
-                          initial={{ width: `${skill.pct}%` }}
-                          whileInView={{ width: `${skill.pct}%` }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.8, ease: "easeOut" }}
-                          className={`h-full rounded-full bg-gradient-to-r ${skill.color}`}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs font-mono text-slate-600 dark:text-slate-300">
-                <span>NestJS • PostgreSQL • Docker</span>
-                <span className="text-blue-600 dark:text-blue-400 font-semibold">
-                  Production Ready
-                </span>
-              </div>
-            </SpotlightCard>
-          </motion.div>
-
-          {/* Bento 4: Engineering Principles */}
-          <motion.div variants={scaleIn}>
-            <SpotlightCard
-              spotlightColor="rgba(168, 85, 247, 0.15)"
-              className="bento-card p-6 sm:p-8 h-full flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-purple-700 dark:text-purple-400 mb-4">
-                  <ShieldCheck className="w-4 h-4" />
-                  <span>Engineering Standard</span>
-                </div>
-
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">
-                  How I Build Software
-                </h3>
-
-                <div className="space-y-4">
-                  {engineeringPrinciples.map((item, idx) => {
-                    const Icon = item.icon;
-                    return (
-                      <div key={idx} className="flex items-start gap-3">
-                        <div className="p-2 rounded-lg bg-purple-500/10 text-purple-700 dark:text-purple-300 flex-shrink-0 mt-0.5">
-                          <Icon className="w-4 h-4" />
-                        </div>
-                        <div>
-                          <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
-                            {item.title}
-                          </h4>
-                          <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mt-0.5">
-                            {item.desc}
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
-                <span className="text-xs font-mono text-slate-600 dark:text-slate-300">
-                  Zero Shortcuts • Strict Performance Standards
-                </span>
-              </div>
-            </SpotlightCard>
-          </motion.div>
-
-          {/* Bento 5: Interactive Dev Terminal Toggle & Console */}
-          <motion.div variants={scaleIn}>
-            <SpotlightCard
-              spotlightColor="rgba(59, 130, 246, 0.15)"
-              className="bento-card p-6 sm:p-8 h-full flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-4">
-                  <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400">
-                    <Terminal className="w-4 h-4" />
-                    <span>Developer CLI</span>
-                  </div>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-500/10 text-blue-600 dark:text-blue-300 border border-blue-500/30 font-semibold">
-                    Interactive
+              {/* Workstation Time & Availability Ledger */}
+              <div className="p-4 rounded-md bg-zinc-950 border border-neutral-800 text-zinc-100 font-mono space-y-2.5">
+                <div className="flex items-center justify-between text-xs text-zinc-400">
+                  <span className="flex items-center gap-1.5">
+                    <Globe2 className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Dhaka, Bangladesh</span>
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <Clock className="w-3.5 h-3.5 text-zinc-400" />
+                    <span>UTC+6</span>
                   </span>
                 </div>
-
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                  Try Niloy&apos;s Console
-                </h3>
-
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mb-5">
-                  Run live CLI commands (<code className="text-blue-600 dark:text-blue-400 font-mono">help</code>,{" "}
-                  <code className="text-blue-600 dark:text-blue-400 font-mono">skills</code>,{" "}
-                  <code className="text-blue-600 dark:text-blue-400 font-mono">projects</code>,{" "}
-                  <code className="text-blue-600 dark:text-blue-400 font-mono">cat resume</code>,{" "}
-                  <code className="text-blue-600 dark:text-blue-400 font-mono">contact</code>) below.
-                </p>
-
-                <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-left font-mono text-xs text-slate-200 space-y-1.5 mb-6 break-words">
-                  <p className="text-emerald-400">❯ niloy --version</p>
-                  <p className="text-slate-300 pl-3">
-                    v3.0.0 (Full-Stack Software Engineer)
-                  </p>
-                  <p className="text-emerald-400">❯ cat resume</p>
-                  <p className="text-cyan-300 pl-3">
-                    📄 Work history &amp; PDF link ready...
-                  </p>
+                <div
+                  suppressHydrationWarning
+                  className="text-xl sm:text-2xl font-bold text-white tracking-wider tabular-nums"
+                >
+                  {mounted && timeString ? timeString : "06:00:00 PM"}
+                </div>
+                <div className="pt-2 border-t border-neutral-800 flex items-center justify-between text-[11px]">
+                  <span className="text-zinc-400">STATUS</span>
+                  <span className="text-emerald-400 font-semibold flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                    <span>Ready for immediate onboarding</span>
+                  </span>
                 </div>
               </div>
+            </div>
+
+            {/* Interactive CLI Control Card */}
+            <div className="rounded-lg bg-white dark:bg-zinc-900/40 border border-neutral-200 dark:border-neutral-800 p-5 sm:p-6">
+              <div className="flex items-center justify-between gap-2 mb-2">
+                <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-zinc-900 dark:text-zinc-100">
+                  <Terminal className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                  <span>Interactive Workstation CLI</span>
+                </div>
+                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 font-semibold">
+                  zsh v3.0
+                </span>
+              </div>
+
+              <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed mb-4">
+                Inspect stack specifications, work history, and project links directly via terminal commands (
+                <code className="font-mono text-zinc-900 dark:text-zinc-200">help</code>,{" "}
+                <code className="font-mono text-zinc-900 dark:text-zinc-200">skills</code>,{" "}
+                <code className="font-mono text-zinc-900 dark:text-zinc-200">projects</code>,{" "}
+                <code className="font-mono text-zinc-900 dark:text-zinc-200">cat resume</code>).
+              </p>
 
               <button
                 type="button"
@@ -433,13 +339,13 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
                 }
                 aria-expanded={activeConsole}
                 aria-controls="interactive-dev-terminal"
-                className="w-full py-2.5 px-4 min-h-[44px] bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold text-xs sm:text-sm rounded-xl transition-all shadow-md flex items-center justify-center gap-2"
+                className="w-full py-2 px-4 min-h-[38px] bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-950 font-mono font-semibold text-xs rounded-md transition-all duration-150 ease-out active:scale-[0.98] flex items-center justify-center gap-2"
               >
-                <Terminal className="w-4 h-4" />
+                <Terminal className="w-3.5 h-3.5" />
                 <span>{activeConsole ? "Hide Terminal" : "Launch Terminal"}</span>
               </button>
-            </SpotlightCard>
-          </motion.div>
+            </div>
+          </div>
         </div>
 
         {/* Expandable Live Developer Console View */}
@@ -447,19 +353,17 @@ const About = ({ isDarkMode, infoList: propInfoList }) => {
           {activeConsole && (
             <motion.div
               id="interactive-dev-terminal"
-              initial={{ opacity: 0, height: 0, y: 12 }}
-              animate={{ opacity: 1, height: "auto", y: 0 }}
-              exit={{ opacity: 0, height: 0, y: 12 }}
-              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
               className="mt-8 overflow-hidden"
             >
-              <div className="max-w-4xl mx-auto">
-                <DevTerminal autoFocusOnMount={userToggledConsole} />
-              </div>
+              <DevTerminal autoFocusOnMount={userToggledConsole} />
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.div>
+      </div>
     </section>
   );
 };

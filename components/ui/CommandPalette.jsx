@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   Search,
   Command,
@@ -46,7 +46,6 @@ const CommandPalette = ({
   const listRef = useRef(null);
   const { showToast } = useToast();
 
-  // Listen for Cmd+K or Ctrl+K shortcut globally
   useEffect(() => {
     const handleKeyDown = (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
@@ -62,7 +61,6 @@ const CommandPalette = ({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, setIsOpen]);
 
-  // Focus search input on open
   useEffect(() => {
     if (isOpen) {
       setQuery("");
@@ -115,15 +113,15 @@ const CommandPalette = ({
     const navigation = [
       {
         id: "nav-about",
-        title: "Go to About (Developer Overview)",
+        title: "Go to About (Experience & Telemetry)",
         category: "Navigation",
-        keywords: "about overview metrics terminal console bio",
+        keywords: "about overview metrics terminal console bio experience",
         icon: User,
         action: () => scrollTo("about"),
       },
       {
         id: "nav-services",
-        title: "Go to Expertise (Technical Domains)",
+        title: "Go to Expertise (Architecture & Skills Matrix)",
         category: "Navigation",
         keywords: "expertise services skills architecture backend frontend",
         icon: Layers,
@@ -151,7 +149,7 @@ const CommandPalette = ({
       {
         id: "act-copy-email",
         title: "Copy Email: niloykumarmohonta@gmail.com",
-        category: "Contact & Actions",
+        category: "Actions",
         keywords: "copy email address contact gmail",
         icon: Copy,
         action: copyEmail,
@@ -159,7 +157,7 @@ const CommandPalette = ({
       {
         id: "act-resume",
         title: "Download Resume (PDF)",
-        category: "Contact & Actions",
+        category: "Actions",
         keywords: "resume cv pdf download",
         icon: Download,
         action: () => {
@@ -170,7 +168,7 @@ const CommandPalette = ({
       {
         id: "act-github",
         title: "Open GitHub Profile (@niloydiu)",
-        category: "Contact & Actions",
+        category: "Actions",
         keywords: "github niloydiu repos code",
         icon: Github,
         action: () => {
@@ -181,7 +179,7 @@ const CommandPalette = ({
       {
         id: "act-linkedin",
         title: "Open LinkedIn Profile",
-        category: "Contact & Actions",
+        category: "Actions",
         keywords: "linkedin social connect",
         icon: Linkedin,
         action: () => {
@@ -195,7 +193,7 @@ const CommandPalette = ({
       {
         id: "act-toggle-theme",
         title: `Switch to ${isDarkMode ? "Light" : "Dark"} Mode`,
-        category: "Contact & Actions",
+        category: "Actions",
         keywords: "theme dark light mode toggle",
         icon: isDarkMode ? Sun : Moon,
         action: toggleTheme,
@@ -274,8 +272,8 @@ const CommandPalette = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-slate-950/75 backdrop-blur-md"
+            transition={{ duration: 0.15 }}
+            className="fixed inset-0 bg-black/75 backdrop-blur-xs"
             onClick={() => setIsOpen(false)}
             aria-hidden="true"
           />
@@ -285,15 +283,15 @@ const CommandPalette = ({
             role="dialog"
             aria-modal="true"
             aria-label="Command Palette"
-            initial={{ opacity: 0, scale: 0.95, y: -10 }}
+            initial={{ opacity: 0, scale: 0.98, y: -8 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: -10 }}
-            transition={{ type: "spring", stiffness: 450, damping: 35 }}
-            className="relative w-full max-w-xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden text-slate-900 dark:text-slate-100"
+            exit={{ opacity: 0, scale: 0.98, y: -8 }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
+            className="relative w-full max-w-xl bg-white dark:bg-[#09090b] rounded-lg border border-neutral-200 dark:border-neutral-800 overflow-hidden text-zinc-900 dark:text-zinc-100"
           >
             {/* Search Input Bar */}
-            <div className="flex items-center gap-3 px-4 py-3.5 border-b border-slate-200 dark:border-slate-800">
-              <Search className="w-5 h-5 text-slate-500 dark:text-slate-400 flex-shrink-0" />
+            <div className="flex items-center gap-3 px-4 py-3 border-b border-neutral-200 dark:border-neutral-800">
+              <Search className="w-4 h-4 text-zinc-500 dark:text-zinc-400 flex-shrink-0" />
               <label htmlFor="command-palette-input" className="sr-only">
                 Search sections, projects by stack tag, or actions
               </label>
@@ -305,29 +303,29 @@ const CommandPalette = ({
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Jump to section, filter by stack (Next.js, PostgreSQL), or copy email..."
-                className="w-full bg-transparent text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none"
+                className="w-full bg-transparent text-xs sm:text-sm text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none font-mono"
               />
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
                 aria-label="Close command palette"
-                className="inline-flex items-center gap-1 px-2 py-1 text-[10px] font-mono font-semibold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700"
+                className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-mono font-semibold text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 border border-neutral-200 dark:border-neutral-800 rounded hover:bg-zinc-200 dark:hover:bg-zinc-800"
               >
                 ESC
               </button>
             </div>
 
             {/* Quick Stack Tag Filter Bar */}
-            <div className="px-4 py-2.5 bg-slate-50/90 dark:bg-slate-950/60 border-b border-slate-200/80 dark:border-slate-800/80 flex items-center gap-1.5 flex-wrap">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-slate-600 dark:text-slate-300 font-semibold mr-1">
-                Filter Stack:
+            <div className="px-4 py-2 bg-zinc-50 dark:bg-zinc-900/60 border-b border-neutral-200 dark:border-neutral-800 flex items-center gap-1.5 flex-wrap">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold mr-1">
+                STACK:
               </span>
               {STACK_FILTER_TAGS.map((tag) => (
                 <button
                   key={tag}
                   type="button"
                   onClick={() => handleSelectStackFilter(tag)}
-                  className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-colors"
+                  className="text-[11px] font-mono px-2 py-0.5 rounded bg-white dark:bg-zinc-950 hover:bg-zinc-900 hover:text-white dark:hover:bg-zinc-100 dark:hover:text-zinc-950 text-zinc-700 dark:text-zinc-300 border border-neutral-200 dark:border-neutral-800 transition-colors duration-150"
                 >
                   {tag}
                 </button>
@@ -340,7 +338,7 @@ const CommandPalette = ({
               className="max-h-72 overflow-y-auto p-2 space-y-1"
             >
               {items.length === 0 ? (
-                <div className="py-10 text-center text-sm text-slate-600 dark:text-slate-300">
+                <div className="py-10 text-center text-xs font-mono text-zinc-500 dark:text-zinc-400">
                   No matching commands or projects found for &ldquo;{query}&rdquo;
                 </div>
               ) : (
@@ -353,35 +351,33 @@ const CommandPalette = ({
                       type="button"
                       onClick={item.action}
                       onMouseEnter={() => setSelectedIndex(index)}
-                      className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-left text-xs sm:text-sm transition-colors ${
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-md text-left text-xs sm:text-sm transition-colors duration-150 ${
                         isSelected
-                          ? "bg-blue-600 text-white font-medium shadow-sm"
-                          : "text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                          ? "bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 font-medium"
+                          : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900"
                       }`}
                     >
-                      <div className="flex items-center gap-3 min-w-0 pr-2">
+                      <div className="flex items-center gap-2.5 min-w-0 pr-2">
                         <Icon
-                          className={`w-4 h-4 flex-shrink-0 ${
+                          className={`w-3.5 h-3.5 flex-shrink-0 ${
                             isSelected
-                              ? "text-white"
-                              : "text-slate-500 dark:text-slate-400"
+                              ? "text-emerald-400 dark:text-emerald-600"
+                              : "text-zinc-400 dark:text-zinc-500"
                           }`}
                         />
                         <span className="truncate">{item.title}</span>
                       </div>
                       <div className="flex items-center gap-2 flex-shrink-0 text-xs">
                         <span
-                          className={`text-[10px] px-2 py-0.5 rounded-md font-mono ${
+                          className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${
                             isSelected
-                              ? "bg-white/20 text-white"
-                              : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300"
+                              ? "bg-white/15 dark:bg-black/15 text-white dark:text-zinc-950"
+                              : "bg-zinc-100 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400"
                           }`}
                         >
                           {item.category}
                         </span>
-                        {isSelected && (
-                          <ArrowRight className="w-3.5 h-3.5 text-white" />
-                        )}
+                        {isSelected && <ArrowRight className="w-3.5 h-3.5" />}
                       </div>
                     </button>
                   );
@@ -390,19 +386,19 @@ const CommandPalette = ({
             </div>
 
             {/* Footer Tip */}
-            <div className="flex items-center justify-between px-4 py-2.5 bg-slate-50/90 dark:bg-slate-950/90 border-t border-slate-200 dark:border-slate-800 text-[11px] text-slate-600 dark:text-slate-300 font-mono">
+            <div className="flex items-center justify-between px-4 py-2 bg-zinc-50 dark:bg-zinc-900/80 border-t border-neutral-200 dark:border-neutral-800 text-[11px] text-zinc-500 dark:text-zinc-400 font-mono">
               <div className="flex items-center gap-2">
                 <span>Navigate</span>
-                <kbd className="px-1.5 py-0.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-[10px]">
+                <kbd className="px-1.5 py-0.5 bg-white dark:bg-zinc-950 border border-neutral-200 dark:border-neutral-800 rounded text-[10px]">
                   ↑↓
                 </kbd>
                 <span>Select</span>
-                <kbd className="px-1.5 py-0.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-[10px]">
+                <kbd className="px-1.5 py-0.5 bg-white dark:bg-zinc-950 border border-neutral-200 dark:border-neutral-800 rounded text-[10px]">
                   ↵
                 </kbd>
               </div>
               <div className="flex items-center gap-1.5">
-                <Command className="w-3 h-3 text-blue-500" />
+                <Command className="w-3 h-3 text-emerald-500" />
                 <span>Command Palette (⌘K)</span>
               </div>
             </div>

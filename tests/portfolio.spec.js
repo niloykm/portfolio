@@ -1,7 +1,7 @@
 const { test, expect } = require("@playwright/test");
 
-test.describe("Niloy Portfolio — Production Refactor Verification", () => {
-  test("should render realistic non-zero metrics immediately upon first render", async ({
+test.describe("Niloy Portfolio — Production Refactor & Anti-Slop Verification", () => {
+  test("should render realistic non-zero metrics and Experience Timeline immediately upon first render", async ({
     page,
   }) => {
     await page.goto("/");
@@ -18,15 +18,27 @@ test.describe("Niloy Portfolio — Production Refactor Verification", () => {
     await expect(aboutSection).toContainText("100%");
     await expect(aboutSection).not.toContainText("0+ GitHub Repos");
     await expect(aboutSection).not.toContainText("0+ Yrs");
+
+    // Verify Experience Timeline highlights Gen Stella IT, ScholarPASS, TripBooking.ai, TutorsPlan, and DIU CSE
+    await expect(aboutSection).toContainText("Gen Stella IT");
+    await expect(aboutSection).toContainText("ScholarPASS");
+    await expect(aboutSection).toContainText("TripBooking.ai");
+    await expect(aboutSection).toContainText("TutorsPlan");
+    await expect(aboutSection).toContainText("Daffodil International University");
   });
 
-  test("should render updated Hero badge, sub-headline, and 3 CTAs", async ({
+  test("should render updated Hero badge, punchy engineering proof, and CTAs", async ({
     page,
   }) => {
     await page.goto("/");
 
     const hero = page.locator("#top");
-    await expect(hero).toContainText("Full-Stack Software Engineer");
+    await expect(hero).toContainText(
+      "Full-Stack Software Engineer & Co-Founder at Gen Stella IT"
+    );
+    await expect(hero).toContainText(
+      "Engineered full-stack SaaS platforms, custom LMS RBAC auth engines, and cloud infrastructures handling high-concurrency workloads."
+    );
     await expect(hero).toContainText(
       "Architecting resilient web applications, modular NestJS/Node.js backend systems, and pixel-complete React/Next.js interfaces with strict performance standards."
     );
@@ -36,7 +48,7 @@ test.describe("Niloy Portfolio — Production Refactor Verification", () => {
     await expect(hero.getByRole("link", { name: /Download Resume/i })).toBeVisible();
   });
 
-  test("should consolidate projects into Featured Engineering Projects without duplicate Open Source section", async ({
+  test("should consolidate projects into Featured Engineering Projects with architectural breakdowns", async ({
     page,
   }) => {
     await page.goto("/");
@@ -83,7 +95,7 @@ test.describe("Niloy Portfolio — Production Refactor Verification", () => {
   test("should have 4 consolidated navbar links and open Command Palette on Ctrl+K", async ({
     page,
   }) => {
-    await page.goto("/");
+    await page.goto("/", { waitUntil: "networkidle" });
 
     const nav = page.locator('nav[aria-label="Main Navigation"]');
     await expect(nav).toContainText("About");
@@ -96,18 +108,26 @@ test.describe("Niloy Portfolio — Production Refactor Verification", () => {
     await expect(dialog).toBeVisible();
   });
 
-  test("should have zero horizontal overflow at 360px mobile viewport width", async ({
+  test("should have zero horizontal overflow across 390px mobile, 768px tablet, and 1440px desktop viewports", async ({
     page,
   }) => {
-    await page.setViewportSize({ width: 360, height: 800 });
-    await page.goto("/");
+    const viewports = [
+      { width: 390, height: 844 },
+      { width: 768, height: 1024 },
+      { width: 1440, height: 900 },
+    ];
 
-    const overflow = await page.evaluate(() => {
-      return (
-        document.documentElement.scrollWidth >
-        document.documentElement.clientWidth
-      );
-    });
-    expect(overflow).toBe(false);
+    for (const vp of viewports) {
+      await page.setViewportSize(vp);
+      await page.goto("/");
+
+      const overflow = await page.evaluate(() => {
+        return (
+          document.documentElement.scrollWidth >
+          document.documentElement.clientWidth
+        );
+      });
+      expect(overflow).toBe(false);
+    }
   });
 });

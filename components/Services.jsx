@@ -1,8 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { useReducedMotion } from "framer-motion";
 import {
-  Sparkles,
   ArrowRight,
   CheckCircle2,
   Layout,
@@ -10,11 +9,86 @@ import {
   Database,
   Gauge,
 } from "lucide-react";
-import MagneticButton from "@/components/ui/MagneticButton";
-import SpotlightCard from "@/components/ui/SpotlightCard";
-import { fadeUp, scaleIn, staggerContainer } from "@/lib/motion";
 
-const Services = ({ isDarkMode, serviceData }) => {
+const ARCHITECTURAL_DOMAINS = [
+  {
+    num: "01",
+    icon: Layout,
+    title: "Frontend Systems & UI Architecture",
+    tag: "React 19 • Next.js App Router • TypeScript • Tailwind CSS",
+    description:
+      "Engineering SSR/ISR web applications, deterministic client state machines, and accessible component libraries with zero cumulative layout shift.",
+    deliverables: [
+      "Server-First Next.js App Router & Streaming SSR",
+      "Strict TypeScript contracts & modular design systems",
+      "Sub-1.5s LCP & zero-CLS responsive viewports (360px–1440px+)",
+    ],
+  },
+  {
+    num: "02",
+    icon: Server,
+    title: "Backend & Distributed Services",
+    tag: "NestJS • Node.js • Express.js • RBAC Auth",
+    description:
+      "Designing modular backend architectures, multi-role JWT/OAuth 2.0 security guards, concurrency-safe transactional locks, and webhook automations.",
+    deliverables: [
+      "Multi-tenant RBAC guards (Admin, Instructor, Doctor, Patient)",
+      "RESTful API validation, rate limiting & error boundaries",
+      "n8n workflow automation & asynchronous event webhooks",
+    ],
+  },
+  {
+    num: "03",
+    icon: Database,
+    title: "Database Modeling & Query Optimization",
+    tag: "PostgreSQL • MongoDB • Prisma • TypeORM",
+    description:
+      "Structuring normalized relational schemas and compound-indexed document collections for high-concurrency read/write workloads.",
+    deliverables: [
+      "ACID transactions preventing concurrent slot/stock race conditions",
+      "Covered MongoDB aggregation pipelines (-30% query latency)",
+      "Schema migrations, indexing strategies & relational ledgers",
+    ],
+  },
+  {
+    num: "04",
+    icon: Gauge,
+    title: "Infrastructure, DevOps & E2E QA",
+    tag: "Docker • GitHub Actions • Playwright E2E • WCAG AA",
+    description:
+      "Hardening production deployments with containerized environments, automated CI/CD verification suites, and strict accessibility compliance.",
+    deliverables: [
+      "Dockerized multi-service builds & Vercel/Cloud CI/CD",
+      "Automated Playwright E2E specs for critical user journeys",
+      "WCAG AA contrast ratios & full keyboard navigation",
+    ],
+  },
+];
+
+const STACK_SPECIFICATION_ROWS = [
+  {
+    category: "LANGUAGES & RUNTIME",
+    items: ["TypeScript", "JavaScript (ES2024)", "Node.js", "SQL", "C++", "HTML5 / CSS3"],
+  },
+  {
+    category: "FRONTEND ARCHITECTURE",
+    items: ["Next.js (App Router)", "React 19", "Tailwind CSS", "Framer Motion", "Zustand", "Redux Toolkit"],
+  },
+  {
+    category: "BACKEND & SECURITY",
+    items: ["NestJS", "Express.js", "RESTful APIs", "JWT / OAuth 2.0 RBAC", "WebSockets", "n8n Automation"],
+  },
+  {
+    category: "DATABASES & STORAGE",
+    items: ["PostgreSQL", "MongoDB", "Prisma ORM", "TypeORM", "Mongoose", "Aggregation Pipelines"],
+  },
+  {
+    category: "DEVOPS, QA & TOOLING",
+    items: ["Docker", "Git & GitHub Actions", "Playwright E2E", "Linux / Bash", "Vercel Edge", "Postman"],
+  },
+];
+
+const Services = () => {
   const shouldReduceMotion = useReducedMotion();
 
   const handleCtaClick = () => {
@@ -24,193 +98,138 @@ const Services = ({ isDarkMode, serviceData }) => {
     }
   };
 
-  const enhancedServices = [
-    {
-      num: "01",
-      icon: Layout,
-      title: "Frontend Architecture",
-      tag: "React.js • Next.js • TypeScript",
-      description:
-        "Architecting pixel-complete, accessible, and zero-CLS interfaces with modern React 19, Next.js App Router, and fluid Tailwind CSS systems.",
-      deliverables: [
-        "SSR, SSG & ISR Next.js web applications",
-        "Component-driven design systems & Tailwind CSS",
-        "Zero-CLS layout & state orchestration",
-      ],
-      color: "from-blue-600 to-cyan-600",
-      glow: "rgba(59, 130, 246, 0.2)",
-    },
-    {
-      num: "02",
-      icon: Server,
-      title: "Full-Stack & Backend Systems",
-      tag: "NestJS • Node.js • Express.js",
-      description:
-        "Engineering modular backend architectures, role-based access control (RBAC), authentication pipelines, and resilient microservices.",
-      deliverables: [
-        "Secure JWT & OAuth 2.0 session security",
-        "Multi-role RBAC guards & middleware",
-        "Modular NestJS & Node.js service layers",
-      ],
-      color: "from-indigo-600 to-purple-600",
-      glow: "rgba(99, 102, 241, 0.2)",
-    },
-    {
-      num: "03",
-      icon: Database,
-      title: "Database & API Engineering",
-      tag: "PostgreSQL • MongoDB • Docker",
-      description:
-        "Designing high-throughput relational and document schemas, covered compound indexes, aggregation pipelines, and containerized deployments.",
-      deliverables: [
-        "PostgreSQL & MongoDB schema modeling",
-        "Query & aggregation latency optimization",
-        "Docker containerization & CI/CD workflows",
-      ],
-      color: "from-purple-600 to-pink-600",
-      glow: "rgba(168, 85, 247, 0.2)",
-    },
-    {
-      num: "04",
-      icon: Gauge,
-      title: "Performance & Accessibility",
-      tag: "Core Web Vitals • WCAG AA",
-      description:
-        "Hardening web applications to strict production benchmarks through bundle optimization, semantic HTML, and WCAG AA contrast compliance.",
-      deliverables: [
-        "Core Web Vitals (LCP, CLS, INP) tuning",
-        "WCAG AA contrast & keyboard navigation",
-        "Playwright E2E & automated verification",
-      ],
-      color: "from-emerald-600 to-teal-600",
-      glow: "rgba(16, 185, 129, 0.2)",
-    },
-  ];
-
   return (
     <section
       id="services"
       aria-labelledby="services-heading"
-      className="py-24 px-4 sm:px-6 lg:px-12 scroll-mt-20 relative overflow-hidden"
+      className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 scroll-mt-16 border-b border-neutral-200 dark:border-neutral-800 relative"
     >
       {/* Alias anchor for #expertise */}
       <div id="expertise" className="absolute -top-20 left-0" aria-hidden="true" />
 
-      {/* Background decoration with cyber-grid */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 cyber-grid pointer-events-none" />
-      <div
-        aria-hidden="true"
-        className="absolute top-20 left-20 w-80 h-80 bg-cyan-500/10 dark:bg-blue-500/10 rounded-full blur-3xl pointer-events-none"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute bottom-20 right-20 w-80 h-80 bg-purple-500/10 dark:bg-pink-500/10 rounded-full blur-3xl pointer-events-none"
-      />
-
-      <motion.div
-        className="max-w-7xl mx-auto relative z-10"
-        variants={staggerContainer(0.1, 0.1)}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.15 }}
-      >
+      <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <motion.div className="text-center mb-16" variants={fadeUp}>
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-cyan-50 dark:bg-cyan-950/60 border border-cyan-200/80 dark:border-cyan-800/80 rounded-full text-xs font-semibold uppercase tracking-wider text-cyan-800 dark:text-cyan-300 mb-3 shadow-sm">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Engineering Domains</span>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-8 mb-12 border-b border-neutral-200 dark:border-neutral-800">
+          <div>
+            <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-emerald-700 dark:text-emerald-400 font-semibold mb-2">
+              <span>02 // ARCHITECTURE &amp; CAPABILITIES</span>
+            </div>
+            <h2
+              id="services-heading"
+              className="fluid-h2 font-extrabold tracking-tight text-zinc-950 dark:text-white"
+            >
+              Technical Expertise &amp; Skills Matrix
+            </h2>
           </div>
-          <h2
-            id="services-heading"
-            className="fluid-h2 font-extrabold gradient-text mb-4"
-          >
-            Technical Expertise
-          </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 mx-auto rounded-full" />
-          <p className="text-base sm:text-lg text-slate-700 dark:text-slate-300 max-w-2xl mx-auto mt-5 leading-relaxed font-normal">
-            Production-grade engineering capabilities across frontend interfaces,
-            modular backend services, and relational/document databases.
+          <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-xl leading-relaxed">
+            End-to-end systems engineering across client rendering pipelines, modular backend services, and transactional data stores.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Expertise Grid */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-          variants={staggerContainer(0.08, 0.05)}
-        >
-          {enhancedServices.map((service, index) => {
-            const Icon = service.icon;
+        {/* 2x2 Architectural Domain Ledger */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-12">
+          {ARCHITECTURAL_DOMAINS.map((domain) => {
+            const Icon = domain.icon;
             return (
-              <motion.div key={index} variants={scaleIn} className="h-full flex">
-                <SpotlightCard
-                  spotlightColor={service.glow}
-                  className="bento-card p-6 sm:p-7 flex flex-col justify-between group h-full w-full"
-                >
-                  <div>
-                    {/* Number and Icon Header */}
-                    <div className="flex items-center justify-between mb-5">
-                      <div
-                        className={`p-3 bg-gradient-to-br ${service.color} rounded-2xl text-white shadow-md group-hover:scale-110 transition-transform duration-300`}
-                      >
-                        <Icon className="w-5 h-5" />
+              <div
+                key={domain.num}
+                className="rounded-lg bg-white dark:bg-zinc-900/40 border border-neutral-200 dark:border-neutral-800 p-6 flex flex-col justify-between hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors duration-150 ease-out"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 pb-4 mb-4 border-b border-neutral-200 dark:border-neutral-800">
+                    <div className="flex items-center gap-2.5">
+                      <div className="p-2 rounded-md bg-zinc-100 dark:bg-zinc-950 border border-neutral-200 dark:border-neutral-800 text-zinc-900 dark:text-zinc-100">
+                        <Icon className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                       </div>
-                      <span className="text-xl font-mono font-extrabold text-slate-400 dark:text-slate-600 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                        {service.num}
+                      <span className="font-mono text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+                        {domain.tag}
                       </span>
                     </div>
+                    <span className="font-mono tabular-nums text-sm font-bold text-zinc-400 dark:text-zinc-500">
+                      {domain.num}
+                    </span>
+                  </div>
 
-                    {/* Tag */}
-                    <div className="mb-2">
-                      <span className="text-[11px] font-mono font-semibold text-blue-700 dark:text-blue-300">
-                        {service.tag}
-                      </span>
+                  <h3 className="text-lg font-bold text-zinc-950 dark:text-white tracking-tight mb-2">
+                    {domain.title}
+                  </h3>
+
+                  <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed mb-5">
+                    {domain.description}
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-neutral-200 dark:border-neutral-800 space-y-2">
+                  {domain.deliverables.map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="flex items-start gap-2 text-xs text-zinc-700 dark:text-zinc-300"
+                    >
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 mt-0.5 flex-shrink-0" />
+                      <span>{item}</span>
                     </div>
-
-                    {/* Title */}
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
-                      {service.title}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-6 font-normal">
-                      {service.description}
-                    </p>
-                  </div>
-
-                  {/* Deliverables Checklist */}
-                  <div className="pt-4 border-t border-slate-200/80 dark:border-slate-800/80 space-y-2">
-                    {service.deliverables.map((item, dIdx) => (
-                      <div
-                        key={dIdx}
-                        className="flex items-start gap-2 text-[11px] sm:text-xs text-slate-700 dark:text-slate-200"
-                      >
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 mt-0.5 flex-shrink-0" />
-                        <span>{item}</span>
-                      </div>
-                    ))}
-                  </div>
-                </SpotlightCard>
-              </motion.div>
+                  ))}
+                </div>
+              </div>
             );
           })}
-        </motion.div>
+        </div>
 
-        {/* Call to action */}
-        <motion.div className="text-center mt-16" variants={fadeUp}>
-          <MagneticButton strength={0.25}>
-            <motion.button
-              type="button"
-              onClick={handleCtaClick}
-              className="inline-flex items-center gap-3 px-8 py-4 min-h-[48px] bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] transition-all duration-300 text-sm sm:text-base"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              <span>Have a system to architect? Let&apos;s talk</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-            </motion.button>
-          </MagneticButton>
-        </motion.div>
-      </motion.div>
+        {/* High-Density Tabular Skills Specification Matrix */}
+        <div className="rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-zinc-900/40 overflow-hidden">
+          <div className="px-5 py-3.5 bg-zinc-50 dark:bg-zinc-900/80 border-b border-neutral-200 dark:border-neutral-800 flex items-center justify-between">
+            <span className="font-mono text-xs font-bold uppercase tracking-wider text-zinc-900 dark:text-zinc-100">
+              PRODUCTION STACK SPECIFICATION MATRIX
+            </span>
+            <span className="font-mono text-[11px] text-zinc-500 dark:text-zinc-400 tabular-nums">
+              5 CORE LAYERS
+            </span>
+          </div>
+
+          <div className="divide-y divide-neutral-200 dark:divide-neutral-800">
+            {STACK_SPECIFICATION_ROWS.map((row) => (
+              <div
+                key={row.category}
+                className="p-4 sm:px-6 sm:py-4 grid grid-cols-1 md:grid-cols-12 gap-3 items-center"
+              >
+                <div className="md:col-span-4 font-mono text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+                  {row.category}
+                </div>
+                <div className="md:col-span-8 flex flex-wrap gap-1.5">
+                  {row.items.map((tech) => (
+                    <span
+                      key={tech}
+                      className="font-mono text-xs px-2.5 py-1 rounded-md bg-zinc-50 dark:bg-zinc-950 text-zinc-800 dark:text-zinc-200 border border-neutral-200 dark:border-neutral-800"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom Direct Action */}
+        <div className="mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 border border-neutral-200 dark:border-neutral-800">
+          <div>
+            <div className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+              Need a full-stack system architected or scaled?
+            </div>
+            <div className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5">
+              Available for full-time engineering roles, technical leadership, and high-impact contracts.
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={handleCtaClick}
+            className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[40px] bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-950 font-mono font-semibold text-xs rounded-md transition-all duration-150 ease-out active:scale-[0.98] flex-shrink-0"
+          >
+            <span>Discuss Architecture</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </div>
     </section>
   );
 };
