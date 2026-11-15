@@ -112,6 +112,117 @@ export const projects: Project[] = [
     },
   },
   {
+    id: 'scholarpass',
+    slug: 'scholarpass',
+    title: 'ScholarPASS',
+    tagline:
+      'Scholarship-as-a-Service platform connecting K–12 to career learners with AI-assisted scholarship matching, tutoring, and LaunchPad management.',
+    category: 'EdTech Platform',
+    filterCategory: 'EdTech & Health',
+    liveUrl: 'https://www.scholarpass.com/home',
+    url: 'https://www.scholarpass.com/home',
+    githubUrl: null,
+    techStack: ['Next.js', 'TypeScript', 'React.js', 'Tailwind CSS', 'OAuth / JWT', 'REST APIs'],
+    architectureHighlights: [
+      'Multi-tenant scholarship discovery and LaunchPad workflow interfaces for students, sponsors, and institutions',
+      'Role-isolated portals with JWT session guards and responsive, accessible UI across desktop and mobile',
+      'Optimized client-side catalog filtering and SSR/ISR page delivery for fast initial load times',
+    ],
+    highlights: [
+      'Multi-tenant scholarship discovery and LaunchPad workflow interfaces for students, sponsors, and institutions',
+      'Role-isolated portals with JWT session guards and responsive, accessible UI across desktop and mobile',
+      'Optimized client-side catalog filtering and SSR/ISR page delivery for fast initial load times',
+    ],
+    image: '/projects/scholarpass.webp',
+    bgImageName: 'scholarpass',
+    featured: true,
+    description: 'Scholarship-as-a-Service & EdTech Platform',
+    longDescription:
+      'Production EdTech platform democratizing access to scholarships, tutoring, and career-focused learning from K–12 through career, powered by ScholarPASS LaunchPad.',
+    teardown: {
+      problemSolved:
+        'Students, sponsors, and educational institutions lacked a unified digital surface to discover, apply for, and manage scholarships alongside tutoring and career resources.',
+      architecture:
+        'Next.js App Router frontend with modular TypeScript UI components, role-based portal views, and REST API integrations.',
+      performanceChallenges:
+        'Maintained smooth Core Web Vitals and zero layout shift across rich hero sections, multi-step onboarding, and dynamic opportunity feeds.',
+    },
+  },
+  {
+    id: 'scholarpass-org',
+    slug: 'scholarpass-org',
+    title: 'ScholarPASS Foundation',
+    tagline:
+      'Impact investing and philanthropy portal connecting donors and corporate CSR programs directly with student scholarships and STEM labs.',
+    category: 'EdTech & Philanthropy',
+    filterCategory: 'EdTech & Health',
+    liveUrl: 'https://www.scholarpass.org/',
+    url: 'https://www.scholarpass.org/',
+    githubUrl: null,
+    techStack: ['Next.js', 'TypeScript', 'React.js', 'Tailwind CSS', 'REST APIs'],
+    architectureHighlights: [
+      'Campaign showcase and direct-to-student funding flows for scholarships, laptops, and STEM robotics kits',
+      'Dedicated corporate CSR and philanthropist partnership journeys with transparent impact breakdowns',
+      'Responsive, high-contrast editorial layout engineered for accessibility and fast global page loads',
+    ],
+    highlights: [
+      'Campaign showcase and direct-to-student funding flows for scholarships, laptops, and STEM robotics kits',
+      'Dedicated corporate CSR and philanthropist partnership journeys with transparent impact breakdowns',
+      'Responsive, high-contrast editorial layout engineered for accessibility and fast global page loads',
+    ],
+    image: '/projects/scholarpass-org.webp',
+    bgImageName: 'scholarpass-org',
+    featured: true,
+    description: 'Impact Investing & Education Philanthropy Portal',
+    longDescription:
+      'Philanthropic web platform enabling individual donors and corporate CSR partners to fund student scholarships, laptops, and STEM infrastructure across the USA and Global South.',
+    teardown: {
+      problemSolved:
+        'Donors and corporate CSR teams needed a transparent, friction-free interface to discover vetted education campaigns and fund direct-to-student initiatives.',
+      architecture:
+        'Next.js and TypeScript frontend featuring structured campaign cards, impact infrastructure sections, and streamlined campaign initiation flows.',
+      performanceChallenges:
+        'Optimized above-the-fold hero imagery and campaign media delivery for rapid LCP across both high-bandwidth and emerging-market networks.',
+    },
+  },
+  {
+    id: 'tripbooking',
+    slug: 'tripbooking',
+    title: 'TripBooking.ai',
+    tagline:
+      'AI-powered travel planning and tour booking platform for hotels, flights, cruises, car rentals, and curated itineraries.',
+    category: 'Travel & AI SaaS',
+    filterCategory: 'Consumer & Utilities',
+    liveUrl: 'https://www.tripbooking.ai/',
+    url: 'https://www.tripbooking.ai/',
+    githubUrl: null,
+    techStack: ['Next.js', 'React.js', 'TypeScript', 'Tailwind CSS', 'REST APIs'],
+    architectureHighlights: [
+      'Multi-vertical travel search bar supporting Hotels, Cruises, Car Rentals, and Flights with real-time state sync',
+      'Optimized Core Web Vitals across dynamic search feeds, cutting Largest Contentful Paint (LCP) from 3.2s to 1.5s',
+      'Memoized state selectors and deterministic caching eliminating redundant client re-renders during itinerary filtering',
+    ],
+    highlights: [
+      'Multi-vertical travel search bar supporting Hotels, Cruises, Car Rentals, and Flights with real-time state sync',
+      'Optimized Core Web Vitals across dynamic search feeds, cutting Largest Contentful Paint (LCP) from 3.2s to 1.5s',
+      'Memoized state selectors and deterministic caching eliminating redundant client re-renders during itinerary filtering',
+    ],
+    image: '/projects/tripbooking.webp',
+    bgImageName: 'tripbooking',
+    featured: true,
+    description: 'AI-Powered Travel & Tour Booking Platform',
+    longDescription:
+      'Production travel and tour booking platform combining conversational AI travel assistance with multi-vertical hotel, flight, and curated destination booking.',
+    teardown: {
+      problemSolved:
+        'Travelers faced fragmented search and booking experiences across hotels, flights, and regional tour packages without unified AI-assisted itinerary planning.',
+      architecture:
+        'Next.js and React/TypeScript frontend with multi-tab search controls, date-range and guest selectors, and REST API integration.',
+      performanceChallenges:
+        'Reduced LCP from 3.2s to 1.5s and eliminated redundant client re-renders using memoized state selectors across dynamic travel feeds.',
+    },
+  },
+  {
     id: 'nobot',
     slug: 'nobot',
     title: 'NoBot',

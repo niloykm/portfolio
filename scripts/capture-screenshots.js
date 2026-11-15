@@ -17,6 +17,24 @@ const PROJECTS = [
     delay: 3500,
   },
   {
+    slug: 'scholarpass',
+    name: 'ScholarPASS',
+    url: 'https://www.scholarpass.com/home',
+    delay: 3500,
+  },
+  {
+    slug: 'scholarpass-org',
+    name: 'ScholarPASS Foundation',
+    url: 'https://www.scholarpass.org/',
+    delay: 3500,
+  },
+  {
+    slug: 'tripbooking',
+    name: 'TripBooking.ai',
+    url: 'https://www.tripbooking.ai/',
+    delay: 3500,
+  },
+  {
     slug: 'nobot',
     name: 'NoBot',
     url: 'https://nobot.vercel.app/',
