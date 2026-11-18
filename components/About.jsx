@@ -18,19 +18,6 @@ import { FALLBACK_METRICS } from "@/lib/github";
 
 const EXPERIENCE_TIMELINE = [
   {
-    period: "2026 — PRESENT",
-    role: "Co-Founder & Technical Lead",
-    organization: "Gen Stella IT",
-    type: "Leadership & Architecture",
-    stack: ["Next.js", "NestJS", "PostgreSQL", "Docker"],
-    summary:
-      "Directing full-stack SaaS architecture, multi-tenant database design, and automated deployment pipelines.",
-    metrics: [
-      "Architected modular Next.js & NestJS/PostgreSQL production systems with strict multi-role RBAC",
-      "Engineered n8n webhook automation pipelines reducing manual operational triage by 40%",
-    ],
-  },
-  {
     period: "2025 — PRESENT",
     role: "Full-Stack Software Engineer",
     organization: "ScholarPASS",
