@@ -22,7 +22,7 @@ const EXPERIENCE_TIMELINE = [
     role: "Co-Founder & Technical Lead",
     organization: "Gen Stella IT",
     type: "Leadership & Architecture",
-    stack: ["Next.js", "NestJS", "PostgreSQL", "Docker", "n8n"],
+    stack: ["Next.js", "NestJS", "PostgreSQL", "Docker"],
     summary:
       "Directing full-stack SaaS architecture, multi-tenant database design, and automated deployment pipelines.",
     metrics: [
