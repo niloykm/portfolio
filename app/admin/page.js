@@ -539,7 +539,7 @@ export default function AdminPage() {
                         type="url" 
                         value={projectForm.github}
                         onChange={(e) => setProjectForm({ ...projectForm, github: e.target.value })}
-                        placeholder="https://github.com/niloydiu/..."
+                        placeholder="https://github.com/niloykm/..."
                         className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded text-sm text-slate-200 focus:outline-none focus:border-blue-500/50"
                       />
                     </div>

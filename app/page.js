@@ -11,75 +11,94 @@ import ScrollProgressBar from "@/components/ui/ScrollProgressBar";
 import CommandPalette from "@/components/ui/CommandPalette";
 import { ToastProvider } from "@/components/ui/Toast";
 import { useEffect, useState } from "react";
+import { projects as staticProjects } from "@/data/projects";
 import {
   assets,
-  workData as staticWork,
   serviceData as staticService,
   infoList as staticInfo,
 } from "@/assets/assets";
 
 export default function Page() {
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [themeHydrated, setThemeHydrated] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [activeStackTag, setActiveStackTag] = useState("");
-  const [workData, setWorkData] = useState(staticWork);
+  const [workData, setWorkData] = useState(staticProjects);
   const [serviceData, setServiceData] = useState(staticService);
   const [infoList, setInfoList] = useState(staticInfo);
 
   useEffect(() => {
-    // Check for saved theme preference or default to system/dark preference
     const savedTheme = localStorage.getItem("theme");
     const systemPrefersLight = window.matchMedia(
       "(prefers-color-scheme: light)"
     ).matches;
 
-    if (savedTheme === "light" || (!savedTheme && systemPrefersLight)) {
-      setIsDarkMode(false);
-      document.documentElement.classList.remove("dark");
-    } else {
-      setIsDarkMode(true);
-      document.documentElement.classList.add("dark");
-    }
+    const shouldBeDark = !(savedTheme === "light" || (!savedTheme && systemPrefersLight));
+    setIsDarkMode(shouldBeDark);
+    document.documentElement.classList.toggle("dark", shouldBeDark);
+    setThemeHydrated(true);
 
-    // Hydrate portfolio data dynamically from DB with fallback merge
+    // Hydrate portfolio data dynamically from API with safe static fallback merge
     fetch("/api/portfolio")
       .then((res) => {
         if (res.ok) return res.json();
-        throw new Error("DB offline");
+        throw new Error("Portfolio API unavailable");
       })
       .then((data) => {
         if (data.workData && Array.isArray(data.workData)) {
-          const mergedWork = data.workData.map((item) => {
-            const matchedStatic = staticWork.find(
-              (s) => s.id === item.id || s.title === item.title
-            );
-            return {
-              ...matchedStatic,
-              ...item,
-              title: matchedStatic?.title || item.title,
-              github: (matchedStatic?.github || item.github || "").replace(
-                /\.git$/,
-                ""
-              ),
-              bgImage:
-                item.image ||
-                matchedStatic?.bgImage ||
-                (item.bgImageName && assets[item.bgImageName]) ||
-                assets.handsOn,
-              image: item.image || matchedStatic?.image,
-              featured: item.featured ?? matchedStatic?.featured ?? false,
-              filterCategory: item.filterCategory || matchedStatic?.filterCategory || "Systems & DevOps",
-              tagline: item.tagline || matchedStatic?.tagline || item.description,
-              architectureHighlights: item.architectureHighlights || item.highlights || matchedStatic?.architectureHighlights || [],
-              category:
-                item.category || matchedStatic?.category || "Full-Stack",
-              techStack:
-                matchedStatic?.techStack || item.techStack || [],
-              teardown: matchedStatic?.teardown || item.teardown,
-              highlights:
-                matchedStatic?.highlights || item.highlights || [],
-            };
-          });
+          const mergedWork = data.workData
+            .filter(
+              (item) =>
+                item.id !== "tithyniloy" &&
+                item.slug !== "tithyniloy" &&
+                !(item.url && item.url.includes("tithyniloy"))
+            )
+            .map((item) => {
+              const matchedStatic = staticProjects.find(
+                (s) => s.id === item.id || s.title === item.title
+              );
+              const resolvedGithubUrl =
+                matchedStatic !== undefined
+                  ? matchedStatic.githubUrl
+                  : item.githubUrl ?? item.github ?? null;
+
+              return {
+                ...matchedStatic,
+                ...item,
+                title: matchedStatic?.title || item.title,
+                githubUrl: resolvedGithubUrl
+                  ? resolvedGithubUrl.replace(/\.git$/, "")
+                  : null,
+                github: resolvedGithubUrl
+                  ? resolvedGithubUrl.replace(/\.git$/, "")
+                  : null,
+                bgImage:
+                  item.image ||
+                  matchedStatic?.image ||
+                  (item.bgImageName && assets[item.bgImageName]) ||
+                  assets.handsOn,
+                image: item.image || matchedStatic?.image,
+                featured: matchedStatic?.featured ?? item.featured ?? false,
+                filterCategory:
+                  matchedStatic?.filterCategory ||
+                  item.filterCategory ||
+                  "Systems & DevOps",
+                tagline:
+                  matchedStatic?.tagline || item.tagline || item.description,
+                architectureHighlights:
+                  matchedStatic?.architectureHighlights ||
+                  item.architectureHighlights ||
+                  item.highlights ||
+                  [],
+                category:
+                  matchedStatic?.category || item.category || "Full-Stack",
+                techStack:
+                  matchedStatic?.techStack || item.techStack || [],
+                teardown: matchedStatic?.teardown || item.teardown,
+                highlights:
+                  matchedStatic?.highlights || item.highlights || [],
+              };
+            });
           setWorkData(mergedWork);
         }
         if (data.serviceData && Array.isArray(data.serviceData))
@@ -88,23 +107,27 @@ export default function Page() {
           setInfoList(data.infoList);
       })
       .catch(() => {
-        // Retain static fallback data on offline/error
+        // Retain staticProjects fallback cleanly
       });
   }, []);
 
   useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
+    if (!themeHydrated) return;
+    document.documentElement.classList.toggle("dark", isDarkMode);
+    localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+  }, [isDarkMode, themeHydrated]);
+
+  const handleFilterByStack = (tag) => {
+    setActiveStackTag(tag);
+    const el = document.getElementById("projects");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
     }
-  }, [isDarkMode]);
+  };
 
   return (
     <ToastProvider>
-      <div className="min-h-screen bg-[#ffffff] dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 relative overflow-x-hidden">
+      <div className="min-h-screen bg-[#fafafa] dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 relative overflow-x-hidden">
         <ScrollProgressBar />
         <CommandPalette
           isDarkMode={isDarkMode}
@@ -112,7 +135,7 @@ export default function Page() {
           isOpen={isCommandPaletteOpen}
           setIsOpen={setIsCommandPaletteOpen}
           workData={workData}
-          onFilterByStack={(tag) => setActiveStackTag(tag)}
+          onFilterByStack={handleFilterByStack}
         />
         <Navbar
           isDarkMode={isDarkMode}
@@ -120,19 +143,21 @@ export default function Page() {
           onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
         />
         <main id="main-content">
-          <Header isDarkMode={isDarkMode} />
-          <About isDarkMode={isDarkMode} infoList={infoList} />
-          <Services isDarkMode={isDarkMode} serviceData={serviceData} />
+          <Header projectCount={workData.length} />
           <Work
-            isDarkMode={isDarkMode}
             workData={workData}
             activeStackTag={activeStackTag}
             onClearStackTag={() => setActiveStackTag("")}
             onSelectStackTag={(tag) => setActiveStackTag(tag)}
           />
-          <Contact isDarkMode={isDarkMode} />
+          <About infoList={infoList} projectCount={workData.length} />
+          <Services
+            serviceData={serviceData}
+            onSelectStackTag={handleFilterByStack}
+          />
+          <Contact />
         </main>
-        <Footer isDarkMode={isDarkMode} />
+        <Footer />
       </div>
     </ToastProvider>
   );

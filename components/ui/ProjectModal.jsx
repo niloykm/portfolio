@@ -16,6 +16,7 @@ import {
   AlertTriangle,
   Code2,
   Server,
+  Lock,
 } from "lucide-react";
 import { assets } from "@/assets/assets";
 
@@ -52,14 +53,14 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
     null;
 
   const liveLink = project.liveUrl || project.url;
-  const repoLink = project.githubUrl !== undefined ? project.githubUrl : project.github;
+  const repoLink = project.githubUrl ?? null;
 
   const teardown = project.teardown || {
     problemSolved:
       project.longDescription ||
       "Addressed workflow bottlenecks with a unified full-stack web architecture.",
     architecture:
-      "Modular RESTful Node.js/NestJS backend services paired with indexed MongoDB/PostgreSQL schemas and JWT RBAC.",
+      "Modular Node.js/NestJS backend services paired with indexed MongoDB/PostgreSQL schemas and JWT RBAC.",
     performanceChallenges:
       "Optimized Core Web Vitals, state synchronization, and sub-second query response times.",
   };
@@ -88,10 +89,10 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.98, y: 8 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className="relative w-full max-w-2xl bg-white dark:bg-[#09090b] rounded-lg border border-neutral-200 dark:border-neutral-800 overflow-hidden text-zinc-900 dark:text-zinc-100 my-8 max-h-[90vh] flex flex-col"
+            className="relative w-full max-w-2xl bg-white dark:bg-[#09090b] rounded-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden text-zinc-900 dark:text-zinc-100 my-8 max-h-[90vh] flex flex-col"
           >
             {/* Header / Preview Image */}
-            <div className="relative w-full h-44 sm:h-52 bg-zinc-950 flex-shrink-0 border-b border-neutral-200 dark:border-neutral-800">
+            <div className="relative w-full h-44 sm:h-52 bg-zinc-950 flex-shrink-0 border-b border-zinc-200 dark:border-zinc-800">
               {projectImg ? (
                 <Image
                   src={projectImg}
@@ -106,14 +107,14 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                 </div>
               )}
 
-              <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/60 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/65 to-zinc-950/20" />
 
               {/* Close Button */}
               <button
                 type="button"
                 onClick={onClose}
                 aria-label="Close technical teardown modal"
-                className="absolute top-3.5 right-3.5 p-2 min-w-[36px] min-h-[36px] flex items-center justify-center rounded-md bg-zinc-950/90 hover:bg-zinc-800 text-white border border-neutral-700 transition-colors duration-150 z-10 active:scale-[0.98]"
+                className="absolute top-3.5 right-3.5 p-2 min-w-[38px] min-h-[38px] flex items-center justify-center rounded-md bg-zinc-950/95 hover:bg-zinc-800 text-white border border-zinc-700 transition-colors duration-150 z-10 active:scale-[0.98]"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -121,16 +122,16 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
               {/* Title Overlay */}
               <div className="absolute bottom-4 left-5 right-5">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-[11px] font-mono font-semibold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                  <span className="text-xs font-mono font-semibold px-2.5 py-0.5 rounded bg-zinc-950 text-emerald-400 border border-zinc-700">
                     Technical Teardown
                   </span>
-                  <span className="text-[11px] font-mono font-semibold uppercase tracking-wider px-2 py-0.5 rounded bg-zinc-900 text-zinc-200 border border-neutral-700">
+                  <span className="text-xs font-mono font-semibold px-2.5 py-0.5 rounded bg-zinc-950 text-zinc-200 border border-zinc-700">
                     {project.category || project.description || "Web Application"}
                   </span>
                 </div>
                 <h3
                   id="project-modal-title"
-                  className="text-xl sm:text-2xl font-bold text-white mt-1.5 tracking-tight"
+                  className="text-xl sm:text-2xl font-bold text-white mt-2 tracking-tight"
                 >
                   {project.title}
                 </h3>
@@ -140,32 +141,32 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
             {/* Modal Body */}
             <div className="p-5 sm:p-6 overflow-y-auto space-y-5 flex-1">
               <div className="grid grid-cols-1 gap-3.5">
-                <div className="p-4 rounded-md bg-zinc-50 dark:bg-zinc-900/60 border border-neutral-200 dark:border-neutral-800">
+                <div className="p-4 rounded-md bg-zinc-50 dark:bg-[#111114] border border-zinc-200 dark:border-zinc-800">
                   <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-900 dark:text-zinc-100 mb-1.5 flex items-center gap-1.5">
-                    <AlertTriangle className="w-3.5 h-3.5 text-amber-500" />
+                    <AlertTriangle className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
                     <span>01 // Problem Solved</span>
                   </h4>
-                  <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
+                  <p className="text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
                     {teardown.problemSolved}
                   </p>
                 </div>
 
-                <div className="p-4 rounded-md bg-zinc-50 dark:bg-zinc-900/60 border border-neutral-200 dark:border-neutral-800">
+                <div className="p-4 rounded-md bg-zinc-50 dark:bg-[#111114] border border-zinc-200 dark:border-zinc-800">
                   <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-900 dark:text-zinc-100 mb-1.5 flex items-center gap-1.5">
-                    <Database className="w-3.5 h-3.5 text-emerald-500" />
-                    <span>02 // Database &amp; Backend Architecture</span>
+                    <Database className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                    <span>02 // Architecture &amp; Stack</span>
                   </h4>
-                  <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
+                  <p className="text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
                     {teardown.architecture}
                   </p>
                 </div>
 
-                <div className="p-4 rounded-md bg-zinc-50 dark:bg-zinc-900/60 border border-neutral-200 dark:border-neutral-800">
+                <div className="p-4 rounded-md bg-zinc-50 dark:bg-[#111114] border border-zinc-200 dark:border-zinc-800">
                   <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-900 dark:text-zinc-100 mb-1.5 flex items-center gap-1.5">
-                    <Gauge className="w-3.5 h-3.5 text-emerald-500" />
-                    <span>03 // Scale &amp; Performance Engineering</span>
+                    <Gauge className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                    <span>03 // Performance &amp; Outcome</span>
                   </h4>
-                  <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
+                  <p className="text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
                     {teardown.performanceChallenges}
                   </p>
                 </div>
@@ -174,29 +175,24 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
               {/* Tech Stack Pills */}
               <div>
                 <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 mb-2.5 flex items-center gap-1.5">
-                  <Cpu className="w-3.5 h-3.5 text-emerald-500" />
+                  <Cpu className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                   <span>Core Tech Stack</span>
                 </h4>
                 <div className="flex flex-wrap gap-1.5">
-                  {(
-                    project.techStack || [
-                      "React.js",
-                      "TypeScript",
-                      "Tailwind CSS",
-                      "REST API",
-                    ]
-                  ).map((tech, idx) => {
-                    const Icon = getTechBadgeIcon(tech);
-                    return (
-                      <span
-                        key={idx}
-                        className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono font-medium rounded bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 border border-neutral-200 dark:border-neutral-800"
-                      >
-                        <Icon className="w-3 h-3 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
-                        <span>{tech}</span>
-                      </span>
-                    );
-                  })}
+                  {(project.techStack || ["React.js", "TypeScript", "Tailwind CSS"]).map(
+                    (tech, idx) => {
+                      const Icon = getTechBadgeIcon(tech);
+                      return (
+                        <span
+                          key={idx}
+                          className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono font-medium rounded bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-800"
+                        >
+                          <Icon className="w-3 h-3 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+                          <span>{tech}</span>
+                        </span>
+                      );
+                    }
+                  )}
                 </div>
               </div>
 
@@ -204,16 +200,16 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
               {project.highlights && project.highlights.length > 0 && (
                 <div>
                   <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 mb-2.5 flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                    <span>Engineering Deliverables</span>
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                    <span>Key Engineering Deliverables</span>
                   </h4>
-                  <ul className="space-y-1.5">
+                  <ul className="space-y-2">
                     {project.highlights.map((highlight, idx) => (
                       <li
                         key={idx}
-                        className="flex items-start gap-2 text-xs sm:text-sm text-zinc-700 dark:text-zinc-300"
+                        className="flex items-start gap-2 text-sm text-zinc-700 dark:text-zinc-300"
                       >
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2 flex-shrink-0" />
                         <span>{highlight}</span>
                       </li>
                     ))}
@@ -223,18 +219,18 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
             </div>
 
             {/* Modal Footer Actions */}
-            <div className="p-4 sm:p-5 bg-zinc-50 dark:bg-zinc-900/90 border-t border-neutral-200 dark:border-neutral-800 flex items-center justify-between gap-3 flex-wrap">
+            <div className="p-4 sm:p-5 bg-zinc-50 dark:bg-[#111114] border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between gap-3 flex-wrap">
               <div className="flex items-center gap-2.5 flex-wrap">
                 {liveLink && (
                   <a
                     href={liveLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`Open live demo for ${project.title}`}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 min-h-[38px] bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-950 font-mono text-xs font-semibold rounded-md transition-all duration-150 active:scale-[0.98]"
+                    aria-label={`Open live app for ${project.title}`}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 min-h-[38px] bg-zinc-950 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-950 font-mono text-xs font-semibold rounded-md transition-colors duration-150 active:scale-[0.98]"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
-                    <span>Live Production App</span>
+                    <span>Open Live App</span>
                     <ArrowUpRight className="w-3.5 h-3.5" />
                   </a>
                 )}
@@ -245,15 +241,15 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`View ${project.title} source code on GitHub`}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 min-h-[38px] bg-white dark:bg-zinc-950 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-100 border border-neutral-200 dark:border-neutral-800 font-mono text-xs font-medium rounded-md transition-all duration-150 active:scale-[0.98]"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 min-h-[38px] bg-white dark:bg-[#09090b] hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-700 font-mono text-xs font-semibold rounded-md transition-colors duration-150 active:scale-[0.98]"
                   >
                     <Github className="w-3.5 h-3.5" />
-                    <span>Verified GitHub Source</span>
+                    <span>GitHub Source</span>
                   </a>
                 ) : (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-2 min-h-[38px] text-zinc-500 font-mono text-xs border border-dashed border-neutral-300 dark:border-neutral-800 rounded-md">
-                    <Server className="w-3.5 h-3.5" />
-                    <span>Internal Enterprise Fleet</span>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-2 min-h-[38px] text-zinc-600 dark:text-zinc-400 font-mono text-xs border border-dashed border-zinc-300 dark:border-zinc-700 rounded-md">
+                    <Lock className="w-3.5 h-3.5" />
+                    <span>Private Client Repo</span>
                   </span>
                 )}
               </div>
@@ -262,7 +258,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                 type="button"
                 onClick={onClose}
                 aria-label="Close modal"
-                className="text-xs font-mono text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white px-3 py-1.5 rounded-md border border-neutral-200 dark:border-neutral-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-150"
+                className="text-xs font-mono text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white px-3 py-1.5 rounded-md border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors duration-150"
               >
                 ESC
               </button>

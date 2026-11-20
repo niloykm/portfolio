@@ -33,7 +33,7 @@ export const ToastProvider = ({ children }) => {
       {children}
       <div
         aria-live="polite"
-        className="fixed bottom-6 left-6 z-[100] flex flex-col gap-2 max-w-sm w-full pointer-events-none"
+        className="fixed bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-auto sm:w-full sm:max-w-sm z-[100] flex flex-col gap-2 pointer-events-none"
       >
         <AnimatePresence>
           {toasts.map((toast) => (
@@ -43,23 +43,24 @@ export const ToastProvider = ({ children }) => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 8 }}
               transition={{ duration: 0.15, ease: "easeOut" }}
-              className="pointer-events-auto flex items-center justify-between gap-3 px-4 py-3 bg-white dark:bg-[#09090b] border border-neutral-200 dark:border-neutral-800 rounded-md shadow-lg text-zinc-900 dark:text-zinc-100 text-xs font-mono"
+              className="pointer-events-auto flex items-center justify-between gap-3 px-4 py-3 bg-white dark:bg-[#111114] border border-zinc-200 dark:border-zinc-800 rounded-md shadow-lg text-zinc-900 dark:text-zinc-100 text-xs font-mono"
             >
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-2.5 min-w-0">
                 {toast.type === "success" && (
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
                 )}
                 {toast.type === "error" && (
-                  <AlertCircle className="w-4 h-4 text-rose-500 flex-shrink-0" />
+                  <AlertCircle className="w-4 h-4 text-rose-600 dark:text-rose-400 flex-shrink-0" />
                 )}
                 {toast.type === "info" && (
-                  <Info className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                  <Info className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
                 )}
-                <span>{toast.message}</span>
+                <span className="break-words">{toast.message}</span>
               </div>
               <button
+                type="button"
                 onClick={() => removeToast(toast.id)}
-                className="p-1 text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 rounded transition-colors"
+                className="p-1 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 rounded transition-colors flex-shrink-0"
                 aria-label="Close notification"
               >
                 <X className="w-3.5 h-3.5" />

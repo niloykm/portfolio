@@ -20,16 +20,17 @@ import {
   Tag,
 } from "lucide-react";
 import { useToast } from "@/components/ui/Toast";
+import { GITHUB_PROFILE_URL, GITHUB_USERNAME } from "@/lib/github";
 
 const STACK_FILTER_TAGS = [
   "Next.js",
-  "PostgreSQL",
-  "NestJS",
   "TypeScript",
-  "React.js",
+  "NestJS",
+  "PostgreSQL",
   "Node.js",
   "MongoDB",
-  "Docker",
+  "React",
+  "Tailwind",
 ];
 
 const CommandPalette = ({
@@ -102,38 +103,34 @@ const CommandPalette = ({
   const handleSelectStackFilter = (tag) => {
     onFilterByStack?.(tag);
     setIsOpen(false);
-    showToast(`Filtered projects by stack tag: ${tag}`, "info");
-    const el = document.getElementById("projects") || document.getElementById("work");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
+    showToast(`Filtered projects by stack: ${tag}`, "info");
   };
 
   const items = useMemo(() => {
     const navigation = [
       {
-        id: "nav-about",
-        title: "Go to About (Experience & Telemetry)",
+        id: "nav-projects",
+        title: "Go to Projects (Featured Shipped Work)",
         category: "Navigation",
-        keywords: "about overview metrics terminal console bio experience",
+        keywords: "projects work portfolio showcase teardown",
+        icon: Briefcase,
+        action: () => scrollTo("projects"),
+      },
+      {
+        id: "nav-about",
+        title: "Go to Experience (Career Ledger & CLI)",
+        category: "Navigation",
+        keywords: "about overview metrics terminal console bio experience career",
         icon: User,
         action: () => scrollTo("about"),
       },
       {
         id: "nav-services",
-        title: "Go to Expertise (Architecture & Skills Matrix)",
+        title: "Go to Capabilities (Architecture & Stack Matrix)",
         category: "Navigation",
-        keywords: "expertise services skills architecture backend frontend",
+        keywords: "expertise capabilities services skills architecture backend frontend",
         icon: Layers,
         action: () => scrollTo("services"),
-      },
-      {
-        id: "nav-projects",
-        title: "Go to Projects (Featured Engineering Projects)",
-        category: "Navigation",
-        keywords: "projects work portfolio showcase teardown",
-        icon: Briefcase,
-        action: () => scrollTo("projects"),
       },
       {
         id: "nav-contact",
@@ -167,12 +164,12 @@ const CommandPalette = ({
       },
       {
         id: "act-github",
-        title: "Open GitHub Profile (@niloydiu)",
+        title: `Open GitHub Profile (@${GITHUB_USERNAME})`,
         category: "Actions",
-        keywords: "github niloydiu repos code",
+        keywords: `github ${GITHUB_USERNAME} repos code`,
         icon: Github,
         action: () => {
-          window.open("https://github.com/niloydiu", "_blank");
+          window.open(GITHUB_PROFILE_URL, "_blank");
           setIsOpen(false);
         },
       },
@@ -217,22 +214,23 @@ const CommandPalette = ({
           !(project.url && project.url.includes("tithyniloy"))
       )
       .map((project, idx) => {
-      const stackStr = (project.techStack || []).join(" • ");
-      return {
-        id: `proj-${project.id || idx}`,
-        title: `${project.title} — [${stackStr}]`,
-        category: "Projects",
-        keywords: `${project.title} ${project.category || ""} ${stackStr} ${
-          project.description || ""
-        }`.toLowerCase(),
-        icon: ExternalLink,
-        action: () => {
-          if (project.url) window.open(project.url, "_blank");
-          else scrollTo("projects");
-          setIsOpen(false);
-        },
-      };
-    });
+        const stackStr = (project.techStack || []).slice(0, 4).join(" • ");
+        const liveUrl = project.liveUrl || project.url;
+        return {
+          id: `proj-${project.id || idx}`,
+          title: `${project.title} — ${stackStr}`,
+          category: "Projects",
+          keywords: `${project.title} ${project.category || ""} ${stackStr} ${
+            project.description || ""
+          }`.toLowerCase(),
+          icon: ExternalLink,
+          action: () => {
+            if (liveUrl) window.open(liveUrl, "_blank");
+            else scrollTo("projects");
+            setIsOpen(false);
+          },
+        };
+      });
 
     const all = [
       ...navigation,
@@ -294,10 +292,10 @@ const CommandPalette = ({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.98, y: -8 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className="relative w-full max-w-xl bg-white dark:bg-[#09090b] rounded-lg border border-neutral-200 dark:border-neutral-800 overflow-hidden text-zinc-900 dark:text-zinc-100"
+            className="relative w-full max-w-xl bg-white dark:bg-[#09090b] rounded-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden text-zinc-900 dark:text-zinc-100"
           >
             {/* Search Input Bar */}
-            <div className="flex items-center gap-3 px-4 py-3 border-b border-neutral-200 dark:border-neutral-800">
+            <div className="flex items-center gap-3 px-4 py-3 border-b border-zinc-200 dark:border-zinc-800">
               <Search className="w-4 h-4 text-zinc-500 dark:text-zinc-400 flex-shrink-0" />
               <label htmlFor="command-palette-input" className="sr-only">
                 Search sections, projects by stack tag, or actions
@@ -309,30 +307,30 @@ const CommandPalette = ({
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Jump to section, filter by stack (Next.js, PostgreSQL), or copy email..."
-                className="w-full bg-transparent text-xs sm:text-sm text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none font-mono"
+                placeholder="Jump to section, filter by stack (Next.js, NestJS), or copy email..."
+                className="w-full bg-transparent text-xs sm:text-sm text-zinc-950 dark:text-white placeholder-zinc-500 dark:placeholder-zinc-400 focus:outline-none font-mono"
               />
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
                 aria-label="Close command palette"
-                className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-mono font-semibold text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 border border-neutral-200 dark:border-neutral-800 rounded hover:bg-zinc-200 dark:hover:bg-zinc-800"
+                className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-mono font-semibold text-zinc-700 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded hover:bg-zinc-200 dark:hover:bg-zinc-800"
               >
                 ESC
               </button>
             </div>
 
             {/* Quick Stack Tag Filter Bar */}
-            <div className="px-4 py-2 bg-zinc-50 dark:bg-zinc-900/60 border-b border-neutral-200 dark:border-neutral-800 flex items-center gap-1.5 flex-wrap">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold mr-1">
-                STACK:
+            <div className="px-4 py-2 bg-zinc-50 dark:bg-[#111114] border-b border-zinc-200 dark:border-zinc-800 flex items-center gap-1.5 flex-wrap">
+              <span className="text-xs font-mono uppercase tracking-wider text-zinc-600 dark:text-zinc-400 font-semibold mr-1">
+                Stack:
               </span>
               {STACK_FILTER_TAGS.map((tag) => (
                 <button
                   key={tag}
                   type="button"
                   onClick={() => handleSelectStackFilter(tag)}
-                  className="text-[11px] font-mono px-2 py-0.5 rounded bg-white dark:bg-zinc-950 hover:bg-zinc-900 hover:text-white dark:hover:bg-zinc-100 dark:hover:text-zinc-950 text-zinc-700 dark:text-zinc-300 border border-neutral-200 dark:border-neutral-800 transition-colors duration-150"
+                  className="text-xs font-mono px-2 py-0.5 rounded bg-white dark:bg-[#09090b] hover:bg-zinc-950 hover:text-white dark:hover:bg-zinc-100 dark:hover:text-zinc-950 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-800 transition-colors duration-150"
                 >
                   {tag}
                 </button>
@@ -345,7 +343,7 @@ const CommandPalette = ({
               className="max-h-72 overflow-y-auto p-2 space-y-1"
             >
               {items.length === 0 ? (
-                <div className="py-10 text-center text-xs font-mono text-zinc-500 dark:text-zinc-400">
+                <div className="py-10 text-center text-xs font-mono text-zinc-600 dark:text-zinc-400">
                   No matching commands or projects found for &ldquo;{query}&rdquo;
                 </div>
               ) : (
@@ -360,7 +358,7 @@ const CommandPalette = ({
                       onMouseEnter={() => setSelectedIndex(index)}
                       className={`w-full flex items-center justify-between px-3 py-2 rounded-md text-left text-xs sm:text-sm transition-colors duration-150 ${
                         isSelected
-                          ? "bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 font-medium"
+                          ? "bg-zinc-950 dark:bg-zinc-100 text-white dark:text-zinc-950 font-medium"
                           : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900"
                       }`}
                     >
@@ -369,17 +367,17 @@ const CommandPalette = ({
                           className={`w-3.5 h-3.5 flex-shrink-0 ${
                             isSelected
                               ? "text-emerald-400 dark:text-emerald-600"
-                              : "text-zinc-400 dark:text-zinc-500"
+                              : "text-zinc-500 dark:text-zinc-400"
                           }`}
                         />
                         <span className="truncate">{item.title}</span>
                       </div>
                       <div className="flex items-center gap-2 flex-shrink-0 text-xs">
                         <span
-                          className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${
+                          className={`text-xs px-1.5 py-0.5 rounded font-mono ${
                             isSelected
                               ? "bg-white/15 dark:bg-black/15 text-white dark:text-zinc-950"
-                              : "bg-zinc-100 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400"
+                              : "bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400"
                           }`}
                         >
                           {item.category}
@@ -393,19 +391,19 @@ const CommandPalette = ({
             </div>
 
             {/* Footer Tip */}
-            <div className="flex items-center justify-between px-4 py-2 bg-zinc-50 dark:bg-zinc-900/80 border-t border-neutral-200 dark:border-neutral-800 text-[11px] text-zinc-500 dark:text-zinc-400 font-mono">
+            <div className="flex items-center justify-between px-4 py-2 bg-zinc-50 dark:bg-[#111114] border-t border-zinc-200 dark:border-zinc-800 text-xs text-zinc-600 dark:text-zinc-400 font-mono">
               <div className="flex items-center gap-2">
                 <span>Navigate</span>
-                <kbd className="px-1.5 py-0.5 bg-white dark:bg-zinc-950 border border-neutral-200 dark:border-neutral-800 rounded text-[10px]">
+                <kbd className="px-1.5 py-0.5 bg-white dark:bg-[#09090b] border border-zinc-200 dark:border-zinc-800 rounded text-xs">
                   ↑↓
                 </kbd>
                 <span>Select</span>
-                <kbd className="px-1.5 py-0.5 bg-white dark:bg-zinc-950 border border-neutral-200 dark:border-neutral-800 rounded text-[10px]">
+                <kbd className="px-1.5 py-0.5 bg-white dark:bg-[#09090b] border border-zinc-200 dark:border-zinc-800 rounded text-xs">
                   ↵
                 </kbd>
               </div>
               <div className="flex items-center gap-1.5">
-                <Command className="w-3 h-3 text-emerald-500" />
+                <Command className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
                 <span>Command Palette (⌘K)</span>
               </div>
             </div>

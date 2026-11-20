@@ -1,8 +1,6 @@
 "use client";
 
-import { useReducedMotion } from "framer-motion";
 import {
-  ArrowRight,
   CheckCircle2,
   Layout,
   Server,
@@ -14,220 +12,193 @@ const ARCHITECTURAL_DOMAINS = [
   {
     num: "01",
     icon: Layout,
-    title: "Frontend Systems & UI Architecture",
-    tag: "React 19 • Next.js App Router • TypeScript • Tailwind CSS",
+    title: "Frontend Systems & UI Engineering",
+    tag: "React 19 • Next.js App Router • TypeScript",
     description:
-      "Engineering SSR/ISR web applications, deterministic client state machines, and accessible component libraries with zero cumulative layout shift.",
+      "Building SSR/ISR web applications, deterministic client state flows, and accessible component libraries with zero layout shift.",
     deliverables: [
-      "Server-First Next.js App Router & Streaming SSR",
-      "Strict TypeScript contracts & modular design systems",
-      "Sub-1.5s LCP & zero-CLS responsive viewports (360px–1440px+)",
+      "Server-first Next.js App Router & streaming SSR interfaces",
+      "Strict TypeScript contracts and modular Tailwind design systems",
+      "Sub-1.5s LCP and zero-CLS responsive layouts (360px–1440px+)",
     ],
   },
   {
     num: "02",
     icon: Server,
-    title: "Backend & Distributed Services",
-    tag: "NestJS • Node.js • Express.js • RBAC Auth",
+    title: "Backend Services & Auth Architecture",
+    tag: "NestJS • Node.js • Express • JWT RBAC",
     description:
-      "Designing modular backend architectures, multi-role JWT/OAuth 2.0 security guards, concurrency-safe transactional locks, and webhook automations.",
+      "Designing modular REST APIs, multi-role JWT/OAuth 2.0 security guards, concurrency-safe endpoints, and webhook pipelines.",
     deliverables: [
       "Multi-tenant RBAC guards (Admin, Instructor, Doctor, Patient)",
-      "RESTful API validation, rate limiting & error boundaries",
-      "n8n workflow automation & asynchronous event webhooks",
+      "Typed request validation, rate limiting, and structured error handling",
+      "Asynchronous webhook processing and reliable retry flows",
     ],
   },
   {
     num: "03",
     icon: Database,
-    title: "Database Modeling & Query Optimization",
+    title: "Database Modeling & Query Tuning",
     tag: "PostgreSQL • MongoDB • Prisma • TypeORM",
     description:
-      "Structuring normalized relational schemas and compound-indexed document collections for high-concurrency read/write workloads.",
+      "Structuring normalized relational schemas and compound-indexed document collections for concurrent read/write workloads.",
     deliverables: [
-      "ACID transactions preventing concurrent slot/stock race conditions",
-      "Covered MongoDB aggregation pipelines (-30% query latency)",
-      "Schema migrations, indexing strategies & relational ledgers",
+      "ACID transactional locks preventing slot and inventory race conditions",
+      "Covered MongoDB aggregation pipelines cutting query latency by 30%",
+      "Schema migrations, indexing strategies, and audit-ready ledgers",
     ],
   },
   {
     num: "04",
     icon: Gauge,
-    title: "Infrastructure, DevOps & E2E QA",
-    tag: "Docker • GitHub Actions • Playwright E2E • WCAG AA",
+    title: "Infrastructure, CI/CD & E2E Quality",
+    tag: "Docker • GitHub Actions • Playwright • WCAG AA",
     description:
-      "Hardening production deployments with containerized environments, automated CI/CD verification suites, and strict accessibility compliance.",
+      "Hardening production releases with containerized environments, automated browser tests, and verified accessibility compliance.",
     deliverables: [
-      "Dockerized multi-service builds & Vercel/Cloud CI/CD",
-      "Automated Playwright E2E specs for critical user journeys",
-      "WCAG AA contrast ratios & full keyboard navigation",
+      "Dockerized multi-service builds and automated Vercel/GitHub CI/CD",
+      "Playwright E2E test suites verifying critical user journeys",
+      "WCAG AA contrast compliance and complete keyboard navigation",
     ],
   },
 ];
 
 const STACK_SPECIFICATION_ROWS = [
   {
-    category: "LANGUAGES & RUNTIME",
+    category: "Languages & Core",
     items: ["TypeScript", "JavaScript (ES2024)", "Node.js", "SQL", "C++", "HTML5 / CSS3"],
   },
   {
-    category: "FRONTEND ARCHITECTURE",
-    items: ["Next.js (App Router)", "React 19", "Tailwind CSS", "Framer Motion", "Zustand", "Redux Toolkit"],
+    category: "Frontend",
+    items: ["Next.js", "React 19", "Tailwind CSS", "Framer Motion", "Zustand", "Redux Toolkit"],
   },
   {
-    category: "BACKEND & SECURITY",
-    items: ["NestJS", "Express.js", "RESTful APIs", "JWT / OAuth 2.0 RBAC", "WebSockets", "n8n Automation"],
+    category: "Backend & Auth",
+    items: ["NestJS", "Express.js", "REST APIs", "JWT / OAuth 2.0", "WebSockets"],
   },
   {
-    category: "DATABASES & STORAGE",
-    items: ["PostgreSQL", "MongoDB", "Prisma ORM", "TypeORM", "Mongoose", "Aggregation Pipelines"],
+    category: "Databases & ORMs",
+    items: ["PostgreSQL", "MongoDB", "Prisma", "TypeORM", "Mongoose"],
   },
   {
-    category: "DEVOPS, QA & TOOLING",
-    items: ["Docker", "Git & GitHub Actions", "Playwright E2E", "Linux / Bash", "Vercel Edge", "Postman"],
+    category: "DevOps & QA",
+    items: ["Docker", "GitHub Actions", "Playwright", "Linux / Bash", "Vercel"],
   },
 ];
 
-const Services = () => {
-  const shouldReduceMotion = useReducedMotion();
-
-  const handleCtaClick = () => {
-    const el = document.getElementById("contact");
-    if (el) {
-      el.scrollIntoView({ behavior: shouldReduceMotion ? "auto" : "smooth" });
-    }
-  };
-
+const Services = ({ onSelectStackTag }) => {
   return (
     <section
       id="services"
       aria-labelledby="services-heading"
-      className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 scroll-mt-16 border-b border-neutral-200 dark:border-neutral-800 relative"
+      className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#09090b] relative"
     >
       {/* Alias anchor for #expertise */}
       <div id="expertise" className="absolute -top-20 left-0" aria-hidden="true" />
 
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-8 mb-12 border-b border-neutral-200 dark:border-neutral-800">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 mb-10 border-b border-zinc-200 dark:border-zinc-800">
           <div>
-            <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-emerald-700 dark:text-emerald-400 font-semibold mb-2">
-              <span>02 // ARCHITECTURE &amp; CAPABILITIES</span>
+            <div className="font-mono text-xs uppercase tracking-wider text-emerald-700 dark:text-emerald-400 font-semibold mb-1.5">
+              03 // Capabilities &amp; Stack
             </div>
             <h2
               id="services-heading"
-              className="fluid-h2 font-extrabold tracking-tight text-zinc-950 dark:text-white"
+              className="fluid-h2 font-bold tracking-tight text-zinc-950 dark:text-zinc-50"
             >
-              Technical Expertise &amp; Skills Matrix
+              Technical Capabilities &amp; Stack Matrix
             </h2>
           </div>
           <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-xl leading-relaxed">
-            End-to-end systems engineering across client rendering pipelines, modular backend services, and transactional data stores.
+            End-to-end engineering across client rendering, modular backend services, transactional databases, and automated QA.
           </p>
         </div>
 
-        {/* 2x2 Architectural Domain Ledger */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-12">
+        {/* 2x2 Architectural Domain Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
           {ARCHITECTURAL_DOMAINS.map((domain) => {
             const Icon = domain.icon;
             return (
               <div
                 key={domain.num}
-                className="rounded-lg bg-white dark:bg-zinc-900/40 border border-neutral-200 dark:border-neutral-800 p-6 flex flex-col justify-between hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors duration-150 ease-out"
+                className="rounded-lg bg-[#fafafa] dark:bg-[#111114] border border-zinc-200 dark:border-zinc-800 p-5 sm:p-6 flex flex-col justify-between"
               >
                 <div>
-                  <div className="flex items-center justify-between gap-2 pb-4 mb-4 border-b border-neutral-200 dark:border-neutral-800">
-                    <div className="flex items-center gap-2.5">
-                      <div className="p-2 rounded-md bg-zinc-100 dark:bg-zinc-950 border border-neutral-200 dark:border-neutral-800 text-zinc-900 dark:text-zinc-100">
+                  <div className="flex items-center justify-between gap-2 pb-3.5 mb-4 border-b border-zinc-200 dark:border-zinc-800">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className="p-2 rounded-md bg-white dark:bg-[#09090b] border border-zinc-200 dark:border-zinc-800 flex-shrink-0">
                         <Icon className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                       </div>
-                      <span className="font-mono text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+                      <span className="font-mono text-xs font-semibold text-emerald-700 dark:text-emerald-400 truncate">
                         {domain.tag}
                       </span>
                     </div>
-                    <span className="font-mono tabular-nums text-sm font-bold text-zinc-400 dark:text-zinc-500">
+                    <span className="font-mono tabular-nums text-xs font-bold text-zinc-500 dark:text-zinc-400 flex-shrink-0">
                       {domain.num}
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-bold text-zinc-950 dark:text-white tracking-tight mb-2">
+                  <h3 className="text-base sm:text-lg font-bold text-zinc-950 dark:text-zinc-50 tracking-tight mb-2">
                     {domain.title}
                   </h3>
 
-                  <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed mb-5">
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed mb-4">
                     {domain.description}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-neutral-200 dark:border-neutral-800 space-y-2">
+                <ul className="pt-3.5 border-t border-zinc-200 dark:border-zinc-800 space-y-2">
                   {domain.deliverables.map((item, idx) => (
-                    <div
+                    <li
                       key={idx}
-                      className="flex items-start gap-2 text-xs text-zinc-700 dark:text-zinc-300"
+                      className="flex items-start gap-2 text-xs sm:text-sm text-zinc-700 dark:text-zinc-300"
                     >
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 mt-0.5 flex-shrink-0" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 mt-1 flex-shrink-0" />
                       <span>{item}</span>
-                    </div>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
             );
           })}
         </div>
 
-        {/* High-Density Tabular Skills Specification Matrix */}
-        <div className="rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-zinc-900/40 overflow-hidden">
-          <div className="px-5 py-3.5 bg-zinc-50 dark:bg-zinc-900/80 border-b border-neutral-200 dark:border-neutral-800 flex items-center justify-between">
+        {/* High-Density Interactive Stack Matrix */}
+        <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-[#fafafa] dark:bg-[#111114] overflow-hidden">
+          <div className="px-5 py-3.5 bg-zinc-100/80 dark:bg-zinc-900/70 border-b border-zinc-200 dark:border-zinc-800 flex flex-wrap items-center justify-between gap-2">
             <span className="font-mono text-xs font-bold uppercase tracking-wider text-zinc-900 dark:text-zinc-100">
-              PRODUCTION STACK SPECIFICATION MATRIX
+              Production Stack Matrix
             </span>
-            <span className="font-mono text-[11px] text-zinc-500 dark:text-zinc-400 tabular-nums">
-              5 CORE LAYERS
+            <span className="font-mono text-xs text-zinc-600 dark:text-zinc-400">
+              Select a technology to filter projects
             </span>
           </div>
 
-          <div className="divide-y divide-neutral-200 dark:divide-neutral-800">
+          <div className="divide-y divide-zinc-200 dark:divide-zinc-800">
             {STACK_SPECIFICATION_ROWS.map((row) => (
               <div
                 key={row.category}
-                className="p-4 sm:px-6 sm:py-4 grid grid-cols-1 md:grid-cols-12 gap-3 items-center"
+                className="p-4 sm:px-6 grid grid-cols-1 md:grid-cols-12 gap-3 items-center"
               >
-                <div className="md:col-span-4 font-mono text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+                <div className="md:col-span-3 font-mono text-xs font-semibold uppercase tracking-wider text-zinc-700 dark:text-zinc-300">
                   {row.category}
                 </div>
-                <div className="md:col-span-8 flex flex-wrap gap-1.5">
+                <div className="md:col-span-9 flex flex-wrap gap-1.5">
                   {row.items.map((tech) => (
-                    <span
+                    <button
                       key={tech}
-                      className="font-mono text-xs px-2.5 py-1 rounded-md bg-zinc-50 dark:bg-zinc-950 text-zinc-800 dark:text-zinc-200 border border-neutral-200 dark:border-neutral-800"
+                      type="button"
+                      onClick={() => onSelectStackTag?.(tech.split(" ")[0])}
+                      className="font-mono text-xs px-2.5 py-1 rounded-md bg-white dark:bg-[#09090b] hover:bg-zinc-950 hover:text-white dark:hover:bg-zinc-100 dark:hover:text-zinc-950 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-800 transition-colors duration-150"
                     >
                       {tech}
-                    </span>
+                    </button>
                   ))}
                 </div>
               </div>
             ))}
           </div>
-        </div>
-
-        {/* Bottom Direct Action */}
-        <div className="mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 border border-neutral-200 dark:border-neutral-800">
-          <div>
-            <div className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
-              Need a full-stack system architected or scaled?
-            </div>
-            <div className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5">
-              Available for full-time engineering roles, technical leadership, and high-impact contracts.
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={handleCtaClick}
-            className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[40px] bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-950 font-mono font-semibold text-xs rounded-md transition-all duration-150 ease-out active:scale-[0.98] flex-shrink-0"
-          >
-            <span>Discuss Architecture</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
         </div>
       </div>
     </section>

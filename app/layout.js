@@ -20,7 +20,7 @@ export const metadata = {
     template: "%s | Niloy Kumar Mohonta",
   },
   description:
-    "Architecting resilient web applications, modular NestJS/Node.js backend systems, and pixel-complete React/Next.js interfaces with strict performance standards.",
+    "Full-Stack Software Engineer building production Next.js, TypeScript, Node.js/NestJS, PostgreSQL, and MongoDB web applications with strict performance and reliability standards.",
   keywords: [
     "Niloy Kumar Mohonta",
     "Full-Stack Software Engineer",
@@ -33,9 +33,9 @@ export const metadata = {
     "MongoDB",
     "Docker",
     "Tailwind CSS",
-    "niloydiu",
+    "niloykm",
   ],
-  authors: [{ name: "Niloy Kumar Mohonta", url: "https://github.com/niloydiu" }],
+  authors: [{ name: "Niloy Kumar Mohonta", url: "https://github.com/niloykm" }],
   creator: "Niloy Kumar Mohonta",
   openGraph: {
     type: "website",
@@ -44,13 +44,13 @@ export const metadata = {
     siteName: "Niloy Kumar Mohonta Portfolio",
     title: "Niloy Kumar Mohonta | Full-Stack Software Engineer",
     description:
-      "Architecting resilient web applications, modular NestJS/Node.js backend systems, and pixel-complete React/Next.js interfaces with strict performance standards.",
+      "Full-Stack Software Engineer shipping resilient Next.js, TypeScript, Node.js/NestJS, PostgreSQL, and MongoDB applications.",
   },
   twitter: {
     card: "summary_large_image",
     title: "Niloy Kumar Mohonta | Full-Stack Software Engineer",
     description:
-      "Architecting resilient web applications, modular NestJS/Node.js backend systems, and pixel-complete React/Next.js interfaces.",
+      "Full-Stack Software Engineer shipping resilient Next.js, TypeScript, Node.js/NestJS, PostgreSQL, and MongoDB applications.",
     creator: "@niloykmohonta",
   },
   robots: {
@@ -70,7 +70,7 @@ export const viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
     { media: "(prefers-color-scheme: dark)", color: "#09090b" },
   ],
 };
@@ -80,7 +80,12 @@ const jsonLd = {
   "@type": "Person",
   name: "Niloy Kumar Mohonta",
   url: "https://niloykm.vercel.app",
+  email: "mailto:niloykumarmohonta@gmail.com",
   jobTitle: "Full-Stack Software Engineer",
+  worksFor: {
+    "@type": "Organization",
+    name: "ScholarPASS",
+  },
   knowsAbout: [
     "TypeScript",
     "Next.js",
@@ -96,18 +101,33 @@ const jsonLd = {
     "Accessibility",
   ],
   sameAs: [
-    "https://github.com/niloydiu",
+    "https://github.com/niloykm",
     "https://www.linkedin.com/in/niloykumarmohonta000/",
     "https://x.com/niloykmohonta",
     "https://www.facebook.com/niloykumarmohonta000",
   ],
 };
 
+const themeInitScript = `
+(function() {
+  try {
+    var saved = localStorage.getItem('theme');
+    var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+    if (saved === 'light' || (!saved && prefersLight)) {
+      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.add('dark');
+    }
+  } catch (e) {}
+})();
+`;
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.png" />
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

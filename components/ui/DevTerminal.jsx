@@ -11,6 +11,7 @@ import {
   Trash2,
 } from "lucide-react";
 import { useToast } from "@/components/ui/Toast";
+import { GITHUB_PROFILE_URL, GITHUB_USERNAME } from "@/lib/github";
 
 const QUICK_COMMANDS = [
   "help",
@@ -18,8 +19,6 @@ const QUICK_COMMANDS = [
   "projects",
   "cat resume",
   "contact",
-  "niloy --version",
-  "sudo hire --now",
   "clear",
 ];
 
@@ -32,7 +31,6 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
   ]);
   const [input, setInput] = useState("");
   const [cmdHistory, setCmdHistory] = useState([
-    "niloy --version",
     "skills",
     "projects",
     "cat resume",
@@ -97,13 +95,6 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
       normalized === "version"
     ) {
       commandType = "version";
-    } else if (
-      normalized === "sudo hire --now" ||
-      normalized === "sudo hire" ||
-      normalized === "hire"
-    ) {
-      commandType = "hire";
-      showToast("Priority engineering channel unlocked. Let's connect.", "success");
     } else if (normalized === "whoami" || normalized === "about") {
       commandType = "about";
     }
@@ -166,19 +157,19 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
         return (
           <div className="space-y-1.5 text-zinc-200 break-words">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[11px] font-bold">
+              <span className="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-xs font-bold">
                 READY
               </span>
               <span className="text-zinc-100 font-semibold">
-                niloy-workstation-cli v3.0.0 — Full-Stack Engineering Shell
+                niloy-cli — Full-Stack Engineering Workstation
               </span>
             </div>
             <p className="text-zinc-400 text-xs">
               Type <span className="text-emerald-400 font-semibold">help</span> or use{" "}
-              <kbd className="px-1.5 py-0.5 rounded bg-zinc-900 text-zinc-200 border border-neutral-800 text-[10px]">
+              <kbd className="px-1.5 py-0.5 rounded bg-zinc-900 text-zinc-200 border border-zinc-800 text-xs">
                 ↑
               </kbd>{" "}
-              <kbd className="px-1.5 py-0.5 rounded bg-zinc-900 text-zinc-200 border border-neutral-800 text-[10px]">
+              <kbd className="px-1.5 py-0.5 rounded bg-zinc-900 text-zinc-200 border border-zinc-800 text-xs">
                 ↓
               </kbd>{" "}
               keys to cycle command history.
@@ -190,9 +181,9 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
         return (
           <div className="space-y-1.5 text-xs sm:text-sm break-words">
             <div className="text-zinc-100 font-bold mb-1">
-              [SYS::HELP] Available Console Commands:
+              Available Console Commands:
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-12 gap-y-1.5 gap-x-3 pl-3 border-l border-neutral-700">
+            <div className="grid grid-cols-1 sm:grid-cols-12 gap-y-1.5 gap-x-3 pl-3 border-l border-zinc-700">
               <span className="sm:col-span-4 text-emerald-400 font-semibold">help</span>
               <span className="sm:col-span-8 text-zinc-300">
                 Lists all interactive CLI commands
@@ -200,36 +191,22 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
 
               <span className="sm:col-span-4 text-emerald-400 font-semibold">skills</span>
               <span className="sm:col-span-8 text-zinc-300">
-                Prints categorized technical stack &amp; production competencies
+                Prints categorized technical stack and production competencies
               </span>
 
               <span className="sm:col-span-4 text-emerald-400 font-semibold">projects</span>
               <span className="sm:col-span-8 text-zinc-300">
-                Lists featured engineering systems with live &amp; GitHub links
+                Lists featured shipped systems with verified live and GitHub links
               </span>
 
               <span className="sm:col-span-4 text-emerald-400 font-semibold">cat resume</span>
               <span className="sm:col-span-8 text-zinc-300">
-                Outputs chronological experience ledger &amp; PDF download
+                Outputs chronological experience ledger and PDF download
               </span>
 
               <span className="sm:col-span-4 text-emerald-400 font-semibold">contact</span>
               <span className="sm:col-span-8 text-zinc-300">
-                Prints direct email (niloykumarmohonta@gmail.com) &amp; GitHub
-              </span>
-
-              <span className="sm:col-span-4 text-emerald-400 font-semibold">
-                niloy --version
-              </span>
-              <span className="sm:col-span-8 text-zinc-300">
-                Displays runtime build and engineer specification
-              </span>
-
-              <span className="sm:col-span-4 text-emerald-400 font-semibold">
-                sudo hire --now
-              </span>
-              <span className="sm:col-span-8 text-zinc-300">
-                Initializes priority engineering recruitment channel
+                Prints direct email (niloykumarmohonta@gmail.com), GitHub, and LinkedIn
               </span>
 
               <span className="sm:col-span-4 text-emerald-400 font-semibold">clear</span>
@@ -244,37 +221,37 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
         return (
           <div className="space-y-2 text-xs sm:text-sm break-words pl-3 border-l border-emerald-500/50">
             <div className="text-emerald-400 font-bold">
-              [STACK::MATRIX] Categorized Engineering Stack:
+              Categorized Production Stack:
             </div>
             <div className="space-y-1.5">
               <div>
-                <span className="text-zinc-100 font-semibold">┌─ Languages &amp; Core: </span>
+                <span className="text-zinc-100 font-semibold">Languages: </span>
                 <span className="text-zinc-300">
                   TypeScript, JavaScript (ES2024), C++, SQL, HTML5/CSS3
                 </span>
               </div>
               <div>
-                <span className="text-zinc-100 font-semibold">├─ Frontend Systems: </span>
+                <span className="text-zinc-100 font-semibold">Frontend: </span>
                 <span className="text-zinc-300">
-                  Next.js (App Router / SSR), React.js, Tailwind CSS, Framer Motion, Zustand
+                  Next.js (App Router / SSR), React 19, Tailwind CSS, Zustand, Redux Toolkit
                 </span>
               </div>
               <div>
-                <span className="text-zinc-100 font-semibold">├─ Backend &amp; APIs:   </span>
+                <span className="text-zinc-100 font-semibold">Backend: </span>
                 <span className="text-zinc-300">
-                  Node.js, NestJS, Express.js, RESTful APIs, JWT / OAuth 2.0 RBAC
+                  Node.js, NestJS, Express.js, REST APIs, JWT / OAuth 2.0 RBAC, WebSockets
                 </span>
               </div>
               <div>
-                <span className="text-zinc-100 font-semibold">├─ Databases &amp; ORM:  </span>
+                <span className="text-zinc-100 font-semibold">Databases: </span>
                 <span className="text-zinc-300">
-                  PostgreSQL, MongoDB (Mongoose / Aggregation Pipelines), Prisma, TypeORM
+                  PostgreSQL, MongoDB (Aggregation Pipelines), Prisma, TypeORM, Mongoose
                 </span>
               </div>
               <div>
-                <span className="text-zinc-100 font-semibold">└─ DevOps &amp; Tooling: </span>
+                <span className="text-zinc-100 font-semibold">DevOps &amp; QA: </span>
                 <span className="text-zinc-300">
-                  Docker, Git &amp; GitHub Actions, Playwright E2E, Vercel CI/CD, Linux
+                  Docker, GitHub Actions, Playwright E2E, Vercel, Linux / Bash
                 </span>
               </div>
             </div>
@@ -285,39 +262,51 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
         return (
           <div className="space-y-2.5 text-xs sm:text-sm break-words pl-3 border-l border-emerald-500/50">
             <div className="text-emerald-400 font-bold">
-              [FEATURED::PROJECTS] Production Applications:
+              Featured Production &amp; Full-Stack Systems:
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              <div className="p-2.5 rounded-md bg-zinc-900 border border-neutral-800">
+              <div className="p-2.5 rounded-md bg-zinc-900 border border-zinc-800">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="text-white font-bold">1. HandsOn — Event Platform</span>
-                  <span className="text-[11px] text-emerald-400">[Next.js • Node • MongoDB]</span>
+                  <span className="text-white font-bold">1. ScholarPASS</span>
+                  <span className="text-xs text-emerald-400">Next.js • Node • MongoDB</span>
                 </div>
                 <div className="flex flex-wrap gap-3 mt-1.5 text-xs">
                   <a
-                    href="https://handsoncom.vercel.app/"
+                    href="https://www.scholarpass.com/home"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-emerald-400 hover:underline inline-flex items-center gap-1"
                   >
-                    <span>handsoncom.vercel.app</span>
+                    <span>scholarpass.com</span>
                     <ExternalLink className="w-3 h-3" />
                   </a>
-                  <a
-                    href="https://github.com/niloydiu/roBenDevHandsOn"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-zinc-400 hover:text-white hover:underline"
-                  >
-                    <span>github.com/niloydiu/roBenDevHandsOn</span>
-                  </a>
+                  <span className="text-zinc-400">Private Client Repo</span>
                 </div>
               </div>
 
-              <div className="p-2.5 rounded-md bg-zinc-900 border border-neutral-800">
+              <div className="p-2.5 rounded-md bg-zinc-900 border border-zinc-800">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="text-white font-bold">2. NewCare — Healthcare Portal</span>
-                  <span className="text-[11px] text-emerald-400">[Next.js • NestJS • PostgreSQL]</span>
+                  <span className="text-white font-bold">2. TripBooking.ai</span>
+                  <span className="text-xs text-emerald-400">Next.js • TypeScript • REST</span>
+                </div>
+                <div className="flex flex-wrap gap-3 mt-1.5 text-xs">
+                  <a
+                    href="https://www.tripbooking.ai/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-emerald-400 hover:underline inline-flex items-center gap-1"
+                  >
+                    <span>tripbooking.ai</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                  <span className="text-zinc-400">LCP 3.2s → 1.5s</span>
+                </div>
+              </div>
+
+              <div className="p-2.5 rounded-md bg-zinc-900 border border-zinc-800">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <span className="text-white font-bold">3. NewCare</span>
+                  <span className="text-xs text-emerald-400">Next.js • NestJS • PostgreSQL</span>
                 </div>
                 <div className="flex flex-wrap gap-3 mt-1.5 text-xs">
                   <a
@@ -330,64 +319,38 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
                     <ExternalLink className="w-3 h-3" />
                   </a>
                   <a
-                    href="https://github.com/niloydiu/newcare"
+                    href="https://github.com/niloykm/newcare"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-zinc-400 hover:text-white hover:underline"
                   >
-                    <span>github.com/niloydiu/newcare</span>
+                    <span>github.com/niloykm/newcare</span>
                   </a>
                 </div>
               </div>
 
-              <div className="p-2.5 rounded-md bg-zinc-900 border border-neutral-800">
+              <div className="p-2.5 rounded-md bg-zinc-900 border border-zinc-800">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="text-white font-bold">3. Ndemy — LMS Platform</span>
-                  <span className="text-[11px] text-emerald-400">[React • Express • MongoDB]</span>
+                  <span className="text-white font-bold">4. Niloy Inventory</span>
+                  <span className="text-xs text-emerald-400">Next.js 15 • Express • MongoDB</span>
                 </div>
                 <div className="flex flex-wrap gap-3 mt-1.5 text-xs">
                   <a
-                    href="https://ndemy-frontend.vercel.app/"
+                    href="https://niloyinventory.vercel.app/dashboard"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-emerald-400 hover:underline inline-flex items-center gap-1"
                   >
-                    <span>ndemy-frontend.vercel.app</span>
+                    <span>niloyinventory.vercel.app</span>
                     <ExternalLink className="w-3 h-3" />
                   </a>
                   <a
-                    href="https://github.com/niloydiu/edemy"
+                    href="https://github.com/niloykm/inventory"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-zinc-400 hover:text-white hover:underline"
                   >
-                    <span>github.com/niloydiu/edemy</span>
-                  </a>
-                </div>
-              </div>
-
-              <div className="p-2.5 rounded-md bg-zinc-900 border border-neutral-800">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="text-white font-bold">4. Nobot — Streaming AI</span>
-                  <span className="text-[11px] text-emerald-400">[Next.js • TypeScript • AST]</span>
-                </div>
-                <div className="flex flex-wrap gap-3 mt-1.5 text-xs">
-                  <a
-                    href="https://nobot.vercel.app/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-emerald-400 hover:underline inline-flex items-center gap-1"
-                  >
-                    <span>nobot.vercel.app</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                  <a
-                    href="https://github.com/niloydiu/Nobot"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-zinc-400 hover:text-white hover:underline"
-                  >
-                    <span>github.com/niloydiu/Nobot</span>
+                    <span>github.com/niloykm/inventory</span>
                   </a>
                 </div>
               </div>
@@ -397,50 +360,50 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
 
       case "cat resume":
         return (
-          <div className="space-y-2.5 text-xs sm:text-sm break-words pl-3 border-l border-neutral-700">
+          <div className="space-y-2.5 text-xs sm:text-sm break-words pl-3 border-l border-zinc-700">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <span className="text-zinc-100 font-bold">
-                === NILOY KUMAR MOHONTA — CURRICULUM VITAE ===
+                NILOY KUMAR MOHONTA — CURRICULUM VITAE
               </span>
-              <span className="text-[11px] text-emerald-400 font-semibold tabular-nums">
-                3+ Yrs Exp • 50+ GitHub Repos
+              <span className="text-xs text-emerald-400 font-semibold tabular-nums">
+                Full-Stack Software Engineer • 3+ Yrs Exp
               </span>
             </div>
 
-            <div className="space-y-1.5 text-zinc-200">
+            <div className="space-y-2 text-zinc-200">
               <div>
                 <span className="text-emerald-400 font-semibold">
-                  • Co-Founder &amp; Technical Lead @ Gen Stella IT
-                </span>{" "}
-                <span className="text-zinc-400 tabular-nums">(2026 – Present)</span>
-                <p className="text-zinc-300 text-xs pl-3">
-                  Directing Next.js &amp; NestJS/PostgreSQL SaaS architecture and n8n webhook automation (-40% manual triage).
-                </p>
-              </div>
-              <div>
-                <span className="text-zinc-100 font-semibold">
                   • Full-Stack Software Engineer @ ScholarPASS
                 </span>{" "}
                 <span className="text-zinc-400 tabular-nums">(2025 – Present)</span>
                 <p className="text-zinc-300 text-xs pl-3">
-                  Engineered multi-tenant LMS portals, OAuth/JWT RBAC, and MongoDB aggregation pipelines (-30% query latency).
+                  Multi-tenant LMS portals, OAuth/JWT RBAC guards, and compound-indexed MongoDB pipelines (-30% query latency).
                 </p>
               </div>
               <div>
                 <span className="text-zinc-100 font-semibold">
-                  • Frontend Engineer @ TripBooking.ai &amp; TutorsPlan
+                  • Frontend Engineer @ TripBooking.ai
                 </span>{" "}
                 <span className="text-zinc-400 tabular-nums">(2025 – 2026)</span>
                 <p className="text-zinc-300 text-xs pl-3">
-                  Optimized Core Web Vitals (LCP 3.2s → 1.5s) and built real-time search &amp; analytics dashboards.
+                  Multi-vertical travel search and Core Web Vitals optimization (LCP 3.2s → 1.5s).
                 </p>
               </div>
               <div>
                 <span className="text-zinc-100 font-semibold">
-                  • Education: B.Sc. in Computer Science &amp; Engineering (CSE)
+                  • Frontend Engineer @ TutorsPlan
+                </span>{" "}
+                <span className="text-zinc-400 tabular-nums">(2025)</span>
+                <p className="text-zinc-300 text-xs pl-3">
+                  Interactive tutor scheduling matrices and WCAG AA compliant analytics dashboards.
+                </p>
+              </div>
+              <div>
+                <span className="text-zinc-100 font-semibold">
+                  • B.Sc. in Computer Science &amp; Engineering (CSE)
                 </span>
                 <p className="text-zinc-300 text-xs pl-3">
-                  Daffodil International University (DIU) — 200+ C++ algorithmic problems solved.
+                  Daffodil International University (2022 – 2026) — 200+ C++ algorithmic problems solved.
                 </p>
               </div>
             </div>
@@ -464,11 +427,11 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
         return (
           <div className="space-y-1.5 text-xs sm:text-sm break-words pl-3 border-l border-emerald-500/50">
             <div className="text-emerald-400 font-bold">
-              [CONTACT::CHANNELS] Direct Engineering Reach:
+              Direct Contact Channels:
             </div>
             <div className="space-y-1 text-zinc-200">
               <div>
-                <span className="text-zinc-400">• Email:    </span>
+                <span className="text-zinc-400">Email:    </span>
                 <a
                   href="mailto:niloykumarmohonta@gmail.com"
                   className="text-emerald-400 hover:underline font-semibold"
@@ -477,18 +440,18 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
                 </a>
               </div>
               <div>
-                <span className="text-zinc-400">• GitHub:   </span>
+                <span className="text-zinc-400">GitHub:   </span>
                 <a
-                  href="https://github.com/niloydiu"
+                  href={GITHUB_PROFILE_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-zinc-100 hover:underline font-semibold"
                 >
-                  github.com/niloydiu (@niloydiu)
+                  github.com/{GITHUB_USERNAME} (@{GITHUB_USERNAME})
                 </a>
               </div>
               <div>
-                <span className="text-zinc-400">• LinkedIn: </span>
+                <span className="text-zinc-400">LinkedIn: </span>
                 <a
                   href="https://www.linkedin.com/in/niloykumarmohonta000/"
                   target="_blank"
@@ -498,12 +461,6 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
                   linkedin.com/in/niloykumarmohonta000
                 </a>
               </div>
-              <div>
-                <span className="text-zinc-400">• Status:   </span>
-                <span className="text-emerald-400">
-                  Available for select engineering roles &amp; remote contracts
-                </span>
-              </div>
             </div>
           </div>
         );
@@ -511,44 +468,14 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
       case "version":
         return (
           <div className="text-xs sm:text-sm text-zinc-200 pl-3 border-l border-emerald-500/50 break-words">
-            <span className="text-emerald-400 font-bold">niloy-cli v3.0.0</span>{" "}
-            — Full-Stack Software Engineer &amp; Co-Founder @ Gen Stella IT (TypeScript • Next.js • NestJS • PostgreSQL • MongoDB • Docker)
-          </div>
-        );
-
-      case "hire":
-        return (
-          <div className="space-y-1.5 text-xs sm:text-sm pl-3 border-l border-emerald-400 break-words">
-            <div className="text-emerald-400 font-bold">
-              [ACCESS GRANTED] Priority Hiring Pipeline Initialized
-            </div>
-            <p className="text-zinc-200">
-              Ready to architect resilient full-stack systems. Reach out directly at{" "}
-              <a
-                href="mailto:niloykumarmohonta@gmail.com"
-                className="text-emerald-400 underline font-semibold"
-              >
-                niloykumarmohonta@gmail.com
-              </a>{" "}
-              or download{" "}
-              <a
-                href="/niloy.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-zinc-100 underline font-semibold"
-              >
-                Resume PDF
-              </a>
-              .
-            </p>
+            <span className="text-emerald-400 font-bold">niloy-cli</span> — Full-Stack Software Engineer (TypeScript • Next.js • NestJS • PostgreSQL • MongoDB • Docker)
           </div>
         );
 
       case "about":
         return (
-          <div className="text-xs sm:text-sm text-zinc-200 pl-3 border-l border-neutral-700 break-words">
-            Niloy Kumar Mohonta — Full-Stack Software Engineer &amp; Co-Founder at Gen Stella IT (Dhaka, BD • UTC+6).
-            Engineered full-stack SaaS platforms, custom LMS RBAC auth engines, and cloud infrastructures handling high-concurrency workloads.
+          <div className="text-xs sm:text-sm text-zinc-200 pl-3 border-l border-zinc-700 break-words">
+            Niloy Kumar Mohonta — Full-Stack Software Engineer at ScholarPASS (Dhaka, BD • UTC+6). Building production Next.js, TypeScript, Node.js/NestJS, PostgreSQL, and MongoDB systems.
           </div>
         );
 
@@ -570,18 +497,18 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
   };
 
   return (
-    <div className="w-full max-w-full rounded-lg overflow-hidden bg-[#09090b] border border-neutral-800 font-mono text-xs sm:text-sm text-zinc-200">
+    <div className="w-full max-w-full rounded-lg overflow-hidden bg-[#09090b] border border-zinc-800 font-mono text-xs sm:text-sm text-zinc-200">
       {/* Terminal Titlebar */}
-      <div className="flex flex-wrap items-center justify-between gap-2 px-3.5 py-2.5 bg-zinc-900/90 border-b border-neutral-800">
+      <div className="flex flex-wrap items-center justify-between gap-2 px-3.5 py-2.5 bg-zinc-900 border-b border-zinc-800">
         <div className="flex items-center gap-2 min-w-0">
           <div className="flex items-center gap-1.5 flex-shrink-0" aria-hidden="true">
             <div className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
             <div className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
             <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
           </div>
-          <span className="ml-1.5 text-[11px] text-zinc-300 font-semibold flex items-center gap-1.5 truncate">
+          <span className="ml-1.5 text-xs text-zinc-200 font-semibold flex items-center gap-1.5 truncate">
             <Terminal className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
-            <span className="truncate">niloy@workstation: ~ (zsh)</span>
+            <span className="truncate">niloy@workstation: ~</span>
           </span>
         </div>
 
@@ -590,7 +517,7 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
             type="button"
             onClick={() => executeCommand("clear")}
             aria-label="Clear terminal history"
-            className="flex items-center gap-1 text-[11px] text-zinc-300 hover:text-white transition-colors duration-150 bg-zinc-950 hover:bg-zinc-800 px-2 py-1 rounded border border-neutral-800 active:scale-[0.98]"
+            className="flex items-center gap-1 text-xs text-zinc-300 hover:text-white transition-colors duration-150 bg-zinc-950 hover:bg-zinc-800 px-2.5 py-1 rounded border border-zinc-800 active:scale-[0.98]"
           >
             <Trash2 className="w-3 h-3" />
             <span className="hidden sm:inline">Clear</span>
@@ -600,7 +527,7 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
             type="button"
             onClick={copyEmail}
             aria-label="Copy developer email address niloykumarmohonta@gmail.com"
-            className="flex items-center gap-1 text-[11px] text-zinc-300 hover:text-white transition-colors duration-150 bg-zinc-950 hover:bg-zinc-800 px-2.5 py-1 rounded border border-neutral-800 active:scale-[0.98]"
+            className="flex items-center gap-1 text-xs text-zinc-300 hover:text-white transition-colors duration-150 bg-zinc-950 hover:bg-zinc-800 px-2.5 py-1 rounded border border-zinc-800 active:scale-[0.98]"
           >
             {copied ? (
               <Check className="w-3 h-3 text-emerald-400" />
@@ -613,17 +540,15 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
       </div>
 
       {/* Quick Action Pills */}
-      <div className="flex flex-wrap items-center gap-1.5 px-3.5 py-2 bg-zinc-900/40 border-b border-neutral-800">
-        <span className="text-[11px] text-zinc-400 font-semibold mr-1">
-          EXEC:
-        </span>
+      <div className="flex flex-wrap items-center gap-1.5 px-3.5 py-2 bg-zinc-900/50 border-b border-zinc-800">
+        <span className="text-xs text-zinc-400 font-semibold mr-1">RUN:</span>
         {QUICK_COMMANDS.map((cmd) => (
           <button
             key={cmd}
             type="button"
             onClick={() => executeCommand(cmd)}
             aria-label={`Run terminal command ${cmd}`}
-            className="px-2 py-0.5 min-h-[26px] text-[11px] bg-zinc-900 hover:bg-zinc-100 text-zinc-300 hover:text-zinc-950 rounded border border-neutral-800 transition-colors duration-150 ease-out active:scale-[0.98]"
+            className="px-2.5 py-1 min-h-[28px] text-xs bg-zinc-900 hover:bg-zinc-100 text-zinc-200 hover:text-zinc-950 rounded border border-zinc-800 transition-colors duration-150 ease-out active:scale-[0.98]"
           >
             {cmd}
           </button>
@@ -636,11 +561,11 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
         role="log"
         aria-live="polite"
         aria-label="Terminal output log"
-        className="p-4 sm:p-5 h-64 sm:h-72 overflow-y-auto overflow-x-hidden space-y-3 bg-[#09090b] leading-relaxed cursor-text break-words"
+        className="p-4 sm:p-5 h-60 sm:h-64 overflow-y-auto overflow-x-hidden space-y-3 bg-[#09090b] leading-relaxed cursor-text break-words"
         onClick={() => inputRef.current?.focus()}
       >
         {history.length === 0 && (
-          <div className="text-xs text-zinc-500">
+          <div className="text-xs text-zinc-400">
             Buffer cleared. Type &apos;help&apos; or select a command above.
           </div>
         )}
@@ -662,7 +587,7 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
       {/* Interactive Command Input */}
       <form
         onSubmit={handleSubmit}
-        className="flex items-center gap-2 px-3.5 py-2.5 bg-zinc-900/70 border-t border-neutral-800"
+        className="flex items-center gap-2 px-3.5 py-2.5 bg-zinc-900/80 border-t border-zinc-800"
       >
         <label htmlFor="terminal-command-input" className="sr-only">
           Terminal Command Input
@@ -683,12 +608,12 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
           autoComplete="off"
           spellCheck="false"
           placeholder="Type 'help', 'skills', 'projects', 'cat resume', 'contact'..."
-          className="flex-1 min-w-0 bg-transparent text-zinc-100 placeholder-zinc-500 focus:outline-none text-xs sm:text-sm font-mono"
+          className="flex-1 min-w-0 bg-transparent text-zinc-100 placeholder-zinc-400 focus:outline-none text-xs sm:text-sm font-mono"
         />
         <button
           type="submit"
           aria-label="Execute terminal command"
-          className="p-1.5 min-w-[32px] min-h-[32px] flex items-center justify-center text-zinc-200 hover:text-zinc-950 bg-zinc-800 hover:bg-zinc-100 rounded transition-colors duration-150 flex-shrink-0 active:scale-[0.98]"
+          className="p-1.5 min-w-[34px] min-h-[34px] flex items-center justify-center text-zinc-200 hover:text-zinc-950 bg-zinc-800 hover:bg-zinc-100 rounded transition-colors duration-150 flex-shrink-0 active:scale-[0.98]"
         >
           <CornerDownLeft className="w-3.5 h-3.5" />
         </button>

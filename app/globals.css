@@ -4,8 +4,10 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    /* 60% Dominant Surface (Light) */
+    --background: 0 0% 98%;
     --foreground: 240 10% 3.9%;
+    /* 30% Structural Surfaces & Hairlines */
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
@@ -15,36 +17,40 @@
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 36%;
+    --muted-foreground: 240 4% 35%;
     --accent: 240 4.8% 95.9%;
     --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 347 77% 50%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
+    --border: 240 5.9% 89%;
+    --input: 240 5.9% 89%;
+    /* 10% Primary Accent Focus Ring (Emerald) */
     --ring: 160 84% 39%;
     --radius: 0.375rem;
   }
 
   .dark {
+    /* 60% Dominant Surface (Obsidian Slate) */
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
+    /* 30% Structural Surfaces & Hairlines */
+    --card: 240 6% 7%;
     --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
+    --popover: 240 10% 4.5%;
     --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
+    --primary: 0 0% 96%;
+    --primary-foreground: 240 10% 3.9%;
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
     --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 70%;
+    --muted-foreground: 240 5% 65%;
     --accent: 240 3.7% 15.9%;
     --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 347 77% 55%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
+    --border: 240 3.7% 16%;
+    --input: 240 3.7% 16%;
+    /* 10% Primary Accent Focus Ring (Emerald) */
     --ring: 160 84% 39%;
   }
 
@@ -53,45 +59,45 @@
   }
 
   body {
-    @apply bg-[#ffffff] dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 font-sans antialiased;
+    @apply bg-[#fafafa] dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 font-sans antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
   /* Crisp Accessible Keyboard Focus Rings */
   :focus-visible {
-    @apply outline-none ring-2 ring-emerald-500 ring-offset-2 ring-offset-white dark:ring-offset-[#09090b];
+    @apply outline-none ring-2 ring-emerald-500 ring-offset-2 ring-offset-[#fafafa] dark:ring-offset-[#09090b];
   }
 }
 
 @layer components {
   .structural-surface {
-    @apply rounded-lg bg-white dark:bg-zinc-900/50 border border-neutral-200 dark:border-neutral-800 transition-colors duration-150 ease-out;
+    @apply rounded-lg bg-white dark:bg-[#111114] border border-zinc-200 dark:border-zinc-800 transition-colors duration-150 ease-out;
   }
 
   .structural-grid {
-    background-image: 
-      linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+    background-image:
+      linear-gradient(to right, rgba(9, 9, 11, 0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(9, 9, 11, 0.035) 1px, transparent 1px);
     background-size: 48px 48px;
   }
 
   .dark .structural-grid {
-    background-image: 
-      linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
     background-size: 48px 48px;
   }
 }
 
-/* Fluid typography utilities with tight tracking */
+/* Fluid typography scale with tight display tracking */
 .fluid-h1 {
-  font-size: clamp(2.25rem, 4.5vw + 1rem, 4rem);
+  font-size: clamp(2.125rem, 4vw + 1rem, 3.625rem);
   line-height: 1.08;
   letter-spacing: -0.03em;
 }
 
 .fluid-h2 {
-  font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem);
+  font-size: clamp(1.5rem, 2.5vw + 0.5rem, 2.25rem);
   line-height: 1.15;
   letter-spacing: -0.025em;
 }
@@ -106,17 +112,17 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted-foreground) / 0.3);
+  background: hsl(var(--muted-foreground) / 0.35);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted-foreground) / 0.5);
+  background: hsl(var(--muted-foreground) / 0.55);
 }
 
 /* Selection styling */
 ::selection {
-  @apply bg-emerald-500/20 text-zinc-900 dark:text-emerald-200;
+  @apply bg-emerald-500/20 text-zinc-950 dark:text-emerald-200;
 }
 
 /* Reduced motion support */

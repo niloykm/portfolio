@@ -174,7 +174,7 @@ export const toolsData = [
 ];
 
 export const socialLinks = [
-  { name: "github", url: "https://github.com/niloydiu" },
+  { name: "github", url: "https://github.com/niloykm" },
   {
     name: "linkedin",
     url: "https://www.linkedin.com/in/niloykumarmohonta000/",

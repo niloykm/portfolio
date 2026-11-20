@@ -13,8 +13,10 @@ import {
   ArrowUpRight,
   Copy,
   Check,
+  Download,
 } from "lucide-react";
 import { useToast } from "@/components/ui/Toast";
+import { GITHUB_PROFILE_URL, GITHUB_USERNAME } from "@/lib/github";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -35,7 +37,7 @@ function validateContactForm(values) {
   if (!email) {
     errors.email = "Please enter your email address.";
   } else if (!EMAIL_REGEX.test(email)) {
-    errors.email = "Please enter a valid email address (e.g., name@domain.com).";
+    errors.email = "Please enter a valid email address (e.g., name@company.com).";
   }
 
   if (!message) {
@@ -72,7 +74,7 @@ const Contact = () => {
       // Fallback
     }
     setCopied(true);
-    showToast("Copied niloykumarmohonta@gmail.com to clipboard!", "success");
+    showToast("Copied niloykumarmohonta@gmail.com to clipboard", "success");
     setTimeout(() => setCopied(false), 2500);
   };
 
@@ -140,26 +142,30 @@ const Contact = () => {
           setValues({ name: "", email: "", message: "" });
           setTouched({});
           showToast(
-            "Message sent successfully! Niloy will respond shortly.",
+            "Message sent successfully. Niloy will respond within 24 hours.",
             "success"
           );
           setTimeout(() => setResult(""), 6000);
         } else {
           setResult("error");
           showToast(
-            "Submission failed. Please use the direct email link.",
+            "Submission failed. Please email niloykumarmohonta@gmail.com directly.",
             "error"
           );
           setTimeout(() => setResult(""), 6000);
         }
       } else {
-        await new Promise((resolve) => setTimeout(resolve, 400));
-        setResult("success");
-        setValues({ name: "", email: "", message: "" });
-        setTouched({});
+        const subject = encodeURIComponent(
+          `Engineering Inquiry from ${validation.data.name}`
+        );
+        const body = encodeURIComponent(
+          `Name: ${validation.data.name}\nEmail: ${validation.data.email}\n\n${validation.data.message}`
+        );
+        window.location.href = `mailto:niloykumarmohonta@gmail.com?subject=${subject}&body=${body}`;
+        setResult("mailto");
         showToast(
-          "Message validated & queued! You can also email niloykumarmohonta@gmail.com directly.",
-          "success"
+          "Opening your email client to send directly to niloykumarmohonta@gmail.com.",
+          "info"
         );
         setTimeout(() => setResult(""), 6000);
       }
@@ -179,50 +185,50 @@ const Contact = () => {
     <section
       id="contact"
       aria-labelledby="contact-heading"
-      className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 scroll-mt-16"
+      className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-8 mb-12 border-b border-neutral-200 dark:border-neutral-800">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 mb-10 border-b border-zinc-200 dark:border-zinc-800">
           <div>
-            <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-emerald-700 dark:text-emerald-400 font-semibold mb-2">
-              <span>04 // DIRECT DISPATCH</span>
+            <div className="font-mono text-xs uppercase tracking-wider text-emerald-700 dark:text-emerald-400 font-semibold mb-1.5">
+              04 // Direct Contact
             </div>
             <h2
               id="contact-heading"
-              className="fluid-h2 font-extrabold tracking-tight text-zinc-950 dark:text-white"
+              className="fluid-h2 font-bold tracking-tight text-zinc-950 dark:text-zinc-50"
             >
-              Initiate Engineering Dialogue
+              Get in Touch
             </h2>
           </div>
           <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-xl leading-relaxed">
-            Available for full-time software engineering roles, SaaS system architecture, and remote technical contracts.
+            Available for full-time software engineering roles, full-stack product builds, and remote technical contracts.
           </p>
         </div>
 
         {/* Asymmetric 12-Column Contact Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          {/* Left Column (5 Cols): Direct Engineering Channels & Specs */}
-          <div className="lg:col-span-5 space-y-4">
-            <div className="rounded-lg bg-white dark:bg-zinc-900/40 border border-neutral-200 dark:border-neutral-800 p-6 space-y-5">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Left Column (5 Cols): Frictionless Direct Channels */}
+          <div className="lg:col-span-5">
+            <div className="rounded-lg bg-white dark:bg-[#111114] border border-zinc-200 dark:border-zinc-800 p-6 space-y-5">
               <div>
-                <div className="font-mono text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1">
-                  DIRECT CHANNELS
+                <div className="font-mono text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1">
+                  Direct Channels
                 </div>
-                <h3 className="text-lg font-bold text-zinc-950 dark:text-white tracking-tight">
+                <h3 className="text-lg font-bold text-zinc-950 dark:text-zinc-50 tracking-tight">
                   Reach Niloy Directly
                 </h3>
-                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">
-                  Skip intermediaries. Direct email or GitHub/LinkedIn messages receive a response within 24 hours.
+                <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">
+                  Direct email, LinkedIn, or GitHub messages typically receive a response within 24 hours.
                 </p>
               </div>
 
-              <div className="space-y-2.5 pt-2 border-t border-neutral-200 dark:border-neutral-800">
-                <div className="flex items-center justify-between gap-2 p-3 rounded-md bg-zinc-50 dark:bg-zinc-950 border border-neutral-200 dark:border-neutral-800">
+              <div className="space-y-2.5 pt-2 border-t border-zinc-200 dark:border-zinc-800">
+                <div className="flex items-center justify-between gap-2 p-3 rounded-md bg-zinc-50 dark:bg-[#09090b] border border-zinc-200 dark:border-zinc-800">
                   <a
                     href="mailto:niloykumarmohonta@gmail.com"
                     aria-label="Send direct email to niloykumarmohonta@gmail.com"
-                    className="flex items-center gap-2.5 font-mono text-xs text-zinc-900 dark:text-zinc-100 hover:text-emerald-600 dark:hover:text-emerald-400 truncate"
+                    className="flex items-center gap-2.5 font-mono text-xs text-zinc-950 dark:text-zinc-100 hover:text-emerald-700 dark:hover:text-emerald-400 truncate"
                   >
                     <Mail className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
                     <span className="truncate">niloykumarmohonta@gmail.com</span>
@@ -231,10 +237,10 @@ const Contact = () => {
                     type="button"
                     onClick={handleCopyEmail}
                     aria-label="Copy email address"
-                    className="p-1.5 rounded bg-white dark:bg-zinc-900 border border-neutral-200 dark:border-neutral-800 text-zinc-600 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white transition-colors duration-150 active:scale-[0.98] flex-shrink-0"
+                    className="p-2 min-w-[34px] min-h-[34px] inline-flex items-center justify-center rounded bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white transition-colors duration-150 active:scale-[0.98] flex-shrink-0"
                   >
                     {copied ? (
-                      <Check className="w-3.5 h-3.5 text-emerald-500" />
+                      <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                     ) : (
                       <Copy className="w-3.5 h-3.5" />
                     )}
@@ -242,17 +248,17 @@ const Contact = () => {
                 </div>
 
                 <a
-                  href="https://github.com/niloydiu"
+                  href={GITHUB_PROFILE_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Visit Niloy's GitHub profile (https://github.com/niloydiu)"
-                  className="flex items-center justify-between p-3 rounded-md bg-zinc-50 dark:bg-zinc-950 hover:bg-zinc-100 dark:hover:bg-zinc-900 border border-neutral-200 dark:border-neutral-800 font-mono text-xs text-zinc-800 dark:text-zinc-200 transition-colors duration-150"
+                  aria-label={`Visit Niloy's GitHub profile (${GITHUB_PROFILE_URL})`}
+                  className="flex items-center justify-between p-3 min-h-[44px] rounded-md bg-zinc-50 dark:bg-[#09090b] hover:bg-zinc-100 dark:hover:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 font-mono text-xs text-zinc-900 dark:text-zinc-200 transition-colors duration-150"
                 >
-                  <span className="flex items-center gap-2.5">
-                    <Github className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                    <span>github.com/niloydiu</span>
+                  <span className="flex items-center gap-2.5 truncate">
+                    <Github className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+                    <span className="truncate">github.com/{GITHUB_USERNAME}</span>
                   </span>
-                  <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400" />
+                  <ArrowUpRight className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400 flex-shrink-0" />
                 </a>
 
                 <a
@@ -260,24 +266,39 @@ const Contact = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Visit Niloy's LinkedIn profile"
-                  className="flex items-center justify-between p-3 rounded-md bg-zinc-50 dark:bg-zinc-950 hover:bg-zinc-100 dark:hover:bg-zinc-900 border border-neutral-200 dark:border-neutral-800 font-mono text-xs text-zinc-800 dark:text-zinc-200 transition-colors duration-150"
+                  className="flex items-center justify-between p-3 min-h-[44px] rounded-md bg-zinc-50 dark:bg-[#09090b] hover:bg-zinc-100 dark:hover:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 font-mono text-xs text-zinc-900 dark:text-zinc-200 transition-colors duration-150"
+                >
+                  <span className="flex items-center gap-2.5 truncate">
+                    <Linkedin className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+                    <span className="truncate">linkedin.com/in/niloykumarmohonta000</span>
+                  </span>
+                  <ArrowUpRight className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400 flex-shrink-0" />
+                </a>
+
+                <a
+                  href="/niloy.pdf"
+                  download="Niloy_Kumar_Mohonta_Resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Download Resume PDF"
+                  className="flex items-center justify-between p-3 min-h-[44px] rounded-md bg-zinc-50 dark:bg-[#09090b] hover:bg-zinc-100 dark:hover:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 font-mono text-xs text-zinc-900 dark:text-zinc-200 transition-colors duration-150"
                 >
                   <span className="flex items-center gap-2.5">
-                    <Linkedin className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                    <span>linkedin.com/in/niloykumarmohonta000</span>
+                    <Download className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+                    <span>Download Resume (PDF)</span>
                   </span>
-                  <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400" />
+                  <ArrowUpRight className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400 flex-shrink-0" />
                 </a>
               </div>
             </div>
           </div>
 
-          {/* Right Column (7 Cols): Crisp Message Dispatch Form */}
+          {/* Right Column (7 Cols): Validated Message Form */}
           <div className="lg:col-span-7">
             <form
               onSubmit={onSubmit}
               noValidate
-              className="rounded-lg bg-white dark:bg-zinc-900/40 border border-neutral-200 dark:border-neutral-800 p-6 sm:p-8"
+              className="rounded-lg bg-white dark:bg-[#111114] border border-zinc-200 dark:border-zinc-800 p-6 sm:p-7"
             >
               <div className="grid md:grid-cols-2 gap-5 mb-5">
                 <div>
@@ -285,7 +306,7 @@ const Contact = () => {
                     htmlFor="contact-name"
                     className="block font-mono text-xs font-semibold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 mb-2"
                   >
-                    Your Name <span className="text-rose-500">*</span>
+                    Your Name <span className="text-rose-600 dark:text-rose-400">*</span>
                   </label>
                   <input
                     id="contact-name"
@@ -299,10 +320,10 @@ const Contact = () => {
                     aria-describedby={errors.name ? "contact-name-error" : undefined}
                     placeholder="Enter your full name"
                     required
-                    className={`w-full px-3.5 py-2.5 bg-zinc-50 dark:bg-zinc-950 border rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors duration-150 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 text-sm ${
+                    className={`w-full px-3.5 py-2.5 min-h-[42px] bg-zinc-50 dark:bg-[#09090b] border rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors duration-150 text-zinc-950 dark:text-white placeholder-zinc-500 dark:placeholder-zinc-400 text-sm ${
                       errors.name
                         ? "border-rose-500 dark:border-rose-500"
-                        : "border-neutral-200 dark:border-neutral-800"
+                        : "border-zinc-200 dark:border-zinc-800"
                     }`}
                   />
                   {errors.name && (
@@ -321,7 +342,7 @@ const Contact = () => {
                     htmlFor="contact-email"
                     className="block font-mono text-xs font-semibold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 mb-2"
                   >
-                    Your Email <span className="text-rose-500">*</span>
+                    Your Email <span className="text-rose-600 dark:text-rose-400">*</span>
                   </label>
                   <input
                     id="contact-email"
@@ -337,10 +358,10 @@ const Contact = () => {
                     }
                     placeholder="name@company.com"
                     required
-                    className={`w-full px-3.5 py-2.5 bg-zinc-50 dark:bg-zinc-950 border rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors duration-150 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 text-sm ${
+                    className={`w-full px-3.5 py-2.5 min-h-[42px] bg-zinc-50 dark:bg-[#09090b] border rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors duration-150 text-zinc-950 dark:text-white placeholder-zinc-500 dark:placeholder-zinc-400 text-sm ${
                       errors.email
                         ? "border-rose-500 dark:border-rose-500"
-                        : "border-neutral-200 dark:border-neutral-800"
+                        : "border-zinc-200 dark:border-zinc-800"
                     }`}
                   />
                   {errors.email && (
@@ -360,7 +381,7 @@ const Contact = () => {
                   htmlFor="contact-message"
                   className="block font-mono text-xs font-semibold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 mb-2"
                 >
-                  Project Scope or Role Details <span className="text-rose-500">*</span>
+                  Role or Project Details <span className="text-rose-600 dark:text-rose-400">*</span>
                 </label>
                 <textarea
                   id="contact-message"
@@ -373,12 +394,12 @@ const Contact = () => {
                   aria-describedby={
                     errors.message ? "contact-message-error" : undefined
                   }
-                  placeholder="Describe your system architecture requirements, timeline, or engineering role..."
+                  placeholder="Share role details, team stack, project scope, or timeline..."
                   required
-                  className={`w-full px-3.5 py-2.5 bg-zinc-50 dark:bg-zinc-950 border rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors duration-150 resize-none text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 text-sm ${
+                  className={`w-full px-3.5 py-2.5 bg-zinc-50 dark:bg-[#09090b] border rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors duration-150 resize-none text-zinc-950 dark:text-white placeholder-zinc-500 dark:placeholder-zinc-400 text-sm ${
                     errors.message
                       ? "border-rose-500 dark:border-rose-500"
-                      : "border-neutral-200 dark:border-neutral-800"
+                      : "border-zinc-200 dark:border-zinc-800"
                   }`}
                 />
                 {errors.message && (
@@ -393,22 +414,22 @@ const Contact = () => {
               </div>
 
               <div className="flex items-center justify-between gap-4 flex-wrap">
-                <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400">
-                  Validated client &amp; server dispatch
+                <span className="font-mono text-xs text-zinc-600 dark:text-zinc-400">
+                  Replies within 24 hours (UTC+6)
                 </span>
 
                 <button
                   type="submit"
                   disabled={isSubmitting}
                   aria-label={isSubmitting ? "Sending message" : "Send message"}
-                  className={`inline-flex items-center justify-center gap-2 px-6 py-2.5 min-h-[42px] bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-950 font-mono font-semibold rounded-md transition-all duration-150 ease-out active:scale-[0.98] text-xs sm:text-sm ${
+                  className={`inline-flex items-center justify-center gap-2 px-6 py-2.5 min-h-[44px] bg-zinc-950 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-950 font-mono font-semibold rounded-md transition-colors duration-150 ease-out active:scale-[0.98] text-xs sm:text-sm ${
                     isSubmitting ? "opacity-75 cursor-not-allowed" : ""
                   }`}
                 >
                   {isSubmitting ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Dispatching...</span>
+                      <span>Sending...</span>
                     </>
                   ) : (
                     <>
@@ -423,25 +444,27 @@ const Contact = () => {
                 <AnimatePresence>
                   {result && (
                     <motion.div
-                      role={result === "success" ? "status" : "alert"}
+                      role={result === "error" ? "alert" : "status"}
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -8 }}
                       transition={{ duration: 0.15 }}
                       className={`mt-5 p-3.5 rounded-md flex items-center gap-3 border text-xs sm:text-sm ${
-                        result === "success"
-                          ? "bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 border-emerald-500/30"
-                          : "bg-rose-500/10 text-rose-800 dark:text-rose-300 border-rose-500/30"
+                        result === "error"
+                          ? "bg-rose-500/10 text-rose-800 dark:text-rose-300 border-rose-500/30"
+                          : "bg-emerald-500/10 text-emerald-900 dark:text-emerald-300 border-emerald-500/30"
                       }`}
                     >
-                      {result === "success" ? (
-                        <CheckCircle2 className="w-4 h-4 flex-shrink-0 text-emerald-500" />
+                      {result === "error" ? (
+                        <AlertCircle className="w-4 h-4 flex-shrink-0 text-rose-600 dark:text-rose-400" />
                       ) : (
-                        <AlertCircle className="w-4 h-4 flex-shrink-0 text-rose-500" />
+                        <CheckCircle2 className="w-4 h-4 flex-shrink-0 text-emerald-600 dark:text-emerald-400" />
                       )}
                       <p className="font-medium">
                         {result === "success"
                           ? "Message sent! Niloy will respond shortly."
+                          : result === "mailto"
+                          ? "Draft opened in your email client for niloykumarmohonta@gmail.com."
                           : "Failed to send message. Please email niloykumarmohonta@gmail.com directly."}
                       </p>
                     </motion.div>
