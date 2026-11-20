@@ -1,7 +1,8 @@
 "use client";
 
-import { socialLinks } from "@/assets/assets";
+import { assets, socialLinks } from "@/assets/assets";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
 import {
   Mail,
   Github,
@@ -54,12 +55,11 @@ const Footer = () => {
       <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-zinc-200 dark:border-zinc-800">
           <div className="flex items-center gap-3">
-            <span
-              aria-hidden="true"
-              className="w-8 h-8 rounded-md bg-zinc-950 dark:bg-zinc-100 text-white dark:text-zinc-950 font-mono text-xs font-bold inline-flex items-center justify-center flex-shrink-0"
-            >
-              NK
-            </span>
+            <Image
+              src={assets.logoNiloy}
+              alt="Niloy's Logo"
+              className="h-7 w-auto filter dark:brightness-110 flex-shrink-0"
+            />
             <div>
               <div className="font-mono text-xs sm:text-sm font-bold text-zinc-950 dark:text-zinc-50">
                 Niloy Kumar Mohonta

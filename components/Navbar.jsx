@@ -1,5 +1,7 @@
 "use client";
 
+import { assets } from "@/assets/assets";
+import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, X, Sun, Moon, Mail, ArrowUpRight, Search } from "lucide-react";
@@ -89,7 +91,7 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
         }`}
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-          {/* Left: High-Contrast Monogram Brand Identity */}
+          {/* Left: Brand Identity */}
           <a
             href="#top"
             aria-label="Niloy Kumar Mohonta — Return to top"
@@ -99,13 +101,13 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
             }}
             className="flex-shrink-0 inline-flex items-center gap-2.5 rounded-md focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 active:scale-[0.98] transition-transform duration-150 ease-out"
           >
-            <span
-              aria-hidden="true"
-              className="w-7 h-7 rounded-md bg-zinc-950 dark:bg-zinc-100 text-white dark:text-zinc-950 font-mono text-xs font-bold inline-flex items-center justify-center tracking-tight"
-            >
-              NK
-            </span>
-            <span className="font-mono text-xs sm:text-sm font-semibold tracking-tight text-zinc-950 dark:text-zinc-50">
+            <Image
+              src={assets.logoNiloy}
+              alt="Niloy's Logo"
+              className="h-7 w-auto filter dark:brightness-110"
+              priority
+            />
+            <span className="hidden sm:inline-block font-mono text-xs sm:text-sm font-semibold tracking-tight text-zinc-950 dark:text-zinc-50">
               niloy.km
             </span>
           </a>
