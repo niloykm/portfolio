@@ -621,7 +621,7 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
       {/* Interactive Command Input */}
       <form
         onSubmit={handleSubmit}
-        className="flex items-center gap-2 px-3.5 py-2.5 bg-zinc-900/80 border-t border-zinc-800"
+        className="flex items-center gap-2 px-3.5 py-2.5 bg-zinc-900/80 border-t border-zinc-800 transition-shadow duration-[220ms] focus-within:ring-2 focus-within:ring-emerald-500/70 focus-within:ring-inset"
       >
         <label htmlFor="terminal-command-input" className="sr-only">
           Terminal Command Input

@@ -114,7 +114,7 @@ const About = ({ projectCount = 14 }) => {
     <section
       id="about"
       aria-labelledby="about-heading"
-      className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16 border-b border-zinc-200 dark:border-zinc-800"
+      className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 scroll-mt-16 border-b border-zinc-200 dark:border-zinc-800"
     >
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
@@ -130,7 +130,7 @@ const About = ({ projectCount = 14 }) => {
               Engineering Career Ledger
             </h2>
           </div>
-          <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-xl leading-relaxed">
+          <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-prose leading-relaxed">
             Production delivery across multi-tenant EdTech platforms, travel SaaS interfaces, and full-stack TypeScript systems.
           </p>
         </div>

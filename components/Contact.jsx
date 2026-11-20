@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { useToast } from "@/components/ui/Toast";
 import { GITHUB_PROFILE_URL, GITHUB_USERNAME } from "@/lib/github";
-import { ICON_SWAP_TRANSITION } from "@/lib/motion";
+import { ICON_SWAP_TRANSITION, MICRO_TRANSITION } from "@/lib/motion";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -186,7 +186,7 @@ const Contact = () => {
     <section
       id="contact"
       aria-labelledby="contact-heading"
-      className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16"
+      className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 scroll-mt-16"
     >
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
@@ -202,34 +202,37 @@ const Contact = () => {
               Get in Touch
             </h2>
           </div>
-          <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-xl leading-relaxed">
+          <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-prose leading-relaxed">
             Available for full-time software engineering roles, full-stack product builds, and remote technical contracts.
           </p>
         </div>
 
-        {/* Asymmetric 12-Column Contact Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left Column (5 Cols): Frictionless Direct Channels */}
-          <div className="lg:col-span-5">
-            <div className="rounded-lg bg-white dark:bg-[#111114] border border-zinc-200 dark:border-zinc-800 p-6 space-y-5">
+        {/* Equal-Height Two-Column Contact Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 items-stretch gap-6">
+          {/* Left Card: Direct Channels + Anchored Resume CTA & Availability */}
+          <div
+            data-testid="contact-direct-card"
+            className="h-full flex flex-col justify-between rounded-lg bg-white dark:bg-[#111114] border border-zinc-200 dark:border-zinc-800 p-6 sm:p-8"
+          >
+            <div className="space-y-6">
               <div>
-                <div className="font-mono text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1">
+                <div className="font-mono text-xs font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 mb-1.5">
                   Direct Channels
                 </div>
-                <h3 className="text-lg font-bold text-zinc-950 dark:text-zinc-50 tracking-tight">
+                <h3 className="text-lg sm:text-xl font-bold text-zinc-950 dark:text-zinc-50 tracking-tight">
                   Reach Niloy Directly
                 </h3>
-                <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">
-                  Direct email, LinkedIn, or GitHub messages typically receive a response within 24 hours.
+                <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1.5 leading-relaxed max-w-prose">
+                  Prefer direct outreach over a form? Copy my email or message me on GitHub or LinkedIn for a fast, direct reply.
                 </p>
               </div>
 
-              <div className="space-y-2.5 pt-2 border-t border-zinc-200 dark:border-zinc-800">
-                <div className="flex items-center justify-between gap-2 p-3 rounded-md bg-zinc-50 dark:bg-[#09090b] border border-zinc-200 dark:border-zinc-800">
+              <div className="space-y-3 pt-5 border-t border-zinc-200 dark:border-zinc-800">
+                <div className="flex items-center justify-between gap-2 p-3.5 rounded-md bg-zinc-50 dark:bg-[#09090b] border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors duration-[220ms]">
                   <a
                     href="mailto:niloykumarmohonta@gmail.com"
                     aria-label="Send direct email to niloykumarmohonta@gmail.com"
-                    className="flex items-center gap-2.5 font-mono text-xs text-zinc-950 dark:text-zinc-100 hover:text-emerald-700 dark:hover:text-emerald-400 truncate"
+                    className="flex items-center gap-2.5 font-mono text-xs sm:text-sm text-zinc-950 dark:text-zinc-100 hover:text-emerald-700 dark:hover:text-emerald-400 truncate transition-colors duration-[220ms]"
                   >
                     <Mail className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
                     <span className="truncate">niloykumarmohonta@gmail.com</span>
@@ -238,32 +241,36 @@ const Contact = () => {
                     type="button"
                     onClick={handleCopyEmail}
                     aria-label="Copy email address"
-                    className={`p-2 min-w-[34px] min-h-[34px] inline-flex items-center justify-center rounded border interactive-btn flex-shrink-0 ${
+                    className={`relative overflow-hidden px-2.5 py-1.5 min-h-[34px] min-w-[82px] inline-flex items-center justify-center gap-1.5 rounded font-mono text-xs font-semibold border interactive-btn flex-shrink-0 ${
                       copied
-                        ? "bg-emerald-500/15 border-emerald-500/40 text-emerald-700 dark:text-emerald-400"
+                        ? "bg-emerald-500/15 border-emerald-500/50 text-emerald-800 dark:text-emerald-300"
                         : "bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600"
                     }`}
                   >
-                    <AnimatePresence mode="wait" initial={false}>
+                    <AnimatePresence mode="popLayout" initial={false}>
                       {copied ? (
                         <motion.span
                           key="check"
-                          initial={{ opacity: 0, scale: 0.85 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.85 }}
+                          initial={{ opacity: 0, y: 4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -4 }}
                           transition={ICON_SWAP_TRANSITION}
+                          className="inline-flex items-center gap-1 whitespace-nowrap"
                         >
                           <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                          <span>Copied!</span>
                         </motion.span>
                       ) : (
                         <motion.span
                           key="copy"
-                          initial={{ opacity: 0, scale: 0.85 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.85 }}
+                          initial={{ opacity: 0, y: 4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -4 }}
                           transition={ICON_SWAP_TRANSITION}
+                          className="inline-flex items-center gap-1 whitespace-nowrap"
                         >
                           <Copy className="w-3.5 h-3.5" />
+                          <span>Copy</span>
                         </motion.span>
                       )}
                     </AnimatePresence>
@@ -275,13 +282,13 @@ const Contact = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`Visit Niloy's GitHub profile (${GITHUB_PROFILE_URL})`}
-                  className="group flex items-center justify-between p-3 min-h-[44px] rounded-md bg-zinc-50 dark:bg-[#09090b] hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:border-zinc-400 dark:hover:border-zinc-600 hover:-translate-y-0.5 border border-zinc-200 dark:border-zinc-800 font-mono text-xs text-zinc-900 dark:text-zinc-200 interactive-btn"
+                  className="group flex items-center justify-between p-3.5 min-h-[48px] rounded-md bg-zinc-50 dark:bg-[#09090b] hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:border-zinc-400 dark:hover:border-zinc-600 hover:-translate-y-0.5 border border-zinc-200 dark:border-zinc-800 font-mono text-xs sm:text-sm text-zinc-900 dark:text-zinc-200 interactive-btn"
                 >
                   <span className="flex items-center gap-2.5 truncate">
                     <Github className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
                     <span className="truncate">github.com/{GITHUB_USERNAME}</span>
                   </span>
-                  <ArrowUpRight className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400 flex-shrink-0 transition-transform duration-150 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <ArrowUpRight className="w-4 h-4 text-zinc-500 dark:text-zinc-400 flex-shrink-0 transition-transform duration-[220ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </a>
 
                 <a
@@ -289,41 +296,46 @@ const Contact = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Visit Niloy's LinkedIn profile"
-                  className="group flex items-center justify-between p-3 min-h-[44px] rounded-md bg-zinc-50 dark:bg-[#09090b] hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:border-zinc-400 dark:hover:border-zinc-600 hover:-translate-y-0.5 border border-zinc-200 dark:border-zinc-800 font-mono text-xs text-zinc-900 dark:text-zinc-200 interactive-btn"
+                  className="group flex items-center justify-between p-3.5 min-h-[48px] rounded-md bg-zinc-50 dark:bg-[#09090b] hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:border-zinc-400 dark:hover:border-zinc-600 hover:-translate-y-0.5 border border-zinc-200 dark:border-zinc-800 font-mono text-xs sm:text-sm text-zinc-900 dark:text-zinc-200 interactive-btn"
                 >
                   <span className="flex items-center gap-2.5 truncate">
                     <Linkedin className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
                     <span className="truncate">linkedin.com/in/niloykumarmohonta000</span>
                   </span>
-                  <ArrowUpRight className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400 flex-shrink-0 transition-transform duration-150 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </a>
-
-                <a
-                  href="/niloy.pdf"
-                  download="Niloy_Kumar_Mohonta_Resume.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Download Resume PDF"
-                  className="group flex items-center justify-between p-3 min-h-[44px] rounded-md bg-zinc-50 dark:bg-[#09090b] hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:border-zinc-400 dark:hover:border-zinc-600 hover:-translate-y-0.5 border border-zinc-200 dark:border-zinc-800 font-mono text-xs text-zinc-900 dark:text-zinc-200 interactive-btn"
-                >
-                  <span className="flex items-center gap-2.5">
-                    <Download className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
-                    <span>Download Resume (PDF)</span>
-                  </span>
-                  <ArrowUpRight className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400 flex-shrink-0 transition-transform duration-150 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <ArrowUpRight className="w-4 h-4 text-zinc-500 dark:text-zinc-400 flex-shrink-0 transition-transform duration-[220ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </a>
               </div>
             </div>
+
+            {/* Bottom Anchored Row — Aligned Flush with Send Message Row */}
+            <div className="pt-6 mt-6 border-t border-zinc-200 dark:border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="font-mono text-xs text-zinc-600 dark:text-zinc-400 tabular-nums leading-relaxed">
+                Dhaka, Bangladesh · UTC+6 · Replies within 24h
+              </div>
+
+              <a
+                href="/niloy.pdf"
+                download="Niloy_Kumar_Mohonta_Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Download Resume PDF"
+                className="group inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] bg-zinc-50 dark:bg-[#09090b] hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:border-emerald-600/50 dark:hover:border-emerald-500/50 hover:-translate-y-0.5 border border-zinc-300 dark:border-zinc-700 text-zinc-950 dark:text-zinc-100 font-mono text-xs sm:text-sm font-semibold rounded-md interactive-btn flex-shrink-0"
+              >
+                <Download className="w-4 h-4 text-emerald-600 dark:text-emerald-400 transition-transform duration-[220ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0.5" />
+                <span>Resume (PDF)</span>
+              </a>
+            </div>
           </div>
 
-          {/* Right Column (7 Cols): Validated Message Form */}
-          <div className="lg:col-span-7">
-            <form
-              onSubmit={onSubmit}
-              noValidate
-              className="rounded-lg bg-white dark:bg-[#111114] border border-zinc-200 dark:border-zinc-800 p-6 sm:p-7"
-            >
-              <div className="grid md:grid-cols-2 gap-5 mb-5">
+          {/* Right Card: Validated Message Form — Equal Height */}
+          <form
+            data-testid="contact-form-card"
+            onSubmit={onSubmit}
+            noValidate
+            className="h-full flex flex-col justify-between rounded-lg bg-white dark:bg-[#111114] border border-zinc-200 dark:border-zinc-800 p-6 sm:p-8"
+          >
+            <div className="space-y-5">
+              <div className="grid sm:grid-cols-2 gap-5">
                 <div>
                   <label
                     htmlFor="contact-name"
@@ -343,7 +355,7 @@ const Contact = () => {
                     aria-describedby={errors.name ? "contact-name-error" : undefined}
                     placeholder="Enter your full name"
                     required
-                    className={`w-full px-3.5 py-2.5 min-h-[42px] bg-zinc-50 dark:bg-[#09090b] border rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors duration-150 text-zinc-950 dark:text-white placeholder-zinc-500 dark:placeholder-zinc-400 text-sm ${
+                    className={`w-full px-3.5 py-2.5 min-h-[44px] bg-zinc-50 dark:bg-[#09090b] border rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors duration-[220ms] text-zinc-950 dark:text-white placeholder-zinc-500 dark:placeholder-zinc-400 text-sm ${
                       errors.name
                         ? "border-rose-500 dark:border-rose-500"
                         : "border-zinc-200 dark:border-zinc-800"
@@ -381,7 +393,7 @@ const Contact = () => {
                     }
                     placeholder="name@company.com"
                     required
-                    className={`w-full px-3.5 py-2.5 min-h-[42px] bg-zinc-50 dark:bg-[#09090b] border rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors duration-150 text-zinc-950 dark:text-white placeholder-zinc-500 dark:placeholder-zinc-400 text-sm ${
+                    className={`w-full px-3.5 py-2.5 min-h-[44px] bg-zinc-50 dark:bg-[#09090b] border rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors duration-[220ms] text-zinc-950 dark:text-white placeholder-zinc-500 dark:placeholder-zinc-400 text-sm ${
                       errors.email
                         ? "border-rose-500 dark:border-rose-500"
                         : "border-zinc-200 dark:border-zinc-800"
@@ -399,7 +411,7 @@ const Contact = () => {
                 </div>
               </div>
 
-              <div className="mb-6">
+              <div>
                 <label
                   htmlFor="contact-message"
                   className="block font-mono text-xs font-semibold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 mb-2"
@@ -419,7 +431,7 @@ const Contact = () => {
                   }
                   placeholder="Share role details, team stack, project scope, or timeline..."
                   required
-                  className={`w-full px-3.5 py-2.5 bg-zinc-50 dark:bg-[#09090b] border rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors duration-150 resize-none text-zinc-950 dark:text-white placeholder-zinc-500 dark:placeholder-zinc-400 text-sm ${
+                  className={`w-full px-3.5 py-2.5 bg-zinc-50 dark:bg-[#09090b] border rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-colors duration-[220ms] resize-none text-zinc-950 dark:text-white placeholder-zinc-500 dark:placeholder-zinc-400 text-sm ${
                     errors.message
                       ? "border-rose-500 dark:border-rose-500"
                       : "border-zinc-200 dark:border-zinc-800"
@@ -435,17 +447,20 @@ const Contact = () => {
                   </p>
                 )}
               </div>
+            </div>
 
-              <div className="flex items-center justify-between gap-4 flex-wrap">
+            {/* Bottom Anchored Submit Row — Aligned Flush with Left Card Bottom */}
+            <div>
+              <div className="pt-6 mt-6 border-t border-zinc-200 dark:border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <span className="font-mono text-xs text-zinc-600 dark:text-zinc-400">
-                  Replies within 24 hours (UTC+6)
+                  Direct dispatch to inbox
                 </span>
 
                 <button
                   type="submit"
                   disabled={isSubmitting}
                   aria-label={isSubmitting ? "Sending message" : "Send message"}
-                  className={`inline-flex items-center justify-center gap-2 px-6 py-2.5 min-h-[44px] bg-zinc-950 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-950 font-mono font-semibold rounded-md interactive-btn text-xs sm:text-sm ${
+                  className={`group inline-flex items-center justify-center gap-2 px-6 py-2.5 min-h-[44px] bg-zinc-950 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white hover:-translate-y-0.5 text-white dark:text-zinc-950 font-mono font-semibold rounded-md interactive-btn text-xs sm:text-sm flex-shrink-0 ${
                     isSubmitting ? "opacity-75 cursor-not-allowed" : ""
                   }`}
                 >
@@ -456,7 +471,7 @@ const Contact = () => {
                     </>
                   ) : (
                     <>
-                      <Send className="w-4 h-4" />
+                      <Send className="w-4 h-4 transition-transform duration-[220ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                       <span>Send Message</span>
                     </>
                   )}
@@ -468,11 +483,11 @@ const Contact = () => {
                   {result && (
                     <motion.div
                       role={result === "error" ? "alert" : "status"}
-                      initial={{ opacity: 0, y: 8 }}
+                      initial={{ opacity: 0, y: 6 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                      transition={{ duration: 0.15 }}
-                      className={`mt-5 p-3.5 rounded-md flex items-center gap-3 border text-xs sm:text-sm ${
+                      exit={{ opacity: 0, y: -6 }}
+                      transition={MICRO_TRANSITION}
+                      className={`mt-4 p-3.5 rounded-md flex items-center gap-3 border text-xs sm:text-sm ${
                         result === "error"
                           ? "bg-rose-500/10 text-rose-800 dark:text-rose-300 border-rose-500/30"
                           : "bg-emerald-500/10 text-emerald-900 dark:text-emerald-300 border-emerald-500/30"
@@ -494,8 +509,8 @@ const Contact = () => {
                   )}
                 </AnimatePresence>
               </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
     </section>

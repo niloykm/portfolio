@@ -18,6 +18,7 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const [hoveredNav, setHoveredNav] = useState(null);
   const mobileMenuRef = useRef(null);
   const shouldReduceMotion = useReducedMotion();
 
@@ -113,14 +114,22 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
             </span>
           </a>
 
-          {/* Center: Clean 4-Item Section Navigation with Sliding layoutId Pill */}
-          <div className="hidden md:flex items-center gap-1">
+          {/* Center: Clean 4-Item Section Navigation with Sliding Hover & Active Pill */}
+          <div
+            className="hidden md:flex items-center gap-1"
+            onMouseLeave={() => setHoveredNav(null)}
+          >
             {NAV_ITEMS.map((item) => {
-              const isActive = activeSection === item.href.substring(1);
+              const sectionKey = item.href.substring(1);
+              const isActive = activeSection === sectionKey;
+              const isHovered = hoveredNav === sectionKey;
               return (
                 <a
                   key={item.href}
                   href={item.href}
+                  onMouseEnter={() => setHoveredNav(sectionKey)}
+                  onFocus={() => setHoveredNav(sectionKey)}
+                  onBlur={() => setHoveredNav(null)}
                   onClick={(e) => {
                     e.preventDefault();
                     handleNavClick(item.href);
@@ -129,15 +138,23 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
                   className={`relative px-3.5 py-2 text-xs font-mono font-medium rounded-md interactive-btn ${
                     isActive
                       ? "text-white dark:text-zinc-950 font-semibold"
-                      : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-50 hover:bg-zinc-200/60 dark:hover:bg-zinc-900"
+                      : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-50"
                   }`}
                 >
+                  {isHovered && !isActive && (
+                    <motion.span
+                      layoutId="nav-hover-pill"
+                      transition={TAB_LAYOUT_TRANSITION}
+                      aria-hidden="true"
+                      className="absolute inset-0 rounded-md bg-zinc-200/75 dark:bg-zinc-800/80"
+                    />
+                  )}
                   {isActive && (
                     <motion.span
                       layoutId="active-nav-indicator"
                       transition={TAB_LAYOUT_TRANSITION}
                       aria-hidden="true"
-                      className="absolute inset-0 rounded-md bg-zinc-950 dark:bg-zinc-100 -z-10"
+                      className="absolute inset-0 rounded-md bg-zinc-950 dark:bg-zinc-100"
                     />
                   )}
                   <span className="relative z-10">{item.label}</span>

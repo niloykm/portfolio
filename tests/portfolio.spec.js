@@ -42,12 +42,33 @@ test.describe("Niloy Portfolio — Hiring Conversion, Integrity & Anti-Slop Veri
     const renderedArticles = projectsSection.locator("article");
     await expect(renderedArticles).toHaveCount(3);
 
-    // Open technical teardown modal
+    // Open technical teardown modal and verify structured sections
     await projectsSection.getByRole("button", { name: /Inspect technical teardown/i }).first().click();
     const modal = page.getByRole("dialog");
     await expect(modal).toBeVisible();
+    await expect(modal).toContainText("01 // Problem");
+    await expect(modal).toContainText("02 // System Architecture & Stack");
+    await expect(modal).toContainText("03 // Key Engineering Trade-offs");
     await page.keyboard.press("Escape");
     await expect(modal).toHaveCount(0);
+  });
+
+  test("should render equal-height Contact section cards on desktop", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/");
+
+    const leftCard = page.getByTestId("contact-direct-card");
+    const rightCard = page.getByTestId("contact-form-card");
+    await expect(leftCard).toBeVisible();
+    await expect(rightCard).toBeVisible();
+
+    const leftBox = await leftCard.boundingBox();
+    const rightBox = await rightCard.boundingBox();
+    expect(leftBox).not.toBeNull();
+    expect(rightBox).not.toBeNull();
+    expect(Math.abs(leftBox.height - rightBox.height)).toBeLessThanOrEqual(1);
   });
 
   test("should render truthful Experience Ledger, verified metrics, and opt-in interactive CLI", async ({

@@ -91,7 +91,7 @@ const Services = ({ onSelectStackTag }) => {
     <section
       id="services"
       aria-labelledby="services-heading"
-      className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#09090b] relative"
+      className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 scroll-mt-16 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#09090b] relative"
     >
       {/* Alias anchor for #expertise */}
       <div id="expertise" className="absolute -top-20 left-0" aria-hidden="true" />
@@ -110,7 +110,7 @@ const Services = ({ onSelectStackTag }) => {
               Technical Capabilities &amp; Stack Matrix
             </h2>
           </div>
-          <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-xl leading-relaxed">
+          <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-prose leading-relaxed">
             End-to-end engineering across client rendering, modular backend services, transactional databases, and automated QA.
           </p>
         </div>
@@ -122,7 +122,7 @@ const Services = ({ onSelectStackTag }) => {
             return (
               <div
                 key={domain.num}
-                className="rounded-lg bg-[#fafafa] dark:bg-[#111114] border border-zinc-200 dark:border-zinc-800 p-5 sm:p-6 flex flex-col justify-between"
+                className="rounded-lg bg-[#fafafa] dark:bg-[#111114] border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors duration-[220ms] p-5 sm:p-6 flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 pb-3.5 mb-4 border-b border-zinc-200 dark:border-zinc-800">

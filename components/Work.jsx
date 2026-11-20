@@ -5,15 +5,16 @@ import { projects as defaultProjects, filterCategories } from "@/data/projects";
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { useState, useMemo } from "react";
-import { TAB_LAYOUT_TRANSITION } from "@/lib/motion";
+import { FILTER_SPRING } from "@/lib/motion";
 import {
   Github,
   ArrowUpRight,
   ChevronDown,
   ChevronUp,
+  ChevronRight,
   Lock,
   X,
-  FileCode2,
+  Layers,
   ExternalLink,
 } from "lucide-react";
 import ProjectModal from "@/components/ui/ProjectModal";
@@ -124,7 +125,7 @@ const Work = ({
     <section
       id="projects"
       aria-labelledby="projects-heading"
-      className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 scroll-mt-16 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#09090b] relative"
+      className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 scroll-mt-16 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#09090b] relative"
     >
       {/* Legacy #work anchor alias */}
       <div id="work" className="absolute -top-20 left-0" aria-hidden="true" />
@@ -142,12 +143,12 @@ const Work = ({
             >
               Featured Engineering Projects
             </h2>
-            <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-2xl mt-2 leading-relaxed">
+            <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-prose mt-2 leading-relaxed">
               Production SaaS applications, full-stack RBAC systems, and technical tools with concrete problem, architecture, and outcome breakdowns.
             </p>
           </div>
 
-          {/* Domain Filter Strip with Smooth layoutId Active Pill */}
+          {/* Domain Filter Strip with Spring layoutId Active Pill */}
           <div
             role="tablist"
             aria-label="Filter projects by engineering domain"
@@ -163,23 +164,23 @@ const Work = ({
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActiveCategory(category)}
-                  className={`relative px-3 py-2 min-h-[38px] rounded-md font-mono text-xs interactive-btn border inline-flex items-center gap-2 ${
+                  className={`relative px-3.5 py-2 min-h-[38px] rounded-md font-mono text-xs interactive-btn border inline-flex items-center gap-2 ${
                     isActive
                       ? "text-white dark:text-zinc-950 border-zinc-950 dark:border-zinc-100 font-semibold"
-                      : "bg-zinc-50 dark:bg-[#111114] text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600"
+                      : "bg-zinc-50 dark:bg-[#111114] text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 hover:text-zinc-950 dark:hover:text-white"
                   }`}
                 >
                   {isActive && (
                     <motion.span
-                      layoutId="active-project-filter"
-                      transition={TAB_LAYOUT_TRANSITION}
+                      layoutId="activeFilterPill"
+                      transition={FILTER_SPRING}
                       aria-hidden="true"
                       className="absolute inset-0 rounded-[5px] bg-zinc-950 dark:bg-zinc-100"
                     />
                   )}
                   <span className="relative z-10">{category}</span>
                   <span
-                    className={`relative z-10 font-mono tabular-nums text-xs px-1.5 py-0.5 rounded transition-colors duration-150 ${
+                    className={`relative z-10 font-mono tabular-nums text-xs px-1.5 py-0.5 rounded transition-colors duration-[220ms] ${
                       isActive
                         ? "bg-white/20 text-white dark:bg-zinc-950/15 dark:text-zinc-950"
                         : "bg-zinc-200/80 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300"
@@ -271,7 +272,7 @@ const Work = ({
                         fill
                         sizes="(max-width: 1024px) 100vw, 50vw"
                         priority={index < 2}
-                        className="object-cover object-top group-hover:scale-[1.02] transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                        className="object-cover object-top group-hover:scale-[1.03] transition-transform duration-[250ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
                       />
 
                       <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/85 via-zinc-950/15 to-zinc-950/30 pointer-events-none" />
@@ -398,10 +399,11 @@ const Work = ({
                         handleOpenSpecs(project, projectImg, teardown, techList)
                       }
                       aria-label={`Inspect technical teardown for ${project.title}`}
-                      className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-zinc-700 dark:text-zinc-300 hover:text-emerald-700 dark:hover:text-emerald-400 interactive-btn py-1.5"
+                      className="group/teardown inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[38px] rounded-md font-mono text-xs font-semibold border border-emerald-600/35 dark:border-emerald-500/35 bg-emerald-500/[0.08] dark:bg-emerald-500/[0.1] text-emerald-800 dark:text-emerald-300 hover:bg-emerald-500/[0.16] dark:hover:bg-emerald-500/[0.18] hover:border-emerald-600/60 dark:hover:border-emerald-400/60 transition-[transform,color,background-color,border-color,box-shadow] duration-[250ms] ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.98]"
                     >
-                      <FileCode2 className="w-3.5 h-3.5" />
-                      <span>Teardown →</span>
+                      <Layers className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400" />
+                      <span>Teardown</span>
+                      <ChevronRight className="w-3.5 h-3.5 transition-transform duration-[250ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/teardown:translate-x-0.5" />
                     </button>
                   </div>
                 </article>
@@ -468,9 +470,11 @@ const Work = ({
                             handleOpenSpecs(project, projectImg, teardown, techList)
                           }
                           aria-label={`View technical teardown for ${project.title}`}
-                          className="font-mono text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:text-emerald-700 dark:hover:text-emerald-400 flex-shrink-0"
+                          className="group/teardown inline-flex items-center gap-1 px-2.5 py-1.5 min-h-[34px] rounded-md font-mono text-xs font-semibold border border-emerald-600/35 dark:border-emerald-500/35 bg-emerald-500/[0.08] dark:bg-emerald-500/[0.1] text-emerald-800 dark:text-emerald-300 hover:bg-emerald-500/[0.16] dark:hover:bg-emerald-500/[0.18] hover:border-emerald-600/60 dark:hover:border-emerald-400/60 transition-[transform,color,background-color,border-color] duration-[250ms] ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.98] flex-shrink-0"
                         >
-                          Specs →
+                          <Layers className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400" />
+                          <span>Teardown</span>
+                          <ChevronRight className="w-3.5 h-3.5 transition-transform duration-[250ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/teardown:translate-x-0.5" />
                         </button>
                       </div>
 

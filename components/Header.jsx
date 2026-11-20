@@ -65,7 +65,7 @@ const Header = ({ projectCount = 14 }) => {
     <section
       id="top"
       aria-label="Hero Section"
-      className="relative pt-24 pb-14 sm:pt-28 sm:pb-20 px-4 sm:px-6 lg:px-8 border-b border-zinc-200 dark:border-zinc-800 structural-grid"
+      className="relative pt-24 pb-16 sm:pt-28 md:pb-24 px-4 sm:px-6 lg:px-8 border-b border-zinc-200 dark:border-zinc-800 structural-grid"
     >
       <div className="max-w-6xl mx-auto">
         {/* Compact Status & Location Bar */}
@@ -97,7 +97,7 @@ const Header = ({ projectCount = 14 }) => {
               </h1>
             </div>
 
-            <div className="space-y-3 max-w-2xl">
+            <div className="space-y-3 max-w-prose">
               <p className="text-base sm:text-lg text-zinc-900 dark:text-zinc-100 font-medium leading-relaxed">
                 Shipping production SaaS platforms, multi-tenant RBAC auth systems, and high-throughput web applications with Next.js, TypeScript, Node.js/NestJS, PostgreSQL, and MongoDB.
               </p>
@@ -129,10 +129,10 @@ const Header = ({ projectCount = 14 }) => {
                 href="#projects"
                 onClick={handleExploreProjects}
                 aria-label="Explore Shipped Projects"
-                className="group inline-flex items-center justify-center gap-2 px-5 py-2.5 min-h-[44px] bg-zinc-950 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-950 font-mono font-semibold text-xs sm:text-sm rounded-md interactive-btn"
+                className="group inline-flex items-center justify-center gap-2 px-5 py-2.5 min-h-[44px] bg-zinc-950 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white hover:-translate-y-0.5 text-white dark:text-zinc-950 font-mono font-semibold text-xs sm:text-sm rounded-md shadow-xs interactive-btn"
               >
                 <span>View Shipped Work</span>
-                <ArrowRight className="w-4 h-4 transition-transform duration-150 ease-out group-hover:translate-x-0.5" />
+                <ArrowRight className="w-4 h-4 transition-transform duration-[220ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1" />
               </a>
 
               <a
@@ -141,9 +141,9 @@ const Header = ({ projectCount = 14 }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Download Resume (PDF)"
-                className="group inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] bg-white dark:bg-[#111114] hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:border-zinc-400 dark:hover:border-zinc-600 text-zinc-900 dark:text-zinc-100 border border-zinc-300 dark:border-zinc-700 font-mono font-semibold text-xs sm:text-sm rounded-md interactive-btn"
+                className="group inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] bg-white dark:bg-[#111114] hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:border-zinc-400 dark:hover:border-zinc-600 hover:-translate-y-0.5 text-zinc-900 dark:text-zinc-100 border border-zinc-300 dark:border-zinc-700 font-mono font-semibold text-xs sm:text-sm rounded-md interactive-btn"
               >
-                <Download className="w-4 h-4 text-emerald-600 dark:text-emerald-400 transition-transform duration-150 ease-out group-hover:translate-y-0.5" />
+                <Download className="w-4 h-4 text-emerald-600 dark:text-emerald-400 transition-transform duration-[220ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0.5" />
                 <span>Resume (PDF)</span>
               </a>
 
@@ -151,31 +151,31 @@ const Header = ({ projectCount = 14 }) => {
                 type="button"
                 onClick={handleCopyEmail}
                 aria-label="Copy email address niloykumarmohonta@gmail.com to clipboard"
-                className={`relative overflow-hidden inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] min-w-[146px] rounded-md font-mono font-medium text-xs sm:text-sm border interactive-btn ${
+                className={`relative overflow-hidden inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] min-w-[144px] rounded-md font-mono font-medium text-xs sm:text-sm border hover:-translate-y-0.5 interactive-btn ${
                   copied
-                    ? "bg-emerald-500/10 border-emerald-600/40 text-emerald-800 dark:text-emerald-300"
-                    : "bg-transparent hover:bg-zinc-200/60 dark:hover:bg-zinc-900 hover:border-zinc-400 dark:hover:border-zinc-600 text-zinc-800 dark:text-zinc-200 border-zinc-200 dark:border-zinc-800"
+                    ? "bg-emerald-500/15 border-emerald-600/50 text-emerald-800 dark:text-emerald-300 font-semibold"
+                    : "bg-white/70 dark:bg-[#111114]/70 hover:bg-zinc-200/60 dark:hover:bg-zinc-900 hover:border-zinc-400 dark:hover:border-zinc-600 text-zinc-800 dark:text-zinc-200 border-zinc-200 dark:border-zinc-800"
                 }`}
               >
                 <AnimatePresence mode="popLayout" initial={false}>
                   {copied ? (
                     <motion.span
                       key="copied"
-                      initial={{ opacity: 0, y: 4 }}
+                      initial={{ opacity: 0, y: 6 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -4 }}
+                      exit={{ opacity: 0, y: -6 }}
                       transition={ICON_SWAP_TRANSITION}
-                      className="inline-flex items-center gap-2 whitespace-nowrap"
+                      className="inline-flex items-center gap-1.5 whitespace-nowrap"
                     >
                       <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                      <span>Email Copied</span>
+                      <span>Copied!</span>
                     </motion.span>
                   ) : (
                     <motion.span
                       key="copy"
-                      initial={{ opacity: 0, y: 4 }}
+                      initial={{ opacity: 0, y: 6 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -4 }}
+                      exit={{ opacity: 0, y: -6 }}
                       transition={ICON_SWAP_TRANSITION}
                       className="inline-flex items-center gap-2 whitespace-nowrap"
                     >
