@@ -190,7 +190,7 @@ const Services = ({ onSelectStackTag }) => {
                       key={tech}
                       type="button"
                       onClick={() => onSelectStackTag?.(tech.split(" ")[0])}
-                      className="font-mono text-xs px-2.5 py-1 rounded-md bg-white dark:bg-[#09090b] hover:bg-zinc-950 hover:text-white dark:hover:bg-zinc-100 dark:hover:text-zinc-950 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-800 transition-colors duration-150"
+                      className="font-mono text-xs px-2.5 py-1 rounded-md bg-white dark:bg-[#09090b] hover:bg-zinc-950 hover:text-white dark:hover:bg-zinc-100 dark:hover:text-zinc-950 hover:border-zinc-950 dark:hover:border-zinc-100 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-800 interactive-btn"
                     >
                       {tech}
                     </button>

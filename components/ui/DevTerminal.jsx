@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   Terminal,
   Copy,
@@ -12,6 +13,7 @@ import {
 } from "lucide-react";
 import { useToast } from "@/components/ui/Toast";
 import { GITHUB_PROFILE_URL, GITHUB_USERNAME } from "@/lib/github";
+import { MICRO_TRANSITION, ICON_SWAP_TRANSITION } from "@/lib/motion";
 
 const QUICK_COMMANDS = [
   "help",
@@ -38,6 +40,7 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
   ]);
   const [historyCursor, setHistoryCursor] = useState(-1);
   const [copied, setCopied] = useState(false);
+  const [isInputFocused, setIsInputFocused] = useState(false);
 
   const consoleBodyRef = useRef(null);
   const inputRef = useRef(null);
@@ -517,7 +520,7 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
             type="button"
             onClick={() => executeCommand("clear")}
             aria-label="Clear terminal history"
-            className="flex items-center gap-1 text-xs text-zinc-300 hover:text-white transition-colors duration-150 bg-zinc-950 hover:bg-zinc-800 px-2.5 py-1 rounded border border-zinc-800 active:scale-[0.98]"
+            className="flex items-center gap-1 text-xs text-zinc-300 hover:text-white interactive-btn bg-zinc-950 hover:bg-zinc-800 px-2.5 py-1 rounded border border-zinc-800"
           >
             <Trash2 className="w-3 h-3" />
             <span className="hidden sm:inline">Clear</span>
@@ -527,14 +530,39 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
             type="button"
             onClick={copyEmail}
             aria-label="Copy developer email address niloykumarmohonta@gmail.com"
-            className="flex items-center gap-1 text-xs text-zinc-300 hover:text-white transition-colors duration-150 bg-zinc-950 hover:bg-zinc-800 px-2.5 py-1 rounded border border-zinc-800 active:scale-[0.98]"
+            className={`flex items-center gap-1 text-xs interactive-btn px-2.5 py-1 rounded border ${
+              copied
+                ? "bg-emerald-500/15 border-emerald-500/40 text-emerald-300"
+                : "text-zinc-300 hover:text-white bg-zinc-950 hover:bg-zinc-800 border-zinc-800"
+            }`}
           >
-            {copied ? (
-              <Check className="w-3 h-3 text-emerald-400" />
-            ) : (
-              <Copy className="w-3 h-3" />
-            )}
-            <span>{copied ? "Copied" : "Copy Email"}</span>
+            <AnimatePresence mode="wait" initial={false}>
+              {copied ? (
+                <motion.span
+                  key="copied"
+                  initial={{ opacity: 0, scale: 0.88 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.88 }}
+                  transition={ICON_SWAP_TRANSITION}
+                  className="inline-flex items-center gap-1"
+                >
+                  <Check className="w-3 h-3 text-emerald-400" />
+                  <span>Copied</span>
+                </motion.span>
+              ) : (
+                <motion.span
+                  key="copy"
+                  initial={{ opacity: 0, scale: 0.88 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.88 }}
+                  transition={ICON_SWAP_TRANSITION}
+                  className="inline-flex items-center gap-1"
+                >
+                  <Copy className="w-3 h-3" />
+                  <span>Copy Email</span>
+                </motion.span>
+              )}
+            </AnimatePresence>
           </button>
         </div>
       </div>
@@ -548,7 +576,7 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
             type="button"
             onClick={() => executeCommand(cmd)}
             aria-label={`Run terminal command ${cmd}`}
-            className="px-2.5 py-1 min-h-[28px] text-xs bg-zinc-900 hover:bg-zinc-100 text-zinc-200 hover:text-zinc-950 rounded border border-zinc-800 transition-colors duration-150 ease-out active:scale-[0.98]"
+            className="px-2.5 py-1 min-h-[28px] text-xs bg-zinc-900 hover:bg-zinc-100 text-zinc-200 hover:text-zinc-950 rounded border border-zinc-800 interactive-btn"
           >
             {cmd}
           </button>
@@ -571,7 +599,13 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
         )}
 
         {history.map((item, index) => (
-          <div key={index} className="break-words">
+          <motion.div
+            key={`${index}-${item.type}-${item.command || item.text || ""}`}
+            initial={index === 0 ? false : { opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={MICRO_TRANSITION}
+            className="break-words"
+          >
             {item.type === "input" ? (
               <div className="flex items-start gap-2 text-zinc-100 break-all">
                 <span className="text-emerald-400 font-bold select-none">❯</span>
@@ -580,7 +614,7 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
             ) : (
               renderCommandOutput(item)
             )}
-          </div>
+          </motion.div>
         ))}
       </div>
 
@@ -593,10 +627,13 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
           Terminal Command Input
         </label>
         <span
-          className="text-emerald-400 font-bold text-sm select-none"
+          className="text-emerald-400 font-bold text-sm select-none inline-flex items-center gap-1"
           aria-hidden="true"
         >
-          ❯
+          <span>❯</span>
+          {isInputFocused && !input && (
+            <span className="terminal-caret inline-block w-1.5 h-3.5 bg-emerald-400 rounded-[1px]" />
+          )}
         </span>
         <input
           id="terminal-command-input"
@@ -605,15 +642,17 @@ const DevTerminal = ({ autoFocusOnMount = false }) => {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
+          onFocus={() => setIsInputFocused(true)}
+          onBlur={() => setIsInputFocused(false)}
           autoComplete="off"
           spellCheck="false"
           placeholder="Type 'help', 'skills', 'projects', 'cat resume', 'contact'..."
-          className="flex-1 min-w-0 bg-transparent text-zinc-100 placeholder-zinc-400 focus:outline-none text-xs sm:text-sm font-mono"
+          className="flex-1 min-w-0 bg-transparent text-zinc-100 placeholder-zinc-400 focus:outline-none text-xs sm:text-sm font-mono caret-emerald-400"
         />
         <button
           type="submit"
           aria-label="Execute terminal command"
-          className="p-1.5 min-w-[34px] min-h-[34px] flex items-center justify-center text-zinc-200 hover:text-zinc-950 bg-zinc-800 hover:bg-zinc-100 rounded transition-colors duration-150 flex-shrink-0 active:scale-[0.98]"
+          className="p-1.5 min-w-[34px] min-h-[34px] flex items-center justify-center text-zinc-200 hover:text-zinc-950 bg-zinc-800 hover:bg-zinc-100 rounded interactive-btn flex-shrink-0"
         >
           <CornerDownLeft className="w-3.5 h-3.5" />
         </button>

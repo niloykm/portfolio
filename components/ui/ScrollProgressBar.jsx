@@ -1,17 +1,23 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion, useScroll, useSpring, useReducedMotion } from "framer-motion";
 
 export default function ScrollProgressBar() {
+  const [mounted, setMounted] = useState(false);
   const { scrollYProgress } = useScroll();
   const shouldReduceMotion = useReducedMotion();
   const scaleX = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 30,
+    stiffness: 180,
+    damping: 32,
     restDelta: 0.001,
   });
 
-  if (shouldReduceMotion) return null;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted || shouldReduceMotion) return null;
 
   return (
     <motion.div

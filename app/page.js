@@ -10,6 +10,7 @@ import Work from "@/components/Work";
 import ScrollProgressBar from "@/components/ui/ScrollProgressBar";
 import CommandPalette from "@/components/ui/CommandPalette";
 import { ToastProvider } from "@/components/ui/Toast";
+import { MotionConfig } from "framer-motion";
 import { useEffect, useState } from "react";
 import { projects as staticProjects } from "@/data/projects";
 import {
@@ -126,39 +127,41 @@ export default function Page() {
   };
 
   return (
-    <ToastProvider>
-      <div className="min-h-screen bg-[#fafafa] dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 relative overflow-x-hidden">
-        <ScrollProgressBar />
-        <CommandPalette
-          isDarkMode={isDarkMode}
-          setIsDarkMode={setIsDarkMode}
-          isOpen={isCommandPaletteOpen}
-          setIsOpen={setIsCommandPaletteOpen}
-          workData={workData}
-          onFilterByStack={handleFilterByStack}
-        />
-        <Navbar
-          isDarkMode={isDarkMode}
-          setIsDarkMode={setIsDarkMode}
-          onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
-        />
-        <main id="main-content">
-          <Header projectCount={workData.length} />
-          <Work
+    <MotionConfig reducedMotion="user">
+      <ToastProvider>
+        <div className="min-h-screen bg-[#fafafa] dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 relative overflow-x-hidden">
+          <ScrollProgressBar />
+          <CommandPalette
+            isDarkMode={isDarkMode}
+            setIsDarkMode={setIsDarkMode}
+            isOpen={isCommandPaletteOpen}
+            setIsOpen={setIsCommandPaletteOpen}
             workData={workData}
-            activeStackTag={activeStackTag}
-            onClearStackTag={() => setActiveStackTag("")}
-            onSelectStackTag={(tag) => setActiveStackTag(tag)}
+            onFilterByStack={handleFilterByStack}
           />
-          <About infoList={infoList} projectCount={workData.length} />
-          <Services
-            serviceData={serviceData}
-            onSelectStackTag={handleFilterByStack}
+          <Navbar
+            isDarkMode={isDarkMode}
+            setIsDarkMode={setIsDarkMode}
+            onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
           />
-          <Contact />
-        </main>
-        <Footer />
-      </div>
-    </ToastProvider>
+          <main id="main-content">
+            <Header projectCount={workData.length} />
+            <Work
+              workData={workData}
+              activeStackTag={activeStackTag}
+              onClearStackTag={() => setActiveStackTag("")}
+              onSelectStackTag={(tag) => setActiveStackTag(tag)}
+            />
+            <About infoList={infoList} projectCount={workData.length} />
+            <Services
+              serviceData={serviceData}
+              onSelectStackTag={handleFilterByStack}
+            />
+            <Contact />
+          </main>
+          <Footer />
+        </div>
+      </ToastProvider>
+    </MotionConfig>
   );
 }

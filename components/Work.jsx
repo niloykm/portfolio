@@ -2,9 +2,10 @@
 
 import { assets } from "@/assets/assets";
 import { projects as defaultProjects, filterCategories } from "@/data/projects";
-import { useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { useState, useMemo } from "react";
+import { TAB_LAYOUT_TRANSITION } from "@/lib/motion";
 import {
   Github,
   ArrowUpRight,
@@ -146,7 +147,7 @@ const Work = ({
             </p>
           </div>
 
-          {/* Domain Filter Strip */}
+          {/* Domain Filter Strip with Smooth layoutId Active Pill */}
           <div
             role="tablist"
             aria-label="Filter projects by engineering domain"
@@ -162,15 +163,23 @@ const Work = ({
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActiveCategory(category)}
-                  className={`px-3 py-2 min-h-[38px] rounded-md font-mono text-xs transition-colors duration-150 ease-out active:scale-[0.98] border inline-flex items-center gap-2 ${
+                  className={`relative px-3 py-2 min-h-[38px] rounded-md font-mono text-xs interactive-btn border inline-flex items-center gap-2 ${
                     isActive
-                      ? "bg-zinc-950 text-white dark:bg-zinc-100 dark:text-zinc-950 border-zinc-950 dark:border-zinc-100 font-semibold"
+                      ? "text-white dark:text-zinc-950 border-zinc-950 dark:border-zinc-100 font-semibold"
                       : "bg-zinc-50 dark:bg-[#111114] text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600"
                   }`}
                 >
-                  <span>{category}</span>
+                  {isActive && (
+                    <motion.span
+                      layoutId="active-project-filter"
+                      transition={TAB_LAYOUT_TRANSITION}
+                      aria-hidden="true"
+                      className="absolute inset-0 rounded-[5px] bg-zinc-950 dark:bg-zinc-100"
+                    />
+                  )}
+                  <span className="relative z-10">{category}</span>
                   <span
-                    className={`font-mono tabular-nums text-xs px-1.5 py-0.5 rounded ${
+                    className={`relative z-10 font-mono tabular-nums text-xs px-1.5 py-0.5 rounded transition-colors duration-150 ${
                       isActive
                         ? "bg-white/20 text-white dark:bg-zinc-950/15 dark:text-zinc-950"
                         : "bg-zinc-200/80 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300"
@@ -251,7 +260,7 @@ const Work = ({
               return (
                 <article
                   key={projectId}
-                  className="group rounded-lg bg-[#fafafa] dark:bg-[#111114] border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors duration-150 ease-out overflow-hidden flex flex-col justify-between"
+                  className="group rounded-lg bg-[#fafafa] dark:bg-[#111114] border border-zinc-200 dark:border-zinc-800 interactive-card overflow-hidden flex flex-col justify-between"
                 >
                   <div>
                     {/* 16:9 Preview Frame with High-Contrast Opaque Badges */}
@@ -262,7 +271,7 @@ const Work = ({
                         fill
                         sizes="(max-width: 1024px) 100vw, 50vw"
                         priority={index < 2}
-                        className="object-cover object-top group-hover:scale-[1.02] transition-transform duration-300 ease-out"
+                        className="object-cover object-top group-hover:scale-[1.02] transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]"
                       />
 
                       <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/85 via-zinc-950/15 to-zinc-950/30 pointer-events-none" />
@@ -339,7 +348,7 @@ const Work = ({
                             type="button"
                             onClick={() => onSelectStackTag?.(tech)}
                             aria-label={`Filter projects by ${tech}`}
-                            className="text-xs font-mono font-medium px-2.5 py-1 bg-white dark:bg-zinc-900 hover:bg-zinc-200/70 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 rounded border border-zinc-200 dark:border-zinc-800 transition-colors duration-150"
+                            className="text-xs font-mono font-medium px-2.5 py-1 bg-white dark:bg-zinc-900 hover:bg-zinc-200/70 dark:hover:bg-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 text-zinc-800 dark:text-zinc-200 rounded border border-zinc-200 dark:border-zinc-800 interactive-btn"
                           >
                             {tech}
                           </button>
@@ -357,10 +366,10 @@ const Work = ({
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={`Open live deployment for ${project.title}`}
-                          className="inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[38px] bg-zinc-950 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-950 rounded-md font-mono text-xs font-semibold transition-colors duration-150 active:scale-[0.98]"
+                          className="group/live inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[38px] bg-zinc-950 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-950 rounded-md font-mono text-xs font-semibold interactive-btn"
                         >
                           <span>Live App</span>
-                          <ArrowUpRight className="w-3.5 h-3.5" />
+                          <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-150 ease-out group-hover/live:translate-x-0.5 group-hover/live:-translate-y-0.5" />
                         </a>
                       )}
 
@@ -370,7 +379,7 @@ const Work = ({
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={`View ${project.title} source code on GitHub`}
-                          className="inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[38px] bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700 rounded-md font-mono text-xs font-semibold transition-colors duration-150 active:scale-[0.98]"
+                          className="inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[38px] bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700 rounded-md font-mono text-xs font-semibold interactive-btn"
                         >
                           <Github className="w-3.5 h-3.5" />
                           <span>Source</span>
@@ -389,7 +398,7 @@ const Work = ({
                         handleOpenSpecs(project, projectImg, teardown, techList)
                       }
                       aria-label={`Inspect technical teardown for ${project.title}`}
-                      className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-zinc-700 dark:text-zinc-300 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors duration-150 py-1.5"
+                      className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-zinc-700 dark:text-zinc-300 hover:text-emerald-700 dark:hover:text-emerald-400 interactive-btn py-1.5"
                     >
                       <FileCode2 className="w-3.5 h-3.5" />
                       <span>Teardown →</span>
@@ -433,7 +442,7 @@ const Work = ({
                 return (
                   <article
                     key={projectId}
-                    className="rounded-lg bg-[#fafafa] dark:bg-[#111114] border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 p-5 flex flex-col justify-between gap-4 transition-colors duration-150"
+                    className="rounded-lg bg-[#fafafa] dark:bg-[#111114] border border-zinc-200 dark:border-zinc-800 interactive-card p-5 flex flex-col justify-between gap-4"
                   >
                     <div className="space-y-2.5">
                       <div className="flex items-start justify-between gap-3">

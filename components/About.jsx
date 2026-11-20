@@ -16,6 +16,7 @@ import AnimatedCounter from "@/components/ui/AnimatedCounter";
 import DevTerminal from "@/components/ui/DevTerminal";
 import { useGitHubStats } from "@/lib/useGitHubStats";
 import { FALLBACK_METRICS, GITHUB_PROFILE_URL, GITHUB_USERNAME } from "@/lib/github";
+import { MODAL_TRANSITION } from "@/lib/motion";
 
 const EXPERIENCE_TIMELINE = [
   {
@@ -329,7 +330,7 @@ const About = ({ projectCount = 14 }) => {
                 }
                 aria-expanded={activeConsole}
                 aria-controls="interactive-dev-terminal"
-                className="w-full py-2.5 px-4 min-h-[40px] bg-zinc-950 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-950 font-mono font-semibold text-xs rounded-md transition-colors duration-150 ease-out active:scale-[0.98] flex items-center justify-center gap-2"
+                className="w-full py-2.5 px-4 min-h-[40px] bg-zinc-950 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-950 font-mono font-semibold text-xs rounded-md interactive-btn flex items-center justify-center gap-2"
               >
                 <Terminal className="w-3.5 h-3.5" />
                 <span>{activeConsole ? "Hide Terminal" : "Launch Interactive CLI"}</span>
@@ -338,16 +339,16 @@ const About = ({ projectCount = 14 }) => {
           </div>
         </div>
 
-        {/* Expandable Interactive Developer Console */}
+        {/* Expandable Interactive Developer Console (GPU-composited transform/opacity only) */}
         <AnimatePresence initial={false}>
           {activeConsole && (
             <motion.div
               id="interactive-dev-terminal"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              className="mt-8 overflow-hidden"
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={MODAL_TRANSITION}
+              className="mt-8"
             >
               <DevTerminal autoFocusOnMount={userToggledConsole} />
             </motion.div>

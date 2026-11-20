@@ -19,6 +19,7 @@ import {
   Lock,
 } from "lucide-react";
 import { assets } from "@/assets/assets";
+import { MODAL_TRANSITION } from "@/lib/motion";
 
 const getTechBadgeIcon = (tech) => {
   const lower = tech.toLowerCase();
@@ -88,7 +89,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
             initial={{ opacity: 0, scale: 0.98, y: 8 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.98, y: 8 }}
-            transition={{ duration: 0.15, ease: "easeOut" }}
+            transition={MODAL_TRANSITION}
             className="relative w-full max-w-2xl bg-white dark:bg-[#09090b] rounded-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden text-zinc-900 dark:text-zinc-100 my-8 max-h-[90vh] flex flex-col"
           >
             {/* Header / Preview Image */}

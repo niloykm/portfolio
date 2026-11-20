@@ -1,8 +1,9 @@
 "use client";
 
 import { assets } from "@/assets/assets";
-import { useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
+import { ICON_SWAP_TRANSITION } from "@/lib/motion";
 import {
   Mail,
   ArrowRight,
@@ -70,10 +71,10 @@ const Header = ({ projectCount = 14 }) => {
         {/* Compact Status & Location Bar */}
         <div className="flex flex-wrap items-center justify-between gap-2 pb-5 mb-7 border-b border-zinc-200 dark:border-zinc-800">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-emerald-500/10 border border-emerald-600/25 dark:border-emerald-500/30 text-xs font-mono font-medium text-emerald-800 dark:text-emerald-300">
-            <span className="relative flex h-2 w-2 flex-shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-            </span>
+            <span
+              aria-hidden="true"
+              className="h-2 w-2 rounded-full bg-emerald-500 flex-shrink-0"
+            />
             <span>Open to Full-Stack &amp; Frontend Roles</span>
           </div>
 
@@ -128,10 +129,10 @@ const Header = ({ projectCount = 14 }) => {
                 href="#projects"
                 onClick={handleExploreProjects}
                 aria-label="Explore Shipped Projects"
-                className="group inline-flex items-center justify-center gap-2 px-5 py-2.5 min-h-[44px] bg-zinc-950 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-950 font-mono font-semibold text-xs sm:text-sm rounded-md transition-colors duration-150 ease-out active:scale-[0.98]"
+                className="group inline-flex items-center justify-center gap-2 px-5 py-2.5 min-h-[44px] bg-zinc-950 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-950 font-mono font-semibold text-xs sm:text-sm rounded-md interactive-btn"
               >
                 <span>View Shipped Work</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-150 ease-out" />
+                <ArrowRight className="w-4 h-4 transition-transform duration-150 ease-out group-hover:translate-x-0.5" />
               </a>
 
               <a
@@ -140,9 +141,9 @@ const Header = ({ projectCount = 14 }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Download Resume (PDF)"
-                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] bg-white dark:bg-[#111114] hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border border-zinc-300 dark:border-zinc-700 font-mono font-semibold text-xs sm:text-sm rounded-md transition-colors duration-150 ease-out active:scale-[0.98]"
+                className="group inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] bg-white dark:bg-[#111114] hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:border-zinc-400 dark:hover:border-zinc-600 text-zinc-900 dark:text-zinc-100 border border-zinc-300 dark:border-zinc-700 font-mono font-semibold text-xs sm:text-sm rounded-md interactive-btn"
               >
-                <Download className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <Download className="w-4 h-4 text-emerald-600 dark:text-emerald-400 transition-transform duration-150 ease-out group-hover:translate-y-0.5" />
                 <span>Resume (PDF)</span>
               </a>
 
@@ -150,21 +151,39 @@ const Header = ({ projectCount = 14 }) => {
                 type="button"
                 onClick={handleCopyEmail}
                 aria-label="Copy email address niloykumarmohonta@gmail.com to clipboard"
-                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] bg-transparent hover:bg-zinc-200/60 dark:hover:bg-zinc-900 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-800 font-mono font-medium text-xs sm:text-sm rounded-md transition-colors duration-150 ease-out active:scale-[0.98]"
+                className={`relative overflow-hidden inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] min-w-[146px] rounded-md font-mono font-medium text-xs sm:text-sm border interactive-btn ${
+                  copied
+                    ? "bg-emerald-500/10 border-emerald-600/40 text-emerald-800 dark:text-emerald-300"
+                    : "bg-transparent hover:bg-zinc-200/60 dark:hover:bg-zinc-900 hover:border-zinc-400 dark:hover:border-zinc-600 text-zinc-800 dark:text-zinc-200 border-zinc-200 dark:border-zinc-800"
+                }`}
               >
-                {copied ? (
-                  <>
-                    <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                    <span className="text-emerald-700 dark:text-emerald-400">
-                      Email Copied
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-4 h-4 text-zinc-500 dark:text-zinc-400" />
-                    <span>Copy Email</span>
-                  </>
-                )}
+                <AnimatePresence mode="popLayout" initial={false}>
+                  {copied ? (
+                    <motion.span
+                      key="copied"
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      transition={ICON_SWAP_TRANSITION}
+                      className="inline-flex items-center gap-2 whitespace-nowrap"
+                    >
+                      <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                      <span>Email Copied</span>
+                    </motion.span>
+                  ) : (
+                    <motion.span
+                      key="copy"
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      transition={ICON_SWAP_TRANSITION}
+                      className="inline-flex items-center gap-2 whitespace-nowrap"
+                    >
+                      <Copy className="w-4 h-4 text-zinc-500 dark:text-zinc-400" />
+                      <span>Copy Email</span>
+                    </motion.span>
+                  )}
+                </AnimatePresence>
               </button>
             </div>
           </div>
@@ -229,10 +248,10 @@ const Header = ({ projectCount = 14 }) => {
                       href={GITHUB_PROFILE_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-emerald-700 dark:text-emerald-400 hover:underline font-semibold"
+                      className="group inline-flex items-center gap-1 text-emerald-700 dark:text-emerald-400 hover:underline font-semibold"
                     >
                       <span>@{GITHUB_USERNAME}</span>
-                      <ArrowUpRight className="w-3.5 h-3.5" />
+                      <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-150 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </a>
                   </dd>
                 </div>
@@ -249,7 +268,7 @@ const Header = ({ projectCount = 14 }) => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`Visit Niloy's GitHub profile (@${GITHUB_USERNAME})`}
-                    className="p-2 min-w-[36px] min-h-[36px] inline-flex items-center justify-center rounded-md bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors duration-150 ease-out active:scale-[0.98]"
+                    className="p-2 min-w-[36px] min-h-[36px] inline-flex items-center justify-center rounded-md bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 hover:-translate-y-0.5 interactive-btn"
                   >
                     <Github className="w-4 h-4" />
                   </a>
@@ -258,7 +277,7 @@ const Header = ({ projectCount = 14 }) => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Visit Niloy's LinkedIn profile"
-                    className="p-2 min-w-[36px] min-h-[36px] inline-flex items-center justify-center rounded-md bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors duration-150 ease-out active:scale-[0.98]"
+                    className="p-2 min-w-[36px] min-h-[36px] inline-flex items-center justify-center rounded-md bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 hover:-translate-y-0.5 interactive-btn"
                   >
                     <Linkedin className="w-4 h-4" />
                   </a>
@@ -267,14 +286,14 @@ const Header = ({ projectCount = 14 }) => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Visit Niloy's X (Twitter) profile"
-                    className="p-2 min-w-[36px] min-h-[36px] inline-flex items-center justify-center rounded-md bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors duration-150 ease-out active:scale-[0.98]"
+                    className="p-2 min-w-[36px] min-h-[36px] inline-flex items-center justify-center rounded-md bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 hover:-translate-y-0.5 interactive-btn"
                   >
                     <Twitter className="w-4 h-4" />
                   </a>
                   <a
                     href="mailto:niloykumarmohonta@gmail.com"
                     aria-label="Send direct email to niloykumarmohonta@gmail.com"
-                    className="p-2 min-w-[36px] min-h-[36px] inline-flex items-center justify-center rounded-md bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors duration-150 ease-out active:scale-[0.98]"
+                    className="p-2 min-w-[36px] min-h-[36px] inline-flex items-center justify-center rounded-md bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 hover:-translate-y-0.5 interactive-btn"
                   >
                     <Mail className="w-4 h-4" />
                   </a>

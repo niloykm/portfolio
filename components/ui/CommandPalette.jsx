@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { useToast } from "@/components/ui/Toast";
 import { GITHUB_PROFILE_URL, GITHUB_USERNAME } from "@/lib/github";
+import { MODAL_TRANSITION } from "@/lib/motion";
 
 const STACK_FILTER_TAGS = [
   "Next.js",
@@ -291,7 +292,7 @@ const CommandPalette = ({
             initial={{ opacity: 0, scale: 0.98, y: -8 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.98, y: -8 }}
-            transition={{ duration: 0.15, ease: "easeOut" }}
+            transition={MODAL_TRANSITION}
             className="relative w-full max-w-xl bg-white dark:bg-[#09090b] rounded-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden text-zinc-900 dark:text-zinc-100"
           >
             {/* Search Input Bar */}

@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { useToast } from "@/components/ui/Toast";
 import { GITHUB_PROFILE_URL, GITHUB_USERNAME } from "@/lib/github";
+import { ICON_SWAP_TRANSITION } from "@/lib/motion";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -237,13 +238,35 @@ const Contact = () => {
                     type="button"
                     onClick={handleCopyEmail}
                     aria-label="Copy email address"
-                    className="p-2 min-w-[34px] min-h-[34px] inline-flex items-center justify-center rounded bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white transition-colors duration-150 active:scale-[0.98] flex-shrink-0"
+                    className={`p-2 min-w-[34px] min-h-[34px] inline-flex items-center justify-center rounded border interactive-btn flex-shrink-0 ${
+                      copied
+                        ? "bg-emerald-500/15 border-emerald-500/40 text-emerald-700 dark:text-emerald-400"
+                        : "bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600"
+                    }`}
                   >
-                    {copied ? (
-                      <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                    ) : (
-                      <Copy className="w-3.5 h-3.5" />
-                    )}
+                    <AnimatePresence mode="wait" initial={false}>
+                      {copied ? (
+                        <motion.span
+                          key="check"
+                          initial={{ opacity: 0, scale: 0.85 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.85 }}
+                          transition={ICON_SWAP_TRANSITION}
+                        >
+                          <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                        </motion.span>
+                      ) : (
+                        <motion.span
+                          key="copy"
+                          initial={{ opacity: 0, scale: 0.85 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.85 }}
+                          transition={ICON_SWAP_TRANSITION}
+                        >
+                          <Copy className="w-3.5 h-3.5" />
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
                   </button>
                 </div>
 
@@ -252,13 +275,13 @@ const Contact = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`Visit Niloy's GitHub profile (${GITHUB_PROFILE_URL})`}
-                  className="flex items-center justify-between p-3 min-h-[44px] rounded-md bg-zinc-50 dark:bg-[#09090b] hover:bg-zinc-100 dark:hover:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 font-mono text-xs text-zinc-900 dark:text-zinc-200 transition-colors duration-150"
+                  className="group flex items-center justify-between p-3 min-h-[44px] rounded-md bg-zinc-50 dark:bg-[#09090b] hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:border-zinc-400 dark:hover:border-zinc-600 hover:-translate-y-0.5 border border-zinc-200 dark:border-zinc-800 font-mono text-xs text-zinc-900 dark:text-zinc-200 interactive-btn"
                 >
                   <span className="flex items-center gap-2.5 truncate">
                     <Github className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
                     <span className="truncate">github.com/{GITHUB_USERNAME}</span>
                   </span>
-                  <ArrowUpRight className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400 flex-shrink-0" />
+                  <ArrowUpRight className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400 flex-shrink-0 transition-transform duration-150 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </a>
 
                 <a
@@ -266,13 +289,13 @@ const Contact = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Visit Niloy's LinkedIn profile"
-                  className="flex items-center justify-between p-3 min-h-[44px] rounded-md bg-zinc-50 dark:bg-[#09090b] hover:bg-zinc-100 dark:hover:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 font-mono text-xs text-zinc-900 dark:text-zinc-200 transition-colors duration-150"
+                  className="group flex items-center justify-between p-3 min-h-[44px] rounded-md bg-zinc-50 dark:bg-[#09090b] hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:border-zinc-400 dark:hover:border-zinc-600 hover:-translate-y-0.5 border border-zinc-200 dark:border-zinc-800 font-mono text-xs text-zinc-900 dark:text-zinc-200 interactive-btn"
                 >
                   <span className="flex items-center gap-2.5 truncate">
                     <Linkedin className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
                     <span className="truncate">linkedin.com/in/niloykumarmohonta000</span>
                   </span>
-                  <ArrowUpRight className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400 flex-shrink-0" />
+                  <ArrowUpRight className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400 flex-shrink-0 transition-transform duration-150 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </a>
 
                 <a
@@ -281,13 +304,13 @@ const Contact = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Download Resume PDF"
-                  className="flex items-center justify-between p-3 min-h-[44px] rounded-md bg-zinc-50 dark:bg-[#09090b] hover:bg-zinc-100 dark:hover:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 font-mono text-xs text-zinc-900 dark:text-zinc-200 transition-colors duration-150"
+                  className="group flex items-center justify-between p-3 min-h-[44px] rounded-md bg-zinc-50 dark:bg-[#09090b] hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:border-zinc-400 dark:hover:border-zinc-600 hover:-translate-y-0.5 border border-zinc-200 dark:border-zinc-800 font-mono text-xs text-zinc-900 dark:text-zinc-200 interactive-btn"
                 >
                   <span className="flex items-center gap-2.5">
                     <Download className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
                     <span>Download Resume (PDF)</span>
                   </span>
-                  <ArrowUpRight className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400 flex-shrink-0" />
+                  <ArrowUpRight className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400 flex-shrink-0 transition-transform duration-150 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </a>
               </div>
             </div>
@@ -422,7 +445,7 @@ const Contact = () => {
                   type="submit"
                   disabled={isSubmitting}
                   aria-label={isSubmitting ? "Sending message" : "Send message"}
-                  className={`inline-flex items-center justify-center gap-2 px-6 py-2.5 min-h-[44px] bg-zinc-950 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-950 font-mono font-semibold rounded-md transition-colors duration-150 ease-out active:scale-[0.98] text-xs sm:text-sm ${
+                  className={`inline-flex items-center justify-center gap-2 px-6 py-2.5 min-h-[44px] bg-zinc-950 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-950 font-mono font-semibold rounded-md interactive-btn text-xs sm:text-sm ${
                     isSubmitting ? "opacity-75 cursor-not-allowed" : ""
                   }`}
                 >

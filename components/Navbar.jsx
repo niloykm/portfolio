@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, X, Sun, Moon, Mail, ArrowUpRight, Search } from "lucide-react";
+import { TAB_LAYOUT_TRANSITION } from "@/lib/motion";
 
 const NAV_ITEMS = [
   { href: "#projects", label: "Projects" },
@@ -112,7 +113,7 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
             </span>
           </a>
 
-          {/* Center: Clean 4-Item Section Navigation */}
+          {/* Center: Clean 4-Item Section Navigation with Sliding layoutId Pill */}
           <div className="hidden md:flex items-center gap-1">
             {NAV_ITEMS.map((item) => {
               const isActive = activeSection === item.href.substring(1);
@@ -125,13 +126,21 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
                     handleNavClick(item.href);
                   }}
                   aria-current={isActive ? "page" : undefined}
-                  className={`px-3.5 py-2 text-xs font-mono font-medium rounded-md transition-colors duration-150 ease-out active:scale-[0.98] ${
+                  className={`relative px-3.5 py-2 text-xs font-mono font-medium rounded-md interactive-btn ${
                     isActive
-                      ? "bg-zinc-950 text-white dark:bg-zinc-100 dark:text-zinc-950 font-semibold"
+                      ? "text-white dark:text-zinc-950 font-semibold"
                       : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-50 hover:bg-zinc-200/60 dark:hover:bg-zinc-900"
                   }`}
                 >
-                  {item.label}
+                  {isActive && (
+                    <motion.span
+                      layoutId="active-nav-indicator"
+                      transition={TAB_LAYOUT_TRANSITION}
+                      aria-hidden="true"
+                      className="absolute inset-0 rounded-md bg-zinc-950 dark:bg-zinc-100 -z-10"
+                    />
+                  )}
+                  <span className="relative z-10">{item.label}</span>
                 </a>
               );
             })}
@@ -143,7 +152,7 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
               type="button"
               onClick={onOpenCommandPalette}
               aria-label="Open command palette (Cmd+K)"
-              className="inline-flex items-center gap-2 px-2.5 py-1.5 min-h-[38px] rounded-md bg-white dark:bg-[#111114] border border-zinc-200 dark:border-zinc-800 text-xs font-mono text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors duration-150 ease-out active:scale-[0.98]"
+              className="inline-flex items-center gap-2 px-2.5 py-1.5 min-h-[38px] rounded-md bg-white dark:bg-[#111114] border border-zinc-200 dark:border-zinc-800 text-xs font-mono text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 interactive-btn"
             >
               <Search className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400" />
               <span className="hidden sm:inline">Search</span>
@@ -158,7 +167,7 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
               aria-label={
                 isDarkMode ? "Switch to light mode" : "Switch to dark mode"
               }
-              className="p-2 min-w-[38px] min-h-[38px] flex items-center justify-center rounded-md border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#111114] hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-700 dark:text-zinc-300 transition-colors duration-150 ease-out active:scale-[0.98]"
+              className="p-2 min-w-[38px] min-h-[38px] flex items-center justify-center rounded-md border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#111114] hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:border-zinc-400 dark:hover:border-zinc-600 text-zinc-700 dark:text-zinc-300 interactive-btn"
             >
               {isDarkMode ? (
                 <Sun className="h-4 w-4 text-zinc-200" />
@@ -173,11 +182,11 @@ const Navbar = ({ isDarkMode, setIsDarkMode, onOpenCommandPalette }) => {
                 e.preventDefault();
                 handleNavClick("#contact");
               }}
-              className="hidden lg:inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[38px] bg-zinc-950 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-950 font-mono font-semibold text-xs rounded-md transition-colors duration-150 ease-out active:scale-[0.98]"
+              className="group hidden lg:inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[38px] bg-zinc-950 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-950 font-mono font-semibold text-xs rounded-md interactive-btn"
             >
               <Mail className="h-3.5 w-3.5" />
               <span>Get in Touch</span>
-              <ArrowUpRight className="h-3.5 w-3.5" />
+              <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-150 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
 
             {/* Mobile menu button */}
